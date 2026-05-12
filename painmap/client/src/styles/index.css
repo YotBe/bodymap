@@ -223,12 +223,15 @@ button { font-family: inherit; cursor: pointer; }
     stroke-dasharray: 3 3;
   }
   .subhot:focus-visible { outline: none; }
-  .subhot:focus-visible circle:first-child { stroke-width: 2; }
+  .subhot:focus-visible .subhot-ring { stroke-width: 2; }
 
+  /* Opacity-only fade-in. Earlier this keyframe also animated `transform`,
+     which on iOS Safari permanently overrode the SVG attribute `transform`
+     used to position each <g.subhot> — so the dots got stuck at (0,0) and
+     were invisible inside the zoomed viewBox. */
   @keyframes subFadeIn {
-    from { opacity: 0; transform: translate(var(--tx, 0), var(--ty, 0)) scale(0.85); }
+    from { opacity: 0; }
   }
-  .subhot { transform-box: fill-box; }
 
   .map-tooltip {
     position: absolute;
