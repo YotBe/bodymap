@@ -10,6 +10,7 @@ import { ZonePage } from '../routes/ZonePage';
 import { ExercisePage } from '../routes/ExercisePage';
 import { useZones } from '../api/exercises';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
+import { useIsMobile } from '../hooks/useIsMobile';
 import {
   type BodyView,
   type ZoneId,
@@ -75,6 +76,7 @@ export function PageShell() {
   const navigate = useNavigate();
   const location = useLocation();
   const prefersReducedMotion = usePrefersReducedMotion();
+  const isMobile = useIsMobile();
   const { data: zones } = useZones();
 
   const [view, setView] = useState<BodyView>('anterior');
@@ -182,6 +184,7 @@ export function PageShell() {
             selectedZone={isZoneInView ? selectedZone : null}
             selectedSubAreaId={selectedSubArea}
             prefersReducedMotion={prefersReducedMotion}
+            isMobile={isMobile}
             onViewChange={handleViewChange}
             onZoneSelect={handleZoneSelect}
             onSubAreaSelect={(sa) => handleSubAreaSelect(sa)}

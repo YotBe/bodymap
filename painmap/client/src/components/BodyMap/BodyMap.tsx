@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   FULL_VIEWBOX,
+  MOBILE_ZONE_VIEWBOX,
   ZONE_LABELS,
   ZONE_VIEWBOX,
   ZONES_BY_VIEW,
@@ -17,6 +18,7 @@ interface Props {
   selectedZone: ZoneId | null;
   selectedSubAreaId: string | null;
   prefersReducedMotion: boolean;
+  isMobile: boolean;
   onViewChange: (view: BodyView) => void;
   onZoneSelect: (zoneId: ZoneId) => void;
   onSubAreaSelect: (subAreaId: string) => void;
@@ -61,13 +63,15 @@ export function BodyMap({
   selectedZone,
   selectedSubAreaId,
   prefersReducedMotion,
+  isMobile,
   onViewChange,
   onZoneSelect,
   onSubAreaSelect,
   onBack,
 }: Props) {
+  const zoneViewboxMap = isMobile ? MOBILE_ZONE_VIEWBOX : ZONE_VIEWBOX;
   const [viewBox, setViewBox] = useState(
-    selectedZone ? ZONE_VIEWBOX[selectedZone] : FULL_VIEWBOX
+    selectedZone ? zoneViewboxMap[selectedZone] : FULL_VIEWBOX
   );
   const [showSubs, setShowSubs] = useState<boolean>(!!selectedZone);
   const [hoverZone, setHoverZone] = useState<ZoneId | null>(null);
@@ -82,7 +86,7 @@ export function BodyMap({
     const currentVb = viewBox;
 
     if (selectedZone) {
-      const target = ZONE_VIEWBOX[selectedZone];
+      const target = zoneViewboxMap[selectedZone];
       if (prefersReducedMotion) {
         setViewBox(target);
         setShowSubs(true);
@@ -110,7 +114,7 @@ export function BodyMap({
     // the zone changes (read via closure on currentVb above) but not to re-run
     // this effect for every animation frame.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedZone, prefersReducedMotion]);
+  }, [selectedZone, prefersReducedMotion, zoneViewboxMap]);
 
   const enabledZones = ZONES_BY_VIEW[view];
   const tooltip =

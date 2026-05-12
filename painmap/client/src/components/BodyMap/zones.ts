@@ -15,6 +15,17 @@ export const ZONE_VIEWBOX: Record<ZoneId, string> = {
   'hands-wrists': '50 370 300 100',
 };
 
+// Portrait-aspect (≈0.667 = 4:6) zone viewBoxes for mobile. The desktop
+// viewBoxes are wide (e.g. shoulders is 2:1) so on a phone container the
+// SVG meet-fit results in barely any visible zoom. These crop tightly
+// around the relevant hotspots while keeping enough body context.
+export const MOBILE_ZONE_VIEWBOX: Record<ZoneId, string> = {
+  neck: '130 60 140 210',
+  shoulders: '100 100 200 300',
+  back: '120 170 160 240',
+  'hands-wrists': '40 180 320 480',
+};
+
 export const FULL_VIEWBOX = '0 0 400 600';
 
 export const ZONES_BY_VIEW: Record<BodyView, ZoneId[]> = {
