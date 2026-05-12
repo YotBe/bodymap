@@ -75,7 +75,6 @@ export function BodyMap({
   );
   const [showSubs, setShowSubs] = useState<boolean>(!!selectedZone);
   const [hoverZone, setHoverZone] = useState<ZoneId | null>(null);
-  const [lowerHover, setLowerHover] = useState(false);
   const lastZoneRef = useRef<ZoneId | null>(selectedZone);
 
   useEffect(() => {
@@ -117,12 +116,7 @@ export function BodyMap({
   }, [selectedZone, prefersReducedMotion, zoneViewboxMap]);
 
   const enabledZones = ZONES_BY_VIEW[view];
-  const tooltip =
-    !selectedZone && hoverZone
-      ? ZONE_LABELS[hoverZone]
-      : lowerHover
-        ? 'Lower body — Coming soon'
-        : null;
+  const tooltip = !selectedZone && hoverZone ? ZONE_LABELS[hoverZone] : null;
 
   const ViewSvg = view === 'anterior' ? AnteriorView : PosteriorView;
 
@@ -138,11 +132,11 @@ export function BodyMap({
           >
             <span className="chev">‹</span>
             <span className="bc-text">
-              Upper Body <span className="bc-sep">/</span> {ZONE_LABELS[selectedZone]}
+              Body <span className="bc-sep">/</span> {ZONE_LABELS[selectedZone]}
             </span>
           </button>
         ) : (
-          <div className="bodymap-label">Upper Body</div>
+          <div className="bodymap-label">Full Body</div>
         )}
 
         <div className="view-toggle" role="tablist" aria-label="Body view">
@@ -175,8 +169,6 @@ export function BodyMap({
           aria-label={view === 'anterior' ? 'Anterior body map' : 'Posterior body map'}
         >
           <ViewSvg
-            onLowerEnter={() => setLowerHover(true)}
-            onLowerLeave={() => setLowerHover(false)}
             hitLayer={
               <HitRegions
                 view={view}

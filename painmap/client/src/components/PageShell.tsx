@@ -17,7 +17,15 @@ import {
   ZONES_BY_VIEW,
 } from './BodyMap/zones';
 
-const ALL_ZONE_IDS: readonly ZoneId[] = ['neck', 'shoulders', 'back', 'hands-wrists'] as const;
+const ALL_ZONE_IDS: readonly ZoneId[] = [
+  'neck',
+  'shoulders',
+  'back',
+  'hands-wrists',
+  'hip-glutes',
+  'knees',
+  'foot-ankle',
+] as const;
 
 function isZoneId(value: string | undefined): value is ZoneId {
   return !!value && (ALL_ZONE_IDS as readonly string[]).includes(value);

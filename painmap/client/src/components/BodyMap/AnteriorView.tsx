@@ -1,12 +1,10 @@
 import type { ReactNode } from 'react';
 
 interface Props {
-  onLowerEnter: () => void;
-  onLowerLeave: () => void;
   hitLayer: ReactNode;
 }
 
-export function AnteriorView({ onLowerEnter, onLowerLeave, hitLayer }: Props) {
+export function AnteriorView({ hitLayer }: Props) {
   return (
     <>
       <g
@@ -49,27 +47,14 @@ export function AnteriorView({ onLowerEnter, onLowerLeave, hitLayer }: Props) {
         <path d="M300,463 L299,478" strokeWidth={0.4} opacity={0.4} />
         <path d="M292,463 L291,478" strokeWidth={0.4} opacity={0.4} />
 
-        <g opacity={0.35} stroke="var(--rule)">
-          <path d="M150,395 Q156,460 162,520 L168,580" />
-          <path d="M250,395 Q244,460 238,520 L232,580" />
-          <path d="M200,408 L196,520 L194,580" strokeWidth={0.5} />
-          <path d="M168,580 L196,580" strokeWidth={0.7} />
-          <path d="M232,580 L204,580" strokeWidth={0.7} />
-        </g>
+        <path d="M150,395 Q156,460 162,520 L168,580" />
+        <path d="M250,395 Q244,460 238,520 L232,580" />
+        <path d="M200,408 L196,520 L194,580" strokeWidth={0.5} opacity={0.5} />
+        <path d="M168,580 L196,580" strokeWidth={0.8} />
+        <path d="M232,580 L204,580" strokeWidth={0.8} />
       </g>
 
       {hitLayer}
-
-      <rect
-        x={160}
-        y={410}
-        width={80}
-        height={180}
-        fill="transparent"
-        onMouseEnter={onLowerEnter}
-        onMouseLeave={onLowerLeave}
-        style={{ cursor: 'not-allowed' }}
-      />
     </>
   );
 }

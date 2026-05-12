@@ -38,7 +38,7 @@ export function EmptyState({ onPickZone }: Props) {
       </div>
 
       <div className="es-footer">
-        <span className="es-footer-mono">V1 SCOPE — UPPER BODY ONLY</span>
+        <span className="es-footer-mono">V2 — FULL BODY</span>
       </div>
     </div>
   );

@@ -1,11 +1,21 @@
 export type BodyView = 'anterior' | 'posterior';
-export type ZoneId = 'neck' | 'shoulders' | 'back' | 'hands-wrists';
+export type ZoneId =
+  | 'neck'
+  | 'shoulders'
+  | 'back'
+  | 'hands-wrists'
+  | 'hip-glutes'
+  | 'knees'
+  | 'foot-ankle';
 
 export const ZONE_LABELS: Record<ZoneId, string> = {
   neck: 'Neck',
   shoulders: 'Shoulders',
   back: 'Back',
   'hands-wrists': 'Hands & Wrists',
+  'hip-glutes': 'Hip & Glutes',
+  knees: 'Knees',
+  'foot-ankle': 'Foot & Ankle',
 };
 
 export const ZONE_VIEWBOX: Record<ZoneId, string> = {
@@ -13,6 +23,9 @@ export const ZONE_VIEWBOX: Record<ZoneId, string> = {
   shoulders: '70 140 260 130',
   back: '100 160 200 260',
   'hands-wrists': '50 370 300 100',
+  'hip-glutes': '120 370 160 120',
+  knees: '130 450 140 90',
+  'foot-ankle': '130 520 140 80',
 };
 
 // Portrait-aspect (≈0.667 = 4:6) zone viewBoxes for mobile. The desktop
@@ -24,13 +37,16 @@ export const MOBILE_ZONE_VIEWBOX: Record<ZoneId, string> = {
   shoulders: '100 100 200 300',
   back: '120 170 160 240',
   'hands-wrists': '40 180 320 480',
+  'hip-glutes': '110 300 180 270',
+  knees: '120 380 160 240',
+  'foot-ankle': '120 440 160 240',
 };
 
 export const FULL_VIEWBOX = '0 0 400 600';
 
 export const ZONES_BY_VIEW: Record<BodyView, ZoneId[]> = {
-  anterior: ['neck', 'shoulders', 'hands-wrists'],
-  posterior: ['neck', 'shoulders', 'back', 'hands-wrists'],
+  anterior: ['neck', 'shoulders', 'hands-wrists', 'hip-glutes', 'knees', 'foot-ankle'],
+  posterior: ['neck', 'shoulders', 'back', 'hands-wrists', 'hip-glutes', 'knees', 'foot-ankle'],
 };
 
 export interface SubAreaHotspot {
@@ -65,6 +81,22 @@ export const SUB_AREA_HOTSPOTS: Record<BodyView, Partial<Record<ZoneId, SubAreaH
       { subAreaId: 'elbow-medial', x: 108, y: 360, label: 'Med. Elbow', showLabel: true },
       { subAreaId: 'elbow-medial', x: 292, y: 360, label: 'Med. Elbow', showLabel: false },
     ],
+    'hip-glutes': [
+      { subAreaId: 'hip-glutes-medius', x: 148, y: 410, label: 'Glute Med', showLabel: true },
+      { subAreaId: 'hip-glutes-medius', x: 252, y: 410, label: 'Glute Med', showLabel: false },
+      { subAreaId: 'hip-glutes-maximus', x: 178, y: 435, label: 'Glute Max', showLabel: true },
+      { subAreaId: 'hip-glutes-maximus', x: 222, y: 435, label: 'Glute Max', showLabel: false },
+    ],
+    knees: [
+      { subAreaId: 'knees-patellofemoral', x: 174, y: 480, label: 'Patella', showLabel: true },
+      { subAreaId: 'knees-patellofemoral', x: 226, y: 480, label: 'Patella', showLabel: false },
+    ],
+    'foot-ankle': [
+      { subAreaId: 'foot-ankle-plantar', x: 188, y: 565, label: 'Plantar', showLabel: true },
+      { subAreaId: 'foot-ankle-plantar', x: 212, y: 565, label: 'Plantar', showLabel: false },
+      { subAreaId: 'foot-ankle-lateral', x: 168, y: 545, label: 'Lat. Ankle', showLabel: true },
+      { subAreaId: 'foot-ankle-lateral', x: 232, y: 545, label: 'Lat. Ankle', showLabel: false },
+    ],
   },
   posterior: {
     neck: [
@@ -96,6 +128,22 @@ export const SUB_AREA_HOTSPOTS: Record<BodyView, Partial<Record<ZoneId, SubAreaH
       { subAreaId: 'elbow-medial', x: 108, y: 360, label: 'Med. Elbow', showLabel: true },
       { subAreaId: 'elbow-medial', x: 292, y: 360, label: 'Med. Elbow', showLabel: false },
     ],
+    'hip-glutes': [
+      { subAreaId: 'hip-glutes-maximus', x: 178, y: 425, label: 'Glute Max', showLabel: true },
+      { subAreaId: 'hip-glutes-maximus', x: 222, y: 425, label: 'Glute Max', showLabel: false },
+      { subAreaId: 'hip-glutes-medius', x: 148, y: 408, label: 'Glute Med', showLabel: true },
+      { subAreaId: 'hip-glutes-medius', x: 252, y: 408, label: 'Glute Med', showLabel: false },
+    ],
+    knees: [
+      { subAreaId: 'knees-hamstring', x: 174, y: 475, label: 'Hamstring', showLabel: true },
+      { subAreaId: 'knees-hamstring', x: 226, y: 475, label: 'Hamstring', showLabel: false },
+    ],
+    'foot-ankle': [
+      { subAreaId: 'foot-ankle-achilles', x: 188, y: 548, label: 'Achilles', showLabel: true },
+      { subAreaId: 'foot-ankle-achilles', x: 212, y: 548, label: 'Achilles', showLabel: false },
+      { subAreaId: 'foot-ankle-lateral', x: 168, y: 545, label: 'Lat. Ankle', showLabel: true },
+      { subAreaId: 'foot-ankle-lateral', x: 232, y: 545, label: 'Lat. Ankle', showLabel: false },
+    ],
   },
 };
 
@@ -106,6 +154,12 @@ export const HIT_PATHS: Record<BodyView, Partial<Record<ZoneId, string>>> = {
       'M118,168 L178,162 L178,210 L150,232 L120,232 L100,200 Z M222,162 L282,168 L300,200 L280,232 L250,232 L222,210 Z',
     'hands-wrists':
       'M70,400 L110,400 L112,440 L72,440 Z M290,400 L330,400 L328,440 L288,440 Z',
+    'hip-glutes':
+      'M150,395 L250,395 L256,450 L242,455 L158,455 L144,450 Z',
+    knees:
+      'M158,460 L242,460 L240,510 L162,510 Z',
+    'foot-ankle':
+      'M162,520 L238,520 L234,585 L168,585 Z',
   },
   posterior: {
     neck: 'M178,118 L222,118 L226,150 L222,162 L178,162 L174,150 Z',
@@ -114,5 +168,11 @@ export const HIT_PATHS: Record<BodyView, Partial<Record<ZoneId, string>>> = {
     back: 'M150,170 L250,170 L262,260 L266,340 L250,395 L150,395 L134,340 L138,260 Z',
     'hands-wrists':
       'M70,400 L110,400 L112,440 L72,440 Z M290,400 L330,400 L328,440 L288,440 Z',
+    'hip-glutes':
+      'M150,395 L250,395 L256,450 L242,455 L158,455 L144,450 Z',
+    knees:
+      'M158,460 L242,460 L240,510 L162,510 Z',
+    'foot-ankle':
+      'M162,520 L238,520 L234,585 L168,585 Z',
   },
 };
