@@ -2,7 +2,7 @@
 
 A desktop web application that maps evidence-based resistance-band exercises to pain locations on the body.
 
-**Live Demo:** [https://bodymap-pied.vercel.app](https://bodymap-pied.vercel.app)
+**Live Demo:**[ [https://bodymap-pied.vercel.app](https://bodymap-pied.vercel.app)](https://bodymap1.vercel.app/)
 
 ## Overview
 
