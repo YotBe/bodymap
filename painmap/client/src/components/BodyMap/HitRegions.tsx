@@ -1,0 +1,68 @@
+import { HIT_PATHS, type BodyView, type ZoneId, ZONE_LABELS } from './zones';
+
+interface Props {
+  view: BodyView;
+  enabledZones: ZoneId[];
+  hoverZone: ZoneId | null;
+  selectedZone: ZoneId | null;
+  onZoneEnter: (zoneId: ZoneId) => void;
+  onZoneLeave: () => void;
+  onZoneClick: (zoneId: ZoneId) => void;
+}
+
+export function HitRegions({
+  view,
+  enabledZones,
+  hoverZone,
+  selectedZone,
+  onZoneEnter,
+  onZoneLeave,
+  onZoneClick,
+}: Props) {
+  const paths = HIT_PATHS[view];
+
+  return (
+    <g className="hit-layer">
+      {(Object.entries(paths) as [ZoneId, string][]).map(([id, d]) => {
+        const enabled = enabledZones.includes(id);
+        const isSelected = selectedZone === id;
+        const isHover = hoverZone === id;
+        let fillOpacity = 0.08;
+        let stroke: string = 'transparent';
+        if (isSelected) {
+          fillOpacity = 0.8;
+          stroke = 'var(--accent)';
+        } else if (isHover && enabled) {
+          fillOpacity = 0.4;
+        }
+        return (
+          <path
+            key={id}
+            d={d}
+            fill={enabled ? 'var(--accent-soft)' : 'transparent'}
+            fillOpacity={enabled ? fillOpacity : 0}
+            stroke={stroke}
+            strokeWidth={1.2}
+            className={`hit ${enabled ? '' : 'hit-disabled'} ${isSelected ? 'is-selected' : ''}`}
+            style={{
+              cursor: enabled ? 'pointer' : 'default',
+              transition: 'fill-opacity 180ms ease-out',
+            }}
+            onMouseEnter={() => enabled && onZoneEnter(id)}
+            onMouseLeave={onZoneLeave}
+            onClick={() => enabled && onZoneClick(id)}
+            tabIndex={enabled ? 0 : -1}
+            role="button"
+            aria-label={enabled ? `Select ${ZONE_LABELS[id]} area` : `${ZONE_LABELS[id]} unavailable in this view`}
+            onKeyDown={(e) => {
+              if (enabled && (e.key === 'Enter' || e.key === ' ')) {
+                e.preventDefault();
+                onZoneClick(id);
+              }
+            }}
+          />
+        );
+      })}
+    </g>
+  );
+}
