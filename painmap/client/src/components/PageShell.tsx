@@ -154,12 +154,18 @@ export function PageShell() {
   // auto-flip effect above will switch the view momentarily.
   const isZoneInView = selectedZone ? enabledZonesForView.includes(selectedZone) : true;
 
+  const routeKind: 'home' | 'zone' | 'exercise' = location.pathname.startsWith('/exercise')
+    ? 'exercise'
+    : location.pathname.startsWith('/zone')
+      ? 'zone'
+      : 'home';
+
   return (
     <>
       {bannerVisible && <SafetyBanner onDismiss={() => setBannerVisible(false)} />}
       <TopHeader />
 
-      <main className="layout">
+      <main className="layout" data-route={routeKind}>
         <section className="pane pane-left">
           <PaneEyebrow num="01" label="SELECT" />
           <h1 className="page-title">

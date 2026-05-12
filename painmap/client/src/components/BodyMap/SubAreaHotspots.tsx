@@ -43,14 +43,16 @@ export function SubAreaHotspots({
               }
             }}
           >
+            <circle r={20} fill="transparent" />
             <circle
+              className="subhot-ring"
               r={9}
               fill="var(--bg)"
               stroke="var(--accent)"
               strokeWidth={1}
               opacity={isSelected ? 1 : 0.95}
             />
-            <circle r={3.5} fill="var(--accent)" opacity={isSelected ? 1 : 0.6} />
+            <circle className="subhot-dot" r={3.5} fill="var(--accent)" opacity={isSelected ? 1 : 0.6} />
             {s.showLabel && (
               <text
                 x={14}

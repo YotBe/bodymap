@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { Exercise } from '../types';
 import { EvidencePill } from './EvidencePill';
 import { BandChip } from './BandChip';
@@ -10,12 +10,21 @@ interface Props {
 }
 
 export function ExerciseCard({ exercise }: Props) {
-  const [modOpen, setModOpen] = useState(false);
-
+  const navigate = useNavigate();
   const location = `${exercise.subArea.zoneName.toUpperCase()} / ${exercise.subArea.name.toUpperCase()}`;
 
   return (
     <article className="exercise-card" aria-labelledby="ex-name">
+      <button
+        type="button"
+        className="ex-back"
+        onClick={() => navigate(-1)}
+        aria-label="Back to body map"
+      >
+        <span aria-hidden="true">‹</span>
+        <span>Back</span>
+      </button>
+
       <div className="ex-location">{location}</div>
       <h2 className="ex-name" id="ex-name">
         {exercise.name}
@@ -43,11 +52,6 @@ export function ExerciseCard({ exercise }: Props) {
       <BandChip band={exercise.band} />
 
       <section className="ex-section">
-        <h3 className="ex-h3">Target muscles</h3>
-        <p className="ex-why" style={{ fontSize: 14 }}>{exercise.targetMuscles}</p>
-      </section>
-
-      <section className="ex-section">
         <h3 className="ex-h3">Instructions</h3>
         <ol className="ex-steps">
           {exercise.instructions.map((step, i) => (
@@ -59,44 +63,54 @@ export function ExerciseCard({ exercise }: Props) {
         </ol>
       </section>
 
-      <section className="ex-section">
-        <h3 className="ex-h3">
-          <svg
-            className="warn-icon"
-            viewBox="0 0 16 16"
-            width="14"
-            height="14"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.2"
-            aria-hidden="true"
-          >
-            <path d="M8 2 L14 13 L2 13 Z" />
-            <path d="M8 7 L8 10" />
-            <circle cx="8" cy="11.5" r="0.3" fill="currentColor" />
-          </svg>
-          Common mistakes
-        </h3>
-        <ul className="ex-bullets">
-          {exercise.commonMistakes.map((m, i) => (
-            <li key={i}>{m}</li>
-          ))}
-        </ul>
-      </section>
+      <details className="ex-collapse">
+        <summary>
+          <span>Target muscles</span>
+          <span className="acc-chev" aria-hidden="true"></span>
+        </summary>
+        <div className="ex-collapse-body">
+          <p className="ex-why" style={{ fontSize: 14 }}>{exercise.targetMuscles}</p>
+        </div>
+      </details>
+
+      <details className="ex-collapse">
+        <summary>
+          <span>
+            <svg
+              className="warn-icon"
+              viewBox="0 0 16 16"
+              width="14"
+              height="14"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.2"
+              aria-hidden="true"
+            >
+              <path d="M8 2 L14 13 L2 13 Z" />
+              <path d="M8 7 L8 10" />
+              <circle cx="8" cy="11.5" r="0.3" fill="currentColor" />
+            </svg>
+            {' '}Common mistakes
+          </span>
+          <span className="acc-chev" aria-hidden="true"></span>
+        </summary>
+        <div className="ex-collapse-body">
+          <ul className="ex-bullets">
+            {exercise.commonMistakes.map((m, i) => (
+              <li key={i}>{m}</li>
+            ))}
+          </ul>
+        </div>
+      </details>
 
       {exercise.beginnerModification && (
-        <section className="ex-section">
-          <button
-            type="button"
-            className="accordion-trigger"
-            onClick={() => setModOpen(!modOpen)}
-            aria-expanded={modOpen}
-          >
+        <details className="ex-collapse">
+          <summary>
             <span>For beginners or in acute pain</span>
-            <span className="acc-chev" aria-hidden="true">{modOpen ? '−' : '+'}</span>
-          </button>
-          {modOpen && <div className="accordion-body">{exercise.beginnerModification}</div>}
-        </section>
+            <span className="acc-chev" aria-hidden="true"></span>
+          </summary>
+          <div className="ex-collapse-body">{exercise.beginnerModification}</div>
+        </details>
       )}
 
       <aside className="contraindications" role="note">
@@ -104,10 +118,15 @@ export function ExerciseCard({ exercise }: Props) {
         <div className="ci-body">{exercise.contraindications.join(' · ')}</div>
       </aside>
 
-      <footer className="citation-footer">
-        <div className="cit-label">Full citation</div>
-        <div className="cit-text">{exercise.evidence.full}</div>
-      </footer>
+      <details className="ex-collapse">
+        <summary>
+          <span>Full citation</span>
+          <span className="acc-chev" aria-hidden="true"></span>
+        </summary>
+        <div className="ex-collapse-body">
+          <div className="cit-text">{exercise.evidence.full}</div>
+        </div>
+      </details>
     </article>
   );
 }
