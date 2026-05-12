@@ -927,9 +927,16 @@ button { font-family: inherit; cursor: pointer; }
     max-width: 100%;
   }
   .pane { padding: 0; min-width: 0; }
-  .layout[data-route="home"] .pane-right,
-  .layout[data-route="zone"] .pane-right { display: none; }
+  .layout[data-route="home"] .pane-right { display: none; }
   .layout[data-route="exercise"] .pane-left { display: none; }
+  /* On /zone/:zoneId mobile keeps BOTH panes: map on top, sub-area list below.
+     The SVG zoom is barely visible on portrait phones, so the list is the
+     primary picker. */
+  .layout[data-route="zone"] .pane-right {
+    padding-top: 16px;
+    margin-top: 4px;
+    border-top: 1px solid var(--rule);
+  }
 
   /* On home, the body map IS the screen — hide the side copy */
   .pane-left > .pane-eyebrow,
@@ -949,6 +956,21 @@ button { font-family: inherit; cursor: pointer; }
     max-height: 72vh;
     margin: 0 auto;
   }
+  /* On zone view, leave room for the sub-area list below the map. */
+  .layout[data-route="zone"] .bodymap-canvas { max-height: 44vh; }
+
+  /* Kill the rectangular browser focus outline on tappable SVG paths/groups.
+     The hit paths already get their own visible selected/hover styling via
+     fill-opacity + stroke; the default outline just adds visual noise on tap. */
+  .hit, .subhot { outline: none; }
+  .hit:focus, .subhot:focus { outline: none; }
+
+  /* Zone-view sub-area list — tighten the headline and intro copy. */
+  .layout[data-route="zone"] .pane-right .pane-eyebrow { margin-bottom: 12px; }
+  .layout[data-route="zone"] .zp-headline { font-size: 22px; margin-bottom: 8px; }
+  .layout[data-route="zone"] .zp-sub { font-size: 13px; margin-bottom: 16px; }
+  .layout[data-route="zone"] .zp-item { padding: 14px 4px; min-height: 44px; gap: 12px; }
+  .layout[data-route="zone"] .zp-item-label { font-size: 17px; }
   .breadcrumb {
     font-size: 11px;
     padding: 10px 0;
