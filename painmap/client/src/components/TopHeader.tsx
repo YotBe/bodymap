@@ -13,7 +13,7 @@ export function TopHeader() {
           </svg>
         </span>
         <span className="brand-name">PainMap</span>
-        <span className="brand-version">V1 · UPPER BODY</span>
+        <span className="brand-version">V2 · FULL BODY</span>
       </Link>
       <nav className="top-nav" aria-label="Primary">
         <a className="nav-link" href="#evidence">Evidence</a>

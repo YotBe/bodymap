@@ -276,6 +276,51 @@
               "videoUrl": "https://www.youtube.com/watch?v=ljgqer1ZpXg"
             }
           ]
+        },
+        {
+          "id": "shoulders-biceps-tendon",
+          "name": "Long-Head Biceps Tendon",
+          "description": "Front of the shoulder, in the bicipital groove — the long-head biceps tendon runs from the supraglenoid tubercle through the front of the joint",
+          "svgPathId": "hotspot-biceps-tendon",
+          "displayOrder": 4,
+          "exercises": [
+            {
+              "id": "ex-banded-biceps-eccentric",
+              "name": "Banded Biceps Curl with Eccentric Emphasis",
+              "isPrimary": true,
+              "targetMuscles": "Biceps brachii (long head + short head), brachialis",
+              "mechanism": "Long-head biceps tendinopathy responds to progressive tendon loading, particularly with eccentric emphasis, which drives collagen remodeling in the bicipital groove. The band's accommodating resistance keeps tension on the tendon throughout the slow lowering phase where adaptation is greatest.",
+              "instructions": [
+                "Stand on the middle of a long band, feet shoulder-width apart.",
+                "Hold the band ends with palms facing forward, arms straight at your sides.",
+                "Curl both hands toward your shoulders over 1 second.",
+                "Pause 1 second at the top with biceps fully contracted.",
+                "Lower under control over 4 seconds — this is where the protective adaptation happens.",
+                "Reset and repeat without using momentum at the bottom."
+              ],
+              "sets": 3,
+              "reps": "8-10",
+              "tempo": "1-1-4 (eccentric emphasis)",
+              "bandTension": "green",
+              "bandTensionNote": "Start green; progress to blue once 10 reps with a 4-second lower feel controlled",
+              "frequency": "3 days/week (allow 48h recovery)",
+              "commonMistakes": [
+                "Rushing the eccentric phase — the slow lower is the dose",
+                "Swinging the torso to add momentum at the bottom",
+                "Letting the elbows drift forward, which converts the curl to a shoulder-flexion lift"
+              ],
+              "contraindications": [
+                "Acute biceps tendon rupture (sudden 'pop' with visible Popeye deformity)",
+                "Post-corticosteroid injection in the bicipital groove within 6 weeks",
+                "Pain that radiates down the arm with pins-and-needles (assess for cervical radiculopathy first)"
+              ],
+              "beginnerModification": "Bodyweight isometric biceps hold — palm-up wall press at 90° elbow flexion, 30 seconds × 3 sets for the first week.",
+              "evidenceShort": "Couppé C, JOSPT 2015",
+              "evidenceFull": "Couppé C, Svensson RB, Silbernagel KG, Langberg H, Magnusson SP. Eccentric or concentric exercises for the treatment of tendinopathies? J Orthop Sports Phys Ther. 2015;45(11):853-863.",
+              "evidenceSummary": "Narrative review and synthesis of eccentric vs concentric loading across tendinopathies. Eccentric and heavy slow resistance training produced consistent improvements in pain and function across Achilles, patellar, and upper-extremity tendinopathies including the biceps long head.",
+              "videoUrl": "https://www.youtube.com/results?search_query=banded+biceps+curl+eccentric"
+            }
+          ]
         }
       ]
     },
@@ -585,6 +630,380 @@
               "evidenceFull": "Tyler TF, Nicholas SJ, Schmitt BM, Mullaney M, Hogan DE. Clinical outcomes of the addition of eccentrics for rehabilitation of previously failed treatments of golfers elbow. Int J Sports Phys Ther. 2014;9(3):365-370.",
               "evidenceSummary": "Case series of 20 patients with chronic golfer's elbow who had failed prior conservative care. Reverse Tyler Twist produced significant pain reduction and functional improvement.",
               "videoUrl": "https://www.youtube.com/watch?v=h175Gre4tdM"
+            }
+          ]
+        },
+        {
+          "id": "wrist-de-quervains",
+          "name": "De Quervain's Tenosynovitis",
+          "description": "Radial side of the wrist, base of the thumb — the first dorsal compartment (abductor pollicis longus, extensor pollicis brevis)",
+          "svgPathId": "hotspot-de-quervains",
+          "displayOrder": 5,
+          "exercises": [
+            {
+              "id": "ex-banded-thumb-eccentric",
+              "name": "Banded Thumb Eccentric Extension",
+              "isPrimary": true,
+              "targetMuscles": "Abductor pollicis longus, extensor pollicis brevis (first dorsal compartment tendons)",
+              "mechanism": "Eccentric loading of the first dorsal compartment tendons with a small band reproduces the loading principles that succeeded in lateral elbow tendinopathy (Tyler Twist) and Achilles tendinopathy (Alfredson). The slow lengthening phase drives matrix remodeling of the abductor pollicis longus and extensor pollicis brevis tendons in their shared synovial sheath, addressing the underlying tendinopathy rather than masking pain.",
+              "instructions": [
+                "Loop a small band around the tip of the affected thumb; anchor the other end with the opposite hand at the level of the pinky.",
+                "Rest the forearm on a table with the wrist neutral, palm facing the ceiling and the thumb pointing up.",
+                "Pull the thumb away from the palm (radial abduction) against the band over 1 second.",
+                "Pause 1 second at the end-range.",
+                "Slowly lower the thumb back to the starting position over 4 seconds. This eccentric phase is the dose.",
+                "Reset and repeat without snapping the band back."
+              ],
+              "sets": 3,
+              "reps": "10-12",
+              "tempo": "1-1-4 (eccentric emphasis)",
+              "bandTension": "yellow",
+              "bandTensionNote": "Yellow is enough — the thumb extensors are small. Stay on yellow for 4-6 weeks.",
+              "frequency": "Once daily, 5-7 days/week",
+              "commonMistakes": [
+                "Rushing the lowering phase — the 4-second eccentric is the entire point",
+                "Letting the wrist flex or ulnar-deviate to gain range (must stay neutral)",
+                "Working through sharp catching pain — mild discomfort is acceptable, sharp is not"
+              ],
+              "contraindications": [
+                "Suspected scaphoid fracture (history of fall on outstretched hand with snuffbox tenderness — imaging first)",
+                "Post-thumb-arthroscopy without surgeon clearance",
+                "Acute synovial cyst with visible swelling"
+              ],
+              "beginnerModification": "Active thumb extension with no band for the first 1-2 weeks if even yellow band reproduces sharp pain; progress to yellow band once symptoms calm.",
+              "evidenceShort": "Goel R, Hand 2015",
+              "evidenceFull": "Goel R, Abzug JM. De Quervain's tenosynovitis: a review of the rehabilitative options. Hand (N Y). 2015;10(1):1-5.",
+              "evidenceSummary": "Narrative review of rehabilitative interventions for De Quervain's tenosynovitis. Eccentric thumb-extensor loading is supported as part of conservative management; reviewed alongside splinting and corticosteroid injection as first-line non-surgical care.",
+              "videoUrl": "https://www.youtube.com/results?search_query=de+quervain+eccentric+exercise+thumb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hip-glutes",
+      "name": "Hip & Glutes",
+      "view": "both",
+      "displayOrder": 5,
+      "subAreas": [
+        {
+          "id": "hip-glutes-medius",
+          "name": "Gluteus Medius",
+          "description": "Lateral hip, just below the iliac crest — the abductor that controls pelvic level when standing on one leg",
+          "svgPathId": "hotspot-glute-medius",
+          "displayOrder": 1,
+          "exercises": [
+            {
+              "id": "ex-banded-clamshell",
+              "name": "Banded Clamshell",
+              "isPrimary": true,
+              "targetMuscles": "Gluteus medius, gluteus minimus, deep hip external rotators",
+              "mechanism": "Side-lying clamshell with a band loop above the knees challenges hip external rotation and abduction in a controlled range while the femur is supported. Isolated gluteus-medius activation is among the highest of common rehab exercises, addressing the abductor weakness pattern linked to lateral hip pain and pelvic drop in gait.",
+              "instructions": [
+                "Lie on your side with knees bent ~60°, hips stacked, feet together.",
+                "Loop a mini-band just above your knees.",
+                "Keep feet touching; rotate the top knee open against the band as far as you can without rolling the pelvis backward.",
+                "Pause 1 second at the top.",
+                "Return slowly under control over 2 seconds."
+              ],
+              "sets": 3,
+              "reps": "12-15 per side",
+              "tempo": "2-1-2",
+              "bandTension": "red",
+              "bandTensionNote": "Step up to green once 15 reps feel easy with a clean 1-second pause",
+              "frequency": "5 days/week",
+              "commonMistakes": [
+                "Rolling the pelvis backward to gain extra range",
+                "Lifting fast and using momentum",
+                "Placing the band on the shins instead of just above the knees"
+              ],
+              "contraindications": [
+                "Acute trochanteric bursitis with sharp catching pain",
+                "Post-hip-arthroscopy without surgeon clearance"
+              ],
+              "beginnerModification": "Same motion without the band until you can complete 15 controlled reps with a 1-second top pause.",
+              "evidenceShort": "Distefano LJ, JOSPT 2009",
+              "evidenceFull": "Distefano LJ, Blackburn JT, Marshall SW, Padua DA. Gluteal muscle activation during common therapeutic exercises. J Orthop Sports Phys Ther. 2009;39(7):532-540.",
+              "evidenceSummary": "EMG study of 21 healthy adults across 12 common gluteal exercises. Side-lying hip abduction and the clamshell produced the highest gluteus medius activation relative to maximal voluntary isometric contraction.",
+              "videoUrl": "https://www.youtube.com/results?search_query=banded+clamshell+gluteus+medius"
+            }
+          ]
+        },
+        {
+          "id": "hip-glutes-maximus",
+          "name": "Gluteus Maximus",
+          "description": "The main bulk of the buttocks — primary hip extensor",
+          "svgPathId": "hotspot-glute-maximus",
+          "displayOrder": 2,
+          "exercises": [
+            {
+              "id": "ex-banded-glute-bridge",
+              "name": "Banded Glute Bridge",
+              "isPrimary": true,
+              "targetMuscles": "Gluteus maximus, hamstrings, gluteus medius (stabilizer)",
+              "mechanism": "Supine bridging with a band looped above the knees produces high gluteus-maximus activation while the band's abduction demand simultaneously recruits the gluteus medius. The exercise targets the glute-amnesia pattern common in office workers and post-injury patients without loading the lumbar spine.",
+              "instructions": [
+                "Lie on your back, knees bent ~90°, feet flat hip-width apart.",
+                "Loop a mini-band above your knees and gently press knees out against it.",
+                "Tuck your pelvis slightly so the lower back flattens to the floor.",
+                "Drive through your heels to lift the hips until shoulders, hips, and knees form a straight line.",
+                "Squeeze the glutes at the top for 2 seconds, then lower under control over 2 seconds."
+              ],
+              "sets": 3,
+              "reps": "10-12",
+              "tempo": "2-2-2",
+              "bandTension": "red",
+              "bandTensionNote": "Progress to green once 12 reps feel light",
+              "frequency": "3-5 days/week",
+              "commonMistakes": [
+                "Hyperextending the lower back at the top instead of finishing the hip extension with the glutes",
+                "Letting the knees collapse inward as the band tension increases",
+                "Pushing through the toes rather than the heels"
+              ],
+              "contraindications": [
+                "Acute disc-related lumbar radiculopathy with leg symptoms reproduced by extension",
+                "Post-hip-replacement before surgeon clearance for hip extension"
+              ],
+              "beginnerModification": "Bodyweight bridge with no band until you can complete 12 reps with a 2-second top hold and no low-back arch.",
+              "evidenceShort": "Selkowitz DM, JOSPT 2013",
+              "evidenceFull": "Selkowitz DM, Beneck GJ, Powers CM. Which exercises target the gluteal muscles while minimizing activation of the tensor fascia lata? Electromyographic assessment using fine-wire electrodes. J Orthop Sports Phys Ther. 2013;43(2):54-64.",
+              "evidenceSummary": "Fine-wire EMG study of 20 healthy adults across 11 gluteal exercises. The bridge with band variant produced high gluteus-maximus activation with a favourable ratio relative to tensor-fascia-lata activation, supporting it as a primary glute-targeting exercise.",
+              "videoUrl": "https://www.youtube.com/results?search_query=banded+glute+bridge"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "knees",
+      "name": "Knees",
+      "view": "both",
+      "displayOrder": 6,
+      "subAreas": [
+        {
+          "id": "knees-patellofemoral",
+          "name": "Patellofemoral Joint",
+          "description": "Front of the knee, behind and around the kneecap — the joint between the patella and the femur",
+          "svgPathId": "hotspot-patellofemoral",
+          "displayOrder": 1,
+          "exercises": [
+            {
+              "id": "ex-banded-tke",
+              "name": "Banded Terminal Knee Extension",
+              "isPrimary": true,
+              "targetMuscles": "Vastus medialis oblique, rectus femoris, vastus lateralis",
+              "mechanism": "Anchored band behind the knee resists the last 30° of knee extension, which is where the vastus-medialis-oblique contribution to patellar tracking is most pronounced. Strengthening the quadriceps is the highest-grade recommendation in the international patellofemoral-pain consensus and reliably reduces pain and improves function.",
+              "instructions": [
+                "Anchor a band at knee height to a sturdy post. Step into the loop so it sits in the back of the knee crease.",
+                "Stand facing away from the anchor and step forward until the band pulls your knee into slight flexion.",
+                "Place the other foot back for balance. Bend the working knee about 30°.",
+                "Extend the working knee fully, driving the kneecap forward and locking out without hyperextending.",
+                "Squeeze the quadriceps for 2 seconds at the top, then return slowly over 2 seconds."
+              ],
+              "sets": 3,
+              "reps": "12-15 per side",
+              "tempo": "2-2-2",
+              "bandTension": "green",
+              "bandTensionNote": "Adjust distance from the anchor to fine-tune tension at the start of the lift",
+              "frequency": "3-5 days/week",
+              "commonMistakes": [
+                "Hyperextending or 'locking out' the knee with force at the top",
+                "Leaning forward or backward instead of keeping the torso upright",
+                "Speeding up the return phase — the eccentric is part of the dose"
+              ],
+              "contraindications": [
+                "Post-op ACL repair before surgeon clearance for resisted terminal knee extension",
+                "Acute patellar tendon rupture or partial tear",
+                "Sharp, focal joint-line pain (assess for meniscal injury first)"
+              ],
+              "beginnerModification": "Seated terminal knee extension with no band: simply extend the knee from 30° to full lock and hold 5 seconds.",
+              "evidenceShort": "Crossley KM, BJSM 2016",
+              "evidenceFull": "Crossley KM, van Middelkoop M, Callaghan MJ, Collins NJ, Rathleff MS, Barton CJ. 2016 Patellofemoral pain consensus statement from the 4th International Patellofemoral Pain Research Retreat, Manchester. Part 2: recommended physical interventions (exercise, taping, bracing, foot orthoses and combined interventions). Br J Sports Med. 2016;50(14):844-852.",
+              "evidenceSummary": "International consensus statement from a panel of 35 patellofemoral-pain experts. Exercise therapy received the highest evidence grade for reducing pain and improving function, with combined quadriceps and hip-focused strengthening recommended as first-line.",
+              "videoUrl": "https://www.youtube.com/results?search_query=banded+terminal+knee+extension"
+            }
+          ]
+        },
+        {
+          "id": "knees-hamstring",
+          "name": "Hamstring",
+          "description": "Back of the thigh, behind the knee — hamstring tendons attaching at and just above the knee joint",
+          "svgPathId": "hotspot-hamstring",
+          "displayOrder": 2,
+          "exercises": [
+            {
+              "id": "ex-banded-hamstring-curl",
+              "name": "Banded Hamstring Curl",
+              "isPrimary": true,
+              "targetMuscles": "Biceps femoris, semitendinosus, semimembranosus",
+              "mechanism": "Prone or standing banded knee flexion loads the hamstrings through full range, with the band providing accommodating resistance that peaks where the hamstrings are strongest. Hamstring strengthening with eccentric emphasis is the most effective single intervention to reduce hamstring-strain incidence and reinjury.",
+              "instructions": [
+                "Anchor a band low (door anchor at floor level or a heavy table leg).",
+                "Loop the other end around your ankle. Walk forward so the band pulls the ankle backward when extended.",
+                "Stand tall on the opposite leg. From a position where the working knee is straight, curl the heel toward your buttock against the band.",
+                "Pause 1 second at the top.",
+                "Lower over 4 seconds (eccentric emphasis)."
+              ],
+              "sets": 3,
+              "reps": "8-10 per side",
+              "tempo": "2-1-4 (eccentric emphasis)",
+              "bandTension": "green",
+              "bandTensionNote": "Progress to blue once you can do 10 reps with a controlled 4-second lower",
+              "frequency": "2-3 days/week (allow 48h recovery)",
+              "commonMistakes": [
+                "Rushing the lowering phase — the eccentric is where the protective adaptation happens",
+                "Letting the hip flex (the supporting glute should stay engaged so the working hip stays neutral)",
+                "Arching the lower back to gain range"
+              ],
+              "contraindications": [
+                "Acute hamstring tear within the last 7 days",
+                "Post-surgical hamstring-tendon repair before surgeon clearance",
+                "Sciatic-nerve-root pain reproduced by knee flexion"
+              ],
+              "beginnerModification": "Standing bodyweight heel curl (no band) with a 4-second lower for the first 1-2 weeks.",
+              "evidenceShort": "van Dyk N, BJSM 2019",
+              "evidenceFull": "van Dyk N, Behan FP, Whiteley R. Including the Nordic hamstring exercise in injury prevention programmes halves the rate of hamstring injuries: a systematic review and meta-analysis of 8459 athletes. Br J Sports Med. 2019;53(21):1362-1370.",
+              "evidenceSummary": "Systematic review and meta-analysis of 15 studies (8,459 athletes). Eccentric hamstring loading programs cut hamstring-injury incidence by 51%, with strong effect sizes across team sports.",
+              "videoUrl": "https://www.youtube.com/results?search_query=banded+hamstring+curl"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "foot-ankle",
+      "name": "Foot & Ankle",
+      "view": "both",
+      "displayOrder": 7,
+      "subAreas": [
+        {
+          "id": "foot-ankle-achilles",
+          "name": "Achilles Tendon",
+          "description": "Back of the ankle, the thick cord running from the calf into the heel bone",
+          "svgPathId": "hotspot-achilles",
+          "displayOrder": 1,
+          "exercises": [
+            {
+              "id": "ex-eccentric-heel-drop",
+              "name": "Eccentric Heel Drop",
+              "isPrimary": true,
+              "targetMuscles": "Gastrocnemius, soleus, Achilles tendon",
+              "mechanism": "The Alfredson heavy-load eccentric protocol drops the heel below the step on the affected side under bodyweight (and added load), driving controlled tendon strain that remodels the collagen matrix. Strong evidence shows symptom resolution in chronic mid-portion Achilles tendinopathy within 12 weeks.",
+              "instructions": [
+                "Stand with the balls of both feet on the edge of a step, heels off the back.",
+                "Push up onto both toes using the unaffected leg.",
+                "Shift weight onto the affected leg only; the unaffected foot just rests for balance.",
+                "Slowly lower the affected heel below the step over 3-4 seconds (this is the dose).",
+                "Use the unaffected leg to lift back to the top — the affected leg only does the lowering phase."
+              ],
+              "sets": 3,
+              "reps": "15 with knee straight, then 15 with knee slightly bent",
+              "tempo": "3-4 second eccentric, no pause",
+              "bandTension": "yellow",
+              "bandTensionNote": "Bodyweight only at first; add a backpack with weight once you can do all 90 daily reps painfree",
+              "frequency": "Twice daily, 7 days/week, for 12 weeks",
+              "commonMistakes": [
+                "Lowering too fast — must be a 3-4 second eccentric to drive the adaptation",
+                "Skipping the knee-bent set (this isolates the soleus, which is half the loading)",
+                "Stopping because of mild pain — some discomfort during the protocol is expected and tolerated"
+              ],
+              "contraindications": [
+                "Acute Achilles tendon rupture (sudden 'pop' with loss of plantarflexion strength)",
+                "Insertional Achilles tendinopathy with calcaneal spurs — use a flat-surface heel raise instead (lowering below neutral worsens insertional pain)",
+                "Post-corticosteroid injection in the tendon (heightened rupture risk)"
+              ],
+              "beginnerModification": "Same protocol on flat ground (not over a step edge) for the first 2 weeks if step-edge lowering is too painful.",
+              "evidenceShort": "Alfredson H, Am J Sports Med 1998",
+              "evidenceFull": "Alfredson H, Pietilä T, Jonsson P, Lorentzon R. Heavy-load eccentric calf muscle training for the treatment of chronic Achilles tendinosis. Am J Sports Med. 1998;26(3):360-366.",
+              "evidenceSummary": "Prospective trial of 15 recreational athletes with chronic mid-portion Achilles tendinopathy. After 12 weeks of twice-daily eccentric heel drops, all 15 returned to pre-injury running level with significant pain reduction; a matched control group given conventional concentric training did not.",
+              "videoUrl": "https://www.youtube.com/results?search_query=alfredson+eccentric+heel+drop+achilles"
+            }
+          ]
+        },
+        {
+          "id": "foot-ankle-plantar",
+          "name": "Plantar Fascia",
+          "description": "Sole of the foot, the thick band of tissue running from the heel to the base of the toes",
+          "svgPathId": "hotspot-plantar",
+          "displayOrder": 2,
+          "exercises": [
+            {
+              "id": "ex-plantar-fascia-stretch",
+              "name": "Plantar Fascia-Specific Stretch",
+              "isPrimary": true,
+              "targetMuscles": "Plantar fascia, intrinsic foot muscles",
+              "mechanism": "Seated stretch that pulls the toes into dorsiflexion while the ankle is also dorsiflexed places direct tension on the plantar fascia via the windlass mechanism, producing more specific tissue elongation than calf stretching alone. DiGiovanni's tissue-specific stretch is the highest-evidence non-injection intervention for chronic plantar heel pain.",
+              "instructions": [
+                "Sit with the affected leg crossed over the opposite knee.",
+                "With one hand, grasp the base of the toes; with the other, support the heel.",
+                "Pull the toes back toward the shin until you feel a firm stretch along the arch of the foot.",
+                "Hold 10 seconds, then relax.",
+                "Repeat 10 times in a set. Perform 3 sets, with the first set as soon as you wake (before the first steps of the morning)."
+              ],
+              "sets": 3,
+              "reps": "10 holds of 10 seconds each",
+              "tempo": "10-second hold, brief release",
+              "bandTension": "yellow",
+              "bandTensionNote": "No band required; bodyweight stretch only",
+              "frequency": "3 sets daily, with the first set before standing in the morning",
+              "commonMistakes": [
+                "Skipping the morning set (the post-rest stretch is when symptoms are typically worst and adaptation is strongest)",
+                "Pulling the foot up at the ankle but not the toes — must dorsiflex the toes specifically",
+                "Stopping after 4-6 weeks; the protocol takes 8+ weeks for full effect"
+              ],
+              "contraindications": [
+                "Acute calcaneal stress fracture (heel pain that worsens with weight-bearing rather than improves with movement — imaging recommended first)",
+                "Plantar-fascia rupture (sudden snap with audible pop and severe swelling)"
+              ],
+              "beginnerModification": "Roll the arch of the foot over a frozen water bottle for 5 minutes twice a day for the first week if the stretch reproduces sharp pain.",
+              "evidenceShort": "DiGiovanni BF, JBJS 2003",
+              "evidenceFull": "DiGiovanni BF, Nawoczenski DA, Lintal ME, et al. Tissue-specific plantar fascia-stretching exercise enhances outcomes in patients with chronic heel pain. A prospective, randomized study. J Bone Joint Surg Am. 2003;85(7):1270-1277.",
+              "evidenceSummary": "Randomized controlled trial of 101 patients with chronic plantar heel pain. The tissue-specific plantar fascia stretch produced significantly greater pain reduction and patient-reported improvement at 8 weeks than the standard Achilles tendon stretching alone.",
+              "videoUrl": "https://www.youtube.com/results?search_query=plantar+fascia+specific+stretch+digiovanni"
+            }
+          ]
+        },
+        {
+          "id": "foot-ankle-lateral",
+          "name": "Lateral Ankle",
+          "description": "Outside of the ankle — the peroneal tendons and the lateral ankle ligaments commonly involved in inversion sprains",
+          "svgPathId": "hotspot-lateral-ankle",
+          "displayOrder": 3,
+          "exercises": [
+            {
+              "id": "ex-banded-eversion",
+              "name": "Banded Ankle Eversion",
+              "isPrimary": true,
+              "targetMuscles": "Peroneus longus, peroneus brevis",
+              "mechanism": "Seated banded eversion against a band anchored toward the midline strengthens the peroneal evertors, which are the active stabilizers against inversion. Peroneal strengthening is a core component of post-sprain rehab and is reliably associated with reduced reinjury rates.",
+              "instructions": [
+                "Sit on the floor with the affected leg straight in front of you.",
+                "Loop a band around the forefoot; anchor the other end to a sturdy object on the inside (medial side) of the foot.",
+                "Keep the knee straight and the lower leg still.",
+                "Rotate the foot outward (eversion) against the band as far as you can.",
+                "Pause 1 second, then return slowly under control."
+              ],
+              "sets": 3,
+              "reps": "15 per side",
+              "tempo": "2-1-2",
+              "bandTension": "yellow",
+              "bandTensionNote": "Progress to red once 15 reps feel easy. Many patients stay on yellow for 4-6 weeks after a sprain.",
+              "frequency": "Daily during acute recovery, then 3 days/week for maintenance",
+              "commonMistakes": [
+                "Letting the whole lower leg rotate at the hip instead of moving just at the ankle",
+                "Going too heavy on the band early — form is more important than load",
+                "Skipping the slow return (the eccentric is half the dose)"
+              ],
+              "contraindications": [
+                "Suspected acute peroneal-tendon dislocation or tear",
+                "High ankle (syndesmotic) sprain without imaging clearance",
+                "Acute fracture with positive Ottawa Ankle Rules findings"
+              ],
+              "beginnerModification": "Active range-of-motion eversion with no band for the first 3-5 days post-sprain, progressing to yellow band once weight-bearing is comfortable.",
+              "evidenceShort": "Doherty C, BJSM 2017",
+              "evidenceFull": "Doherty C, Bleakley C, Delahunt E, Holden S. Treatment and prevention of acute and recurrent ankle sprain: an overview of systematic reviews with meta-analysis. Br J Sports Med. 2017;51(2):113-125.",
+              "evidenceSummary": "Umbrella review of 46 systematic reviews on ankle-sprain treatment and prevention. Exercise therapy with a peroneal-strengthening component produced the most consistent reductions in reinjury rate compared with rest or bracing alone.",
+              "videoUrl": "https://www.youtube.com/results?search_query=banded+ankle+eversion+peroneal"
             }
           ]
         }
