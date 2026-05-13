@@ -5,6 +5,7 @@ interface Props {
   zoneId: ZoneId;
   selectedSubAreaId: string | null;
   prefersReducedMotion: boolean;
+  viewBoxScale: number;
   onSelect: (subAreaId: string) => void;
 }
 
@@ -13,10 +14,18 @@ export function SubAreaHotspots({
   zoneId,
   selectedSubAreaId,
   prefersReducedMotion,
+  viewBoxScale,
   onSelect,
 }: Props) {
   const spots = SUB_AREA_HOTSPOTS[view][zoneId];
   if (!spots) return null;
+
+  const ringR = 9 * viewBoxScale;
+  const dotR = 3.5 * viewBoxScale;
+  const fontSize = 11 * viewBoxScale;
+  const labelOffsetX = 11 * viewBoxScale;
+  const labelOffsetY = 3 * viewBoxScale;
+  const strokeW = Math.max(0.5, 1 * viewBoxScale);
 
   return (
     <>
@@ -46,18 +55,18 @@ export function SubAreaHotspots({
             <circle r={20} fill="transparent" />
             <circle
               className="subhot-ring"
-              r={9}
+              r={ringR}
               fill="var(--bg)"
               stroke="var(--accent)"
-              strokeWidth={1}
+              strokeWidth={strokeW}
               opacity={isSelected ? 1 : 0.95}
             />
-            <circle className="subhot-dot" r={3.5} fill="var(--accent)" opacity={isSelected ? 1 : 0.6} />
+            <circle className="subhot-dot" r={dotR} fill="var(--accent)" opacity={isSelected ? 1 : 0.6} />
             {s.showLabel && (
               <text
-                x={14}
-                y={3}
-                fontSize={9}
+                x={labelOffsetX}
+                y={labelOffsetY}
+                fontSize={fontSize}
                 fill="var(--ink)"
                 fontFamily="'JetBrains Mono', monospace"
                 letterSpacing="0.05em"
