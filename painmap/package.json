@@ -2,16 +2,11 @@
   "name": "painmap",
   "version": "1.0.0",
   "private": true,
-  "description": "Desktop web app for evidence-based resistance-band exercises by pain location",
+  "description": "Web app for evidence-based resistance-band exercises by pain location",
   "scripts": {
-    "dev": "concurrently -n server,client -c blue,green \"npm:dev:server\" \"npm:dev:client\"",
-    "dev:server": "npm --prefix server run dev",
-    "dev:client": "npm --prefix client run dev",
-    "build": "npm --prefix server run build && npm --prefix client run build",
-    "install:all": "npm install && npm --prefix server install && npm --prefix client install",
-    "lint": "npm --prefix client run lint"
-  },
-  "devDependencies": {
-    "concurrently": "^9.0.1"
+    "dev": "npm --prefix client run dev",
+    "build": "npm --prefix client run build",
+    "lint": "npm --prefix client run lint",
+    "install:all": "npm --prefix client install"
   }
 }

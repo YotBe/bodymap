@@ -18,7 +18,7 @@ export function EmptyState({ onPickZone }: Props) {
       <div className="es-list">
         <div className="es-list-label">Or pick a zone</div>
         {isLoading && <div className="es-zone-subs">Loading zones…</div>}
-        {isError && <div className="es-zone-subs">Could not load zones. Is the server running?</div>}
+        {isError && <div className="es-zone-subs">Couldn't load zone data. Please refresh.</div>}
         {zones?.map((z) => (
           <button
             key={z.id}

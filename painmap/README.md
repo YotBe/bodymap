@@ -15,8 +15,7 @@ PainMap is a desktop web application that helps office workers find targeted res
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
-- [API Reference](#api-reference)
-- [Database Schema](#database-schema)
+- [Data Model](#data-model)
 - [Design System](#design-system)
 - [Evidence Base](#evidence-base)
 - [Safety & Disclaimer](#safety--disclaimer)
@@ -56,23 +55,15 @@ PainMap is not a medical diagnostic tool. It is a self-guided educational triage
 
 ## Tech Stack
 
-### Frontend
+PainMap is a **client-only single-page app** deployed as static assets on Vercel. Exercise data ships as a typed JSON bundle, not behind an API.
+
 - **React 18** + **Vite** + **TypeScript**
-- **Tailwind CSS 3.4** (custom design tokens — no UI kit)
-- **Framer Motion** for view-box animation and panel transitions
 - **React Router v6** for deep-linkable routes
-- **TanStack Query (React Query)** for server-state caching
-- **Axios** for HTTP
-
-### Backend
-- **Node.js 20** + **Express** + **TypeScript**
-- **SQLite** via `better-sqlite3` (file-based, zero-config)
-- **Zod** for runtime validation of route params
-
-### Tooling
-- **ESLint + Prettier**
-- **Concurrently** to run client and server with a single command
-- **Vercel** for deployment
+- **TanStack Query (React Query)** for in-memory caching of the static dataset
+- Hand-rolled CSS using custom design tokens (no UI kit, no Tailwind utility soup)
+- **ESLint** with `--max-warnings 0`; TypeScript strict mode
+- **Vercel** for deployment, with security headers (CSP, X-Frame-Options, Referrer-Policy, Permissions-Policy) configured in `vercel.json`
+- **GitHub Actions** runs lint + build on every PR
 
 ---
 
@@ -80,54 +71,33 @@ PainMap is not a medical diagnostic tool. It is a self-guided educational triage
 
 ```
 painmap/
-├── package.json              # Root: workspace scripts (concurrently)
-├── README.md                 # ← You are here
-├── client/                   # React + Vite frontend
-│   ├── package.json
-│   ├── vite.config.ts
-│   ├── tailwind.config.js
-│   ├── index.html
-│   └── src/
-│       ├── main.tsx
-│       ├── App.tsx
-│       ├── api/
-│       │   └── exercises.ts
-│       ├── components/
-│       │   ├── BodyMap/
-│       │   │   ├── BodyMap.tsx
-│       │   │   ├── AnteriorView.tsx
-│       │   │   ├── PosteriorView.tsx
-│       │   │   └── zones.ts
-│       │   ├── ExerciseCard.tsx
-│       │   ├── EvidencePill.tsx
-│       │   ├── BandTensionChip.tsx
-│       │   ├── PrescriptionBlock.tsx
-│       │   ├── VideoEmbed.tsx
-│       │   ├── SafetyBanner.tsx
-│       │   ├── RedFlagModal.tsx
-│       │   ├── ZoneBreadcrumb.tsx
-│       │   ├── ViewToggle.tsx
-│       │   └── EmptyState.tsx
-│       ├── hooks/
-│       │   ├── useExercise.ts
-│       │   └── usePainSelection.ts
-│       ├── styles/
-│       │   └── index.css
-│       └── types.ts
-└── server/                   # Express + SQLite backend
+├── package.json                  # Forwards scripts to client/
+├── README.md                     # ← You are here
+└── client/                       # React + Vite frontend (the whole app)
     ├── package.json
-    ├── tsconfig.json
+    ├── index.html
+    ├── public/
+    │   ├── favicon.svg
+    │   └── robots.txt
     └── src/
-        ├── index.ts
-        ├── db/
-        │   ├── schema.sql
-        │   └── seed.ts
-        ├── routes/
-        │   ├── zones.ts
-        │   └── exercises.ts
+        ├── main.tsx              # ErrorBoundary wraps <App>
+        ├── App.tsx
+        ├── api/
+        │   └── exercises.ts      # Reads exercises.json via TanStack Query
         ├── data/
-        │   └── exercises.json
-        └── types.ts
+        │   └── exercises.json    # The whole content library
+        ├── components/
+        │   ├── BodyMap/          # SVG body map + zoom + hotspots
+        │   ├── ExerciseCard.tsx
+        │   ├── ErrorBoundary.tsx
+        │   ├── NotFoundPage.tsx
+        │   ├── SafetyBanner.tsx
+        │   ├── RedFlagModal.tsx
+        │   └── …
+        ├── routes/               # HomePage, ZonePage, ExercisePage
+        ├── hooks/
+        └── styles/
+            └── index.css
 ```
 
 ---
@@ -155,148 +125,78 @@ From the `painmap/` root:
 npm run dev
 ```
 
-This launches:
-- **Backend** on `http://localhost:3001`
-- **Frontend** on `http://localhost:5173`
+Vite serves the app on `http://localhost:5173` with HMR.
 
-The SQLite database (`painmap.db`) is created and seeded automatically on first server start.
-
-### Production Build
+### Production build
 
 ```bash
 npm run build
-npm run start
 ```
 
-### Environment Variables
+Output lands in `painmap/client/dist/`. Vercel builds and serves this directory automatically per the `vercel.json` at the repo root.
 
-| Variable | Default | Description |
-|---|---|---|
-| `PORT` | `3001` | Backend port |
-| `CLIENT_ORIGIN` | `http://localhost:5173` | CORS allow-list |
-| `DB_PATH` | `./painmap.db` | SQLite database file location |
+### Linting
+
+```bash
+npm run lint
+```
+
+ESLint runs with `--max-warnings 0`; CI fails on any warning.
 
 ---
 
-## API Reference
+## Data Model
 
-Base URL: `http://localhost:3001/api`
+All content lives in `client/src/data/exercises.json` as a typed bundle imported at build time. The runtime type contracts (`RawZone`, `RawSubArea`, `RawExercise`) are in `client/src/api/exercises.ts`. There is no API or database — `useZones()` and friends just wrap the static import in TanStack Query for caching ergonomics.
 
-All responses are JSON. Errors return `{ "error": string }` with the appropriate HTTP status code.
+Shape (one zone shown, abbreviated):
 
-### `GET /api/health`
-Health check.
-
-**Response:**
-```json
-{ "status": "ok" }
-```
-
-### `GET /api/zones`
-Returns all zones with their sub-areas nested.
-
-**Response:**
-```json
-[
-  {
-    "id": "neck",
-    "name": "Neck",
-    "view": "both",
-    "displayOrder": 1,
-    "subAreas": [
-      {
-        "id": "neck-upper-trapezius",
-        "name": "Upper Trapezius",
-        "description": "Top of shoulders, near the base of the neck",
-        "svgPathId": "hotspot-upper-trap",
-        "displayOrder": 1
-      }
-    ]
-  }
-]
-```
-
-### `GET /api/zones/:zoneId`
-Returns a single zone with sub-areas. **404** if not found.
-
-### `GET /api/sub-areas/:subAreaId/exercises`
-Returns all exercises for a sub-area (primary first, then alternatives).
-
-### `GET /api/exercises/:exerciseId`
-Returns full detail for a single exercise.
-
-**Response:**
-```json
+```jsonc
 {
-  "id": "ex-band-shrug",
-  "subAreaId": "neck-upper-trapezius",
-  "name": "Resistance-Band Shrug",
-  "isPrimary": true,
-  "targetMuscles": "Upper trapezius, levator scapulae",
-  "mechanism": "Strengthens the upper trapezius...",
-  "instructions": ["Stand on the middle of a long band...", "..."],
-  "sets": 3,
-  "reps": "10-12",
-  "tempo": "2-1-2",
-  "bandTension": "red",
-  "bandTensionNote": "Start red, progress to green or blue...",
-  "frequency": "3-5 days/week",
-  "commonMistakes": ["Rolling shoulders...", "..."],
-  "contraindications": ["Acute cervical radiculopathy...", "..."],
-  "beginnerModification": "Bodyweight shrugs (no band)...",
-  "evidenceShort": "Andersen LL, Pain 2011",
-  "evidenceFull": "Andersen LL, Saervoll CA, Mortensen OS, et al. ...",
-  "evidenceSummary": "Randomized controlled trial of 198 office workers...",
-  "videoUrl": "https://www.youtube.com/watch?v=..."
+  "zones": [
+    {
+      "id": "neck",
+      "name": "Neck",
+      "view": "both",
+      "displayOrder": 1,
+      "subAreas": [
+        {
+          "id": "neck-upper-trapezius",
+          "name": "Upper Trapezius",
+          "description": "Top of shoulders, near the base of the neck",
+          "svgPathId": "hotspot-upper-trap",
+          "displayOrder": 1,
+          "exercises": [
+            {
+              "id": "ex-band-shrug",
+              "name": "Resistance-Band Shrug",
+              "isPrimary": true,
+              "targetMuscles": "Upper trapezius, levator scapulae",
+              "mechanism": "...",
+              "instructions": ["Stand on the middle of a long band...", "..."],
+              "sets": 3,
+              "reps": "10-12",
+              "tempo": "2-1-2",
+              "bandTension": "red",
+              "bandTensionNote": "Start red, progress to green or blue...",
+              "frequency": "3-5 days/week",
+              "commonMistakes": ["..."],
+              "contraindications": ["..."],
+              "beginnerModification": "...",
+              "evidenceShort": "Andersen LL, Pain 2011",
+              "evidenceFull": "Andersen LL, Saervoll CA, et al. ...",
+              "evidenceSummary": "Randomized controlled trial of 198 office workers...",
+              "videoUrl": "https://www.youtube.com/watch?v=..."
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
 ```
 
----
-
-## Database Schema
-
-SQLite, three tables. Bootstrapped on server start from `server/src/data/exercises.json` if the database file does not exist.
-
-```sql
-CREATE TABLE zones (
-  id TEXT PRIMARY KEY,
-  name TEXT NOT NULL,
-  view TEXT NOT NULL,            -- 'anterior' | 'posterior' | 'both'
-  display_order INTEGER NOT NULL
-);
-
-CREATE TABLE sub_areas (
-  id TEXT PRIMARY KEY,
-  zone_id TEXT NOT NULL REFERENCES zones(id),
-  name TEXT NOT NULL,
-  description TEXT,
-  svg_path_id TEXT,
-  display_order INTEGER NOT NULL
-);
-
-CREATE TABLE exercises (
-  id TEXT PRIMARY KEY,
-  sub_area_id TEXT NOT NULL REFERENCES sub_areas(id),
-  name TEXT NOT NULL,
-  is_primary INTEGER NOT NULL DEFAULT 1,
-  target_muscles TEXT NOT NULL,
-  mechanism TEXT NOT NULL,
-  instructions TEXT NOT NULL,         -- JSON-stringified array
-  sets INTEGER NOT NULL,
-  reps TEXT NOT NULL,
-  tempo TEXT,
-  band_tension TEXT NOT NULL,         -- 'yellow' | 'red' | 'green' | 'blue' | 'black'
-  band_tension_note TEXT,
-  frequency TEXT NOT NULL,
-  common_mistakes TEXT NOT NULL,      -- JSON-stringified array
-  contraindications TEXT NOT NULL,    -- JSON-stringified array
-  beginner_modification TEXT,
-  evidence_short TEXT NOT NULL,
-  evidence_full TEXT NOT NULL,
-  evidence_summary TEXT NOT NULL,
-  video_url TEXT NOT NULL
-);
-```
+To add or edit content, edit that JSON file directly and rebuild. Every new exercise must carry `evidenceShort` + `evidenceFull` + `evidenceSummary` referencing peer-reviewed literature; PRs that don't will be rejected.
 
 ---
 
