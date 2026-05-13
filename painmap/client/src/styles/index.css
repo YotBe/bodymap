@@ -981,13 +981,6 @@ button { font-family: inherit; cursor: pointer; }
   }
   .map-tooltip { font-size: 11px; padding: 6px 10px; }
 
-  /* Larger hotspot visuals on mobile (tap halo is an invisible circle r=20).
-     Bigger ring + dot so the tap target reads clearly against the body
-     silhouette and the now-zoomed map. */
-  .subhot .subhot-ring { r: 16; stroke-width: 2; }
-  .subhot .subhot-dot { r: 6; }
-  .subhot text { font-size: 12px; font-weight: 600; }
-
   /* Exercise card: full-bleed, video-first */
   .pane-right { padding-top: 0; }
   .exercise-card {
