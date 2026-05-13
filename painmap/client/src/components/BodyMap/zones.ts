@@ -70,6 +70,8 @@ export const SUB_AREA_HOTSPOTS: Record<BodyView, Partial<Record<ZoneId, SubAreaH
       { subAreaId: 'shoulders-deltoid', x: 270, y: 200, label: 'Deltoid', showLabel: false },
       { subAreaId: 'shoulders-rotator-cuff', x: 150, y: 225, label: 'Rot. Cuff', showLabel: true },
       { subAreaId: 'shoulders-rotator-cuff', x: 250, y: 225, label: 'Rot. Cuff', showLabel: false },
+      { subAreaId: 'shoulders-biceps-tendon', x: 124, y: 224, label: 'Biceps Tend.', showLabel: true },
+      { subAreaId: 'shoulders-biceps-tendon', x: 276, y: 224, label: 'Biceps Tend.', showLabel: false },
     ],
     'hands-wrists': [
       { subAreaId: 'wrist-flexor', x: 96, y: 410, label: 'Flexors', showLabel: true },
@@ -80,6 +82,8 @@ export const SUB_AREA_HOTSPOTS: Record<BodyView, Partial<Record<ZoneId, SubAreaH
       { subAreaId: 'elbow-lateral', x: 316, y: 348, label: 'Lat. Elbow', showLabel: false },
       { subAreaId: 'elbow-medial', x: 108, y: 360, label: 'Med. Elbow', showLabel: true },
       { subAreaId: 'elbow-medial', x: 292, y: 360, label: 'Med. Elbow', showLabel: false },
+      { subAreaId: 'wrist-de-quervains', x: 80, y: 438, label: "De Quervain's", showLabel: true },
+      { subAreaId: 'wrist-de-quervains', x: 320, y: 438, label: "De Quervain's", showLabel: false },
     ],
     'hip-glutes': [
       { subAreaId: 'hip-glutes-medius', x: 148, y: 410, label: 'Glute Med', showLabel: true },
@@ -127,6 +131,8 @@ export const SUB_AREA_HOTSPOTS: Record<BodyView, Partial<Record<ZoneId, SubAreaH
       { subAreaId: 'elbow-lateral', x: 316, y: 348, label: 'Lat. Elbow', showLabel: false },
       { subAreaId: 'elbow-medial', x: 108, y: 360, label: 'Med. Elbow', showLabel: true },
       { subAreaId: 'elbow-medial', x: 292, y: 360, label: 'Med. Elbow', showLabel: false },
+      { subAreaId: 'wrist-de-quervains', x: 80, y: 438, label: "De Quervain's", showLabel: true },
+      { subAreaId: 'wrist-de-quervains', x: 320, y: 438, label: "De Quervain's", showLabel: false },
     ],
     'hip-glutes': [
       { subAreaId: 'hip-glutes-maximus', x: 178, y: 425, label: 'Glute Max', showLabel: true },

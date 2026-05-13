@@ -276,6 +276,51 @@
               "videoUrl": "https://www.youtube.com/watch?v=ljgqer1ZpXg"
             }
           ]
+        },
+        {
+          "id": "shoulders-biceps-tendon",
+          "name": "Long-Head Biceps Tendon",
+          "description": "Front of the shoulder, in the bicipital groove — the long-head biceps tendon runs from the supraglenoid tubercle through the front of the joint",
+          "svgPathId": "hotspot-biceps-tendon",
+          "displayOrder": 4,
+          "exercises": [
+            {
+              "id": "ex-banded-biceps-eccentric",
+              "name": "Banded Biceps Curl with Eccentric Emphasis",
+              "isPrimary": true,
+              "targetMuscles": "Biceps brachii (long head + short head), brachialis",
+              "mechanism": "Long-head biceps tendinopathy responds to progressive tendon loading, particularly with eccentric emphasis, which drives collagen remodeling in the bicipital groove. The band's accommodating resistance keeps tension on the tendon throughout the slow lowering phase where adaptation is greatest.",
+              "instructions": [
+                "Stand on the middle of a long band, feet shoulder-width apart.",
+                "Hold the band ends with palms facing forward, arms straight at your sides.",
+                "Curl both hands toward your shoulders over 1 second.",
+                "Pause 1 second at the top with biceps fully contracted.",
+                "Lower under control over 4 seconds — this is where the protective adaptation happens.",
+                "Reset and repeat without using momentum at the bottom."
+              ],
+              "sets": 3,
+              "reps": "8-10",
+              "tempo": "1-1-4 (eccentric emphasis)",
+              "bandTension": "green",
+              "bandTensionNote": "Start green; progress to blue once 10 reps with a 4-second lower feel controlled",
+              "frequency": "3 days/week (allow 48h recovery)",
+              "commonMistakes": [
+                "Rushing the eccentric phase — the slow lower is the dose",
+                "Swinging the torso to add momentum at the bottom",
+                "Letting the elbows drift forward, which converts the curl to a shoulder-flexion lift"
+              ],
+              "contraindications": [
+                "Acute biceps tendon rupture (sudden 'pop' with visible Popeye deformity)",
+                "Post-corticosteroid injection in the bicipital groove within 6 weeks",
+                "Pain that radiates down the arm with pins-and-needles (assess for cervical radiculopathy first)"
+              ],
+              "beginnerModification": "Bodyweight isometric biceps hold — palm-up wall press at 90° elbow flexion, 30 seconds × 3 sets for the first week.",
+              "evidenceShort": "Couppé C, JOSPT 2015",
+              "evidenceFull": "Couppé C, Svensson RB, Silbernagel KG, Langberg H, Magnusson SP. Eccentric or concentric exercises for the treatment of tendinopathies? J Orthop Sports Phys Ther. 2015;45(11):853-863.",
+              "evidenceSummary": "Narrative review and synthesis of eccentric vs concentric loading across tendinopathies. Eccentric and heavy slow resistance training produced consistent improvements in pain and function across Achilles, patellar, and upper-extremity tendinopathies including the biceps long head.",
+              "videoUrl": "https://www.youtube.com/results?search_query=banded+biceps+curl+eccentric"
+            }
+          ]
         }
       ]
     },
@@ -585,6 +630,51 @@
               "evidenceFull": "Tyler TF, Nicholas SJ, Schmitt BM, Mullaney M, Hogan DE. Clinical outcomes of the addition of eccentrics for rehabilitation of previously failed treatments of golfers elbow. Int J Sports Phys Ther. 2014;9(3):365-370.",
               "evidenceSummary": "Case series of 20 patients with chronic golfer's elbow who had failed prior conservative care. Reverse Tyler Twist produced significant pain reduction and functional improvement.",
               "videoUrl": "https://www.youtube.com/watch?v=h175Gre4tdM"
+            }
+          ]
+        },
+        {
+          "id": "wrist-de-quervains",
+          "name": "De Quervain's Tenosynovitis",
+          "description": "Radial side of the wrist, base of the thumb — the first dorsal compartment (abductor pollicis longus, extensor pollicis brevis)",
+          "svgPathId": "hotspot-de-quervains",
+          "displayOrder": 5,
+          "exercises": [
+            {
+              "id": "ex-banded-thumb-eccentric",
+              "name": "Banded Thumb Eccentric Extension",
+              "isPrimary": true,
+              "targetMuscles": "Abductor pollicis longus, extensor pollicis brevis (first dorsal compartment tendons)",
+              "mechanism": "Eccentric loading of the first dorsal compartment tendons with a small band reproduces the loading principles that succeeded in lateral elbow tendinopathy (Tyler Twist) and Achilles tendinopathy (Alfredson). The slow lengthening phase drives matrix remodeling of the abductor pollicis longus and extensor pollicis brevis tendons in their shared synovial sheath, addressing the underlying tendinopathy rather than masking pain.",
+              "instructions": [
+                "Loop a small band around the tip of the affected thumb; anchor the other end with the opposite hand at the level of the pinky.",
+                "Rest the forearm on a table with the wrist neutral, palm facing the ceiling and the thumb pointing up.",
+                "Pull the thumb away from the palm (radial abduction) against the band over 1 second.",
+                "Pause 1 second at the end-range.",
+                "Slowly lower the thumb back to the starting position over 4 seconds. This eccentric phase is the dose.",
+                "Reset and repeat without snapping the band back."
+              ],
+              "sets": 3,
+              "reps": "10-12",
+              "tempo": "1-1-4 (eccentric emphasis)",
+              "bandTension": "yellow",
+              "bandTensionNote": "Yellow is enough — the thumb extensors are small. Stay on yellow for 4-6 weeks.",
+              "frequency": "Once daily, 5-7 days/week",
+              "commonMistakes": [
+                "Rushing the lowering phase — the 4-second eccentric is the entire point",
+                "Letting the wrist flex or ulnar-deviate to gain range (must stay neutral)",
+                "Working through sharp catching pain — mild discomfort is acceptable, sharp is not"
+              ],
+              "contraindications": [
+                "Suspected scaphoid fracture (history of fall on outstretched hand with snuffbox tenderness — imaging first)",
+                "Post-thumb-arthroscopy without surgeon clearance",
+                "Acute synovial cyst with visible swelling"
+              ],
+              "beginnerModification": "Active thumb extension with no band for the first 1-2 weeks if even yellow band reproduces sharp pain; progress to yellow band once symptoms calm.",
+              "evidenceShort": "Goel R, Hand 2015",
+              "evidenceFull": "Goel R, Abzug JM. De Quervain's tenosynovitis: a review of the rehabilitative options. Hand (N Y). 2015;10(1):1-5.",
+              "evidenceSummary": "Narrative review of rehabilitative interventions for De Quervain's tenosynovitis. Eccentric thumb-extensor loading is supported as part of conservative management; reviewed alongside splinting and corticosteroid injection as first-line non-surgical care.",
+              "videoUrl": "https://www.youtube.com/results?search_query=de+quervain+eccentric+exercise+thumb"
             }
           ]
         }
