@@ -8,6 +8,7 @@ import { PaneEyebrow } from './PaneEyebrow';
 import { HomePage } from '../routes/HomePage';
 import { ZonePage } from '../routes/ZonePage';
 import { ExercisePage } from '../routes/ExercisePage';
+import { NotFoundPage } from './NotFoundPage';
 import { useZones } from '../api/exercises';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 import { useIsMobile } from '../hooks/useIsMobile';
@@ -245,6 +246,7 @@ export function PageShell() {
                   </>
                 }
               />
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </div>
         </section>

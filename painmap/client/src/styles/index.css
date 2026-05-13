@@ -891,6 +891,61 @@ button { font-family: inherit; cursor: pointer; }
   .sf-inline { color: var(--ink); border-bottom: 1px solid var(--rule); text-decoration: none; }
 
   .ex-back { display: none; }
+
+  .error-fallback,
+  .not-found {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: var(--bg);
+  }
+  .error-fallback-card,
+  .not-found-card {
+    max-width: 440px;
+    text-align: left;
+  }
+  .error-fallback-headline,
+  .not-found-headline {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 44px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+    color: var(--ink);
+  }
+  .error-fallback-sub,
+  .not-found-sub {
+    font-size: 14px;
+    color: var(--ink-muted);
+    margin: 0 0 28px;
+    line-height: 1.55;
+  }
+  .error-fallback-actions,
+  .not-found-actions {
+    display: flex;
+    gap: 12px;
+  }
+  .error-fallback-btn,
+  .not-found-btn {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--surface);
+    border: none;
+    padding: 12px 20px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 120ms ease;
+  }
+  .error-fallback-btn:hover,
+  .not-found-btn:hover { opacity: 0.85; }
 }
 
 @media (prefers-reduced-motion: reduce) {

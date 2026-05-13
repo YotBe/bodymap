@@ -1,41 +1,24 @@
-# BodyMap - PainMap
+# BodyMap
 
-A desktop web application that maps evidence-based resistance-band exercises to pain locations on the body.
+Repository for **PainMap** — an evidence-based web app that maps resistance-band exercises to the place you feel pain.
 
-**Live Demo:**[ [https://bodymap-pied.vercel.app](https://bodymap-pied.vercel.app)](https://bodymap1.vercel.app/)
+**Live demo:** [bodymap1.vercel.app](https://bodymap1.vercel.app/)
 
-## Overview
+The application code lives in [`painmap/`](./painmap/). See [`painmap/README.md`](./painmap/README.md) for full technical documentation: tech stack, project structure, getting-started, API reference, design system, evidence base, and safety disclaimers.
 
-BodyMap helps users find targeted resistance-band exercises based on where they experience pain or discomfort. By selecting a pain location on an interactive body diagram, users can discover evidence-based exercises designed to address that specific area.
+## Quick start
 
-## Features
+```bash
+git clone https://github.com/YotBe/bodymap.git
+cd bodymap/painmap
+npm install
+npm run dev
+```
 
-- 🎯 **Interactive Body Map** - Click on different body areas to find relevant exercises
-- 💪 **Resistance-Band Focused** - Curated exercises using resistance bands
-- 🔬 **Evidence-Based** - Exercises backed by scientific research
-- 📱 **Responsive Design** - Works on desktop and tablet devices
-- 🚀 **Fast & Lightweight** - Quick load times and smooth interactions
+## Safety
 
-## Tech Stack
+PainMap is an educational tool, not a medical device. It does not diagnose conditions or replace clinical evaluation. See the [safety disclaimer](./painmap/README.md#safety--disclaimer) for details.
 
-### Frontend
-- **React** 18.3.1 - UI library
-- **Vite** - Fast build tool and dev server
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Utility-first styling
-- **React Router** - Client-side routing
-- **React Query** - Data fetching and caching
-- **Axios** - HTTP client
+## License
 
-### Backend
-- **Express.js** - Node.js web framework
-- **Better SQLite3** - Lightweight database
-- **Zod** - TypeScript-first schema validation
-- **CORS** - Cross-origin request handling
-
-### Development Tools
-- **Concurrently** - Run multiple npm scripts simultaneously
-- **ESLint** - Code quality
-- **TypeScript** - Type checking
-
-## Project Structure
+MIT — see `LICENSE` at the repo root.
