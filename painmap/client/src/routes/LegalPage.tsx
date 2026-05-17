@@ -45,7 +45,18 @@ export function LegalPage() {
           <code>{t('legal.privacyP2Code')}</code>
           {t('legal.privacyP2Post')}
         </p>
-        <p className="lf-p">{t('legal.privacyP3')}</p>
+        <p className="lf-p">
+          {t('legal.privacyP3Pre')}
+          <a
+            className="lf-inline"
+            href="https://plausible.io/privacy-focused-web-analytics"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t('legal.privacyP3Link')}
+          </a>
+          {t('legal.privacyP3Post')}
+        </p>
       </section>
 
       <section className="lf-section" id="terms">
