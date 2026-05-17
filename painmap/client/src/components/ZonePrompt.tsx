@@ -1,5 +1,6 @@
+import { useTranslation } from 'react-i18next';
 import { useZones } from '../api/exercises';
-import type { ZoneId } from './BodyMap/zones';
+import { ZONE_LABELS, type ZoneId } from './BodyMap/zones';
 
 interface Props {
   zoneId: ZoneId;
@@ -7,14 +8,18 @@ interface Props {
 }
 
 export function ZonePrompt({ zoneId, onPickSubArea }: Props) {
+  const { t } = useTranslation();
   const { data: zones, isLoading } = useZones();
   const zone = zones?.find((z) => z.id === zoneId);
+  const localizedZoneName = t(`zones.${zoneId}`, {
+    defaultValue: ZONE_LABELS[zoneId] ?? zone?.name ?? '',
+  });
 
   if (isLoading) {
     return (
       <div className="zone-prompt">
-        <div className="zp-eyebrow">UPPER BODY</div>
-        <h2 className="zp-headline">Loading…</h2>
+        <div className="zp-eyebrow">{t('zonePrompt.eyebrow')}</div>
+        <h2 className="zp-headline">{t('zonePrompt.loading')}</h2>
       </div>
     );
   }
@@ -22,20 +27,19 @@ export function ZonePrompt({ zoneId, onPickSubArea }: Props) {
   if (!zone) {
     return (
       <div className="zone-prompt">
-        <div className="zp-eyebrow">UPPER BODY</div>
-        <h2 className="zp-headline">Zone not found.</h2>
-        <p className="zp-sub">That body region isn&apos;t in the catalog yet.</p>
+        <div className="zp-eyebrow">{t('zonePrompt.eyebrow')}</div>
+        <h2 className="zp-headline">{t('zonePrompt.notFoundHeadline')}</h2>
+        <p className="zp-sub">{t('zonePrompt.notFoundSub')}</p>
       </div>
     );
   }
 
   return (
     <div className="zone-prompt">
-      <div className="zp-eyebrow">UPPER BODY / {zone.name.toUpperCase()}</div>
-      <h2 className="zp-headline">Select a specific sub-area.</h2>
+      <div className="zp-eyebrow">{t('zonePrompt.eyebrow')} / {localizedZoneName.toUpperCase()}</div>
+      <h2 className="zp-headline">{t('zonePrompt.selectHeadline')}</h2>
       <p className="zp-sub">
-        The body map has zoomed in on the {zone.name.toLowerCase()}. Click a numbered
-        hotspot on the diagram, or pick from the list below.
+        {t('zonePrompt.selectSubPrefix')}{localizedZoneName.toLowerCase()}{t('zonePrompt.selectSubSuffix')}
       </p>
       <div className="zp-list">
         {zone.subAreas.map((sa) => (

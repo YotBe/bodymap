@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   videoId: string;
@@ -8,13 +9,14 @@ interface Props {
 
 export function VideoEmbed({ videoId, videoUrl, exerciseName }: Props) {
   const [loaded, setLoaded] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <div className="video-embed">
       {loaded && videoId ? (
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1`}
-          title={`${exerciseName} video demonstration`}
+          title={t('video.title', { name: exerciseName })}
           allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture"
           referrerPolicy="no-referrer"
           allowFullScreen
@@ -24,7 +26,7 @@ export function VideoEmbed({ videoId, videoUrl, exerciseName }: Props) {
           type="button"
           className="video-placeholder"
           onClick={() => setLoaded(true)}
-          aria-label="Load video demonstration"
+          aria-label={t('video.loadAria')}
           disabled={!videoId}
         >
           <span className="vp-illustration" aria-hidden="true">
@@ -41,13 +43,13 @@ export function VideoEmbed({ videoId, videoUrl, exerciseName }: Props) {
             </svg>
           </span>
           <span className="vp-label">
-            {videoId ? 'Load video demonstration' : 'Video unavailable'}
+            {videoId ? t('video.load') : t('video.unavailable')}
           </span>
-          <span className="vp-sub">YouTube · loads on click</span>
+          <span className="vp-sub">{t('video.sub')}</span>
         </button>
       )}
       <a className="video-external" href={videoUrl} target="_blank" rel="noopener noreferrer">
-        Open in YouTube ↗
+        {t('video.openExternal')}
       </a>
     </div>
   );

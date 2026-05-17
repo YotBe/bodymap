@@ -1,0 +1,236 @@
+{
+  "brand": {
+    "name": "PainMap",
+    "tagline": "V2 · FULL BODY",
+    "homeAria": "PainMap home"
+  },
+  "nav": {
+    "evidence": "Evidence",
+    "about": "About",
+    "findClinician": "Find a clinician ↗",
+    "primary": "Primary"
+  },
+  "lang": {
+    "toggleAria": "Language",
+    "en": "EN",
+    "he": "עברית"
+  },
+  "safetyBanner": {
+    "text": "PainMap is an educational tool, not a medical diagnosis. If symptoms persist, see a clinician.",
+    "dismiss": "Dismiss banner"
+  },
+  "pane": {
+    "selectNum": "01",
+    "selectLabel": "SELECT",
+    "awaitingNum": "02",
+    "awaitingSelectionLabel": "AWAITING SELECTION",
+    "awaitingSubAreaLabel": "AWAITING SUB-AREA",
+    "exerciseLabel": "EXERCISE",
+    "aboutLabel": "ABOUT",
+    "legalLabel": "LEGAL",
+    "evidenceLabel": "EVIDENCE",
+    "clinicianLabel": "FIND A CLINICIAN"
+  },
+  "pageTitle": {
+    "wherePrefix": "Where",
+    "whereSuffix": " does it hurt?"
+  },
+  "pageSub": "Click a highlighted area on the body. We'll surface the single resistance-band exercise with the strongest evidence for that pain location.",
+  "emptyState": {
+    "headline": "Click where it hurts.",
+    "sub": "Select a region on the body map to receive a single evidence-backed resistance-band exercise.",
+    "orPickZone": "Or pick a zone",
+    "loading": "Loading zones…",
+    "loadError": "Couldn't load zone data. Please refresh.",
+    "footer": "V2 — FULL BODY"
+  },
+  "zonePrompt": {
+    "eyebrow": "UPPER BODY",
+    "loading": "Loading…",
+    "notFoundHeadline": "Zone not found.",
+    "notFoundSub": "That body region isn't in the catalog yet.",
+    "selectHeadline": "Select a specific sub-area.",
+    "selectSubPrefix": "The body map has zoomed in on the ",
+    "selectSubSuffix": ". Click a numbered hotspot on the diagram, or pick from the list below."
+  },
+  "bodyMap": {
+    "fullBody": "Full Body",
+    "anterior": "Anterior",
+    "posterior": "Posterior",
+    "viewToggleAria": "Body view",
+    "backToFullBodyAria": "Back to full body",
+    "bodyLabel": "Body",
+    "footnoteClickZone": "Click a highlighted zone to drill in",
+    "footnoteSelectSubArea": "Select a specific sub-area",
+    "footnoteShowingExercise": "Showing exercise →",
+    "ariaAnterior": "Anterior body map",
+    "ariaPosterior": "Posterior body map",
+    "selectAria": "Select {{label}}"
+  },
+  "exercise": {
+    "back": "Back",
+    "backAria": "Back to body map",
+    "instructions": "Instructions",
+    "targetMuscles": "Target muscles",
+    "commonMistakes": "Common mistakes",
+    "beginners": "For beginners or in acute pain",
+    "contraindications": "Contraindications",
+    "fullCitation": "Full citation",
+    "translationPending": "Hebrew translation coming soon.",
+    "loadingHeadline": "Loading exercise…",
+    "errorHeadline": "Could not load exercise.",
+    "errorUnknown": "Unknown error"
+  },
+  "prescription": {
+    "setsReps": "Sets × Reps",
+    "tempo": "Tempo",
+    "tempoFoot": "eccentric-pause-concentric (s)",
+    "tempoStatic": "Static hold",
+    "frequency": "Frequency"
+  },
+  "band": {
+    "theraband": "TheraBand"
+  },
+  "video": {
+    "load": "Load video demonstration",
+    "unavailable": "Video unavailable",
+    "sub": "YouTube · loads on click",
+    "openExternal": "Open in YouTube ↗",
+    "loadAria": "Load video demonstration",
+    "title": "{{name}} video demonstration"
+  },
+  "notFound": {
+    "headline": "Page not found.",
+    "sub": "The URL you followed doesn't match anything on PainMap. The body map is the best place to start.",
+    "returnHome": "Return home"
+  },
+  "errorBoundary": {
+    "headline": "Something went wrong.",
+    "sub": "PainMap hit an unexpected error. Refresh the page or return to the body map to continue.",
+    "reset": "Return home"
+  },
+  "footer": {
+    "painmapLabel": "PainMap",
+    "painmapText": "An educational triage tool. Not a substitute for clinical care.",
+    "aboutLabel": "About",
+    "aboutLink": "Why PainMap exists →",
+    "clinicianLink": "Find a clinician →",
+    "evidenceLabel": "Evidence",
+    "evidenceText": "Every exercise cites a peer-reviewed source.",
+    "evidenceFull": "Full bibliography →",
+    "legalLabel": "Legal",
+    "disclaimerLink": "Medical disclaimer →",
+    "privacyLink": "Privacy →",
+    "termsLink": "Terms of use →"
+  },
+  "zones": {
+    "neck": "Neck",
+    "shoulders": "Shoulders",
+    "back": "Back",
+    "hands-wrists": "Hands & Wrists",
+    "hip-glutes": "Hip & Glutes",
+    "knees": "Knees",
+    "foot-ankle": "Foot & Ankle"
+  },
+  "hotspots": {
+    "upperTrap": "Upper Trap",
+    "levator": "Levator",
+    "cervical": "Cervical",
+    "deltoid": "Deltoid",
+    "postDelt": "Post. Delt",
+    "rotCuff": "Rot. Cuff",
+    "bicepsTend": "Biceps Tend.",
+    "scapular": "Scapular",
+    "interscapular": "Interscapular",
+    "midThoracic": "Mid-Thoracic",
+    "lumbar": "Lumbar",
+    "flexors": "Flexors",
+    "extensors": "Extensors",
+    "latElbow": "Lat. Elbow",
+    "medElbow": "Med. Elbow",
+    "deQuervains": "De Quervain's",
+    "gluteMed": "Glute Med",
+    "gluteMax": "Glute Max",
+    "patella": "Patella",
+    "hamstring": "Hamstring",
+    "plantar": "Plantar",
+    "latAnkle": "Lat. Ankle",
+    "achilles": "Achilles"
+  },
+  "about": {
+    "titlePrefix": "Why",
+    "titleSuffix": " PainMap exists.",
+    "problemH2": "The problem",
+    "problemP1Pre": "Musculoskeletal pain — low back, neck, shoulder, wrist — is the leading cause of years lived with disability globally (Global Burden of Disease, ",
+    "problemP1Cite": "Lancet",
+    "problemP1Post": " 2020). The desk-bound population carries an outsize share of it: prolonged sitting and high-frequency computer work are independently associated with chronic neck and shoulder pain in workplace cohort studies.",
+    "problemP2": "For most of these people the pain is mechanical, not medical. A short course of targeted exercise resolves it. But the path from \"my neck hurts\" to \"the right exercise\" is broken.",
+    "gapH2": "The gap",
+    "gapP1": "Physical therapy works, but a referral, an appointment, and a co-pay are three steps most people won't take for a sore neck. So they turn to search engines and social platforms — where exercise recommendations are dominated by influencers and wellness content with no clinical grounding. Multiple reviews of YouTube back-pain advice have found the majority of content unsupported by, or inconsistent with, current clinical guidelines.",
+    "gapP2": "The result: a person in mild pain spends an hour scrolling, picks the most confident-sounding video, does an exercise that may or may not be appropriate, and learns nothing about why.",
+    "approachH2": "The PainMap approach",
+    "approachP1": "PainMap collapses that funnel to a single decision: click where it hurts. The app surfaces one resistance-band exercise per pain location — the one with the strongest evidence base in the peer-reviewed literature.",
+    "approachP2": "Every recommendation ships with the citation that produced it, the mechanism of action, sets / reps / tempo, contraindications, and a video demonstration. No upsell, no engagement loop, no influencer affiliation. The exercise card is the product.",
+    "approachP3": "PainMap doesn't replace clinical care. It triages the 80% of cases that don't need it, and tells the other 20% clearly when to seek it.",
+    "teamH2": "Team & advisors",
+    "teamP1": "PainMap is in active development. Clinical advisory roles (physical therapy, sports medicine, ergonomics) are open. If you're a clinician interested in contributing to evidence curation, please get in touch."
+  },
+  "legal": {
+    "titlePrefix": "The",
+    "titleSuffix": " fine print.",
+    "tocAria": "On this page",
+    "tocDisclaimer": "Medical disclaimer",
+    "tocPrivacy": "Privacy",
+    "tocTerms": "Terms of use",
+    "disclaimerH2": "Medical disclaimer",
+    "disclaimerP1Pre": "PainMap is an educational tool. It is ",
+    "disclaimerP1Strong": "not a medical device",
+    "disclaimerP1Post": " and is not intended to diagnose, treat, cure, or prevent any disease or injury. The exercises and information presented are general and may not be appropriate for your specific condition.",
+    "disclaimerP2": "Always consult a licensed healthcare provider — physician, physical therapist, or sports-medicine practitioner — before starting any new exercise program, especially if you have a known medical condition, are pregnant, are recovering from surgery, or experience any of the following:",
+    "disclaimerRedFlags": [
+      "Recent trauma (a fall, collision, or impact in the past two weeks)",
+      "Numbness, tingling, or weakness radiating into the limbs",
+      "Fever, unexplained weight loss, or night pain",
+      "Loss of bowel or bladder control with back pain",
+      "Pain that worsens with rest or wakes you from sleep"
+    ],
+    "disclaimerP3": "PainMap does not establish a clinician–patient relationship. Use of the app does not constitute receipt of medical advice. In an emergency, call your local emergency number.",
+    "privacyH2": "Privacy",
+    "privacyP1": "PainMap is a static web application. It runs entirely in your browser. The app itself collects no personal information, no health data, no IP-tied identifiers, and uses no cookies for tracking.",
+    "privacyP2Pre": "The hosting provider (Vercel) logs standard HTTP request metadata for operational purposes (uptime, error analysis). The embedded YouTube videos load from Google's privacy-preserving ",
+    "privacyP2Code": "youtube-nocookie.com",
+    "privacyP2Post": " domain only after you tap \"Load video demonstration.\" Until you tap, no request is made to Google.",
+    "privacyP3": "If anonymous usage analytics are added in a future release (page-views and aggregate zone-selection counts, no individual identifiers, no cookies), this page will be updated to describe them before they are deployed.",
+    "termsH2": "Terms of use",
+    "termsP1": "PainMap is provided free of charge for personal educational use. The source code is released under the MIT license; the curated exercise dataset and accompanying editorial content are © PainMap and may not be re-published without permission.",
+    "termsP2": "The app is provided \"as is,\" without warranty of any kind, express or implied. The authors and contributors are not liable for any injury, loss, or damages arising from use of the information or exercises presented.",
+    "termsP3": "By using PainMap you confirm that you have read this page and the medical disclaimer above, and that you understand the limitations of the tool."
+  },
+  "clinician": {
+    "titlePrefix": "When to see",
+    "titleSuffix": " a real clinician.",
+    "introH2": "PainMap is not a substitute",
+    "introPPre": "PainMap is designed to help with common mechanical pain — the kind that responds to a few weeks of targeted exercise. If your symptoms don't fit that profile, or you have any of the red-flag symptoms listed on the ",
+    "introPLink": "medical disclaimer page",
+    "introPPost": ", please see a clinician first.",
+    "israelH2": "In Israel",
+    "israelP1": "Every Israeli resident is enrolled in one of the four health funds. Physical therapy is covered with a referral from your primary-care physician. Appointment-booking and PT-directory portals:",
+    "kupotClalit": "Clalit Health Services (כללית) ↗",
+    "kupotMaccabi": "Maccabi Healthcare Services (מכבי) ↗",
+    "kupotMeuhedet": "Meuhedet (מאוחדת) ↗",
+    "kupotLeumit": "Leumit (לאומית) ↗",
+    "israelP2Pre": "The Ministry of Health maintains the registry of licensed physiotherapists at ",
+    "israelP2Link": "health.gov.il",
+    "israelP2Post": ".",
+    "elsewhereH2": "Elsewhere",
+    "elsewhereP1Pre": "Search for a licensed physical therapist or physiotherapist through your country's professional regulator. In the US, the American Physical Therapy Association maintains a finder at ",
+    "elsewhereP1Link": "APTA Find a PT",
+    "elsewhereP1Post": ". In the UK, the Chartered Society of Physiotherapy runs Physio2u."
+  },
+  "evidence": {
+    "titlePrefix": "Every exercise,",
+    "titleSuffix": " every source.",
+    "sub": "Each primary exercise on PainMap is backed by peer-reviewed literature — RCTs, systematic reviews, or clinical guidelines. Below is the complete bibliography, grouped by body zone. Click an exercise name to open its full card.",
+    "loading": "Loading bibliography…"
+  }
+}

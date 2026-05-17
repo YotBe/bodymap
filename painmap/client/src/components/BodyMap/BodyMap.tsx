@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   FULL_VIEWBOX,
   MOBILE_ZONE_VIEWBOX,
@@ -69,6 +70,7 @@ export function BodyMap({
   onSubAreaSelect,
   onBack,
 }: Props) {
+  const { t } = useTranslation();
   const zoneViewboxMap = isMobile ? MOBILE_ZONE_VIEWBOX : ZONE_VIEWBOX;
   const [viewBox, setViewBox] = useState(
     selectedZone ? zoneViewboxMap[selectedZone] : FULL_VIEWBOX
@@ -116,7 +118,8 @@ export function BodyMap({
   }, [selectedZone, prefersReducedMotion, zoneViewboxMap]);
 
   const enabledZones = ZONES_BY_VIEW[view];
-  const tooltip = !selectedZone && hoverZone ? ZONE_LABELS[hoverZone] : null;
+  const zoneLabelFor = (z: ZoneId) => t(`zones.${z}`, { defaultValue: ZONE_LABELS[z] });
+  const tooltip = !selectedZone && hoverZone ? zoneLabelFor(hoverZone) : null;
 
   const ViewSvg = view === 'anterior' ? AnteriorView : PosteriorView;
 
@@ -128,18 +131,18 @@ export function BodyMap({
             type="button"
             className="breadcrumb"
             onClick={onBack}
-            aria-label="Back to full body"
+            aria-label={t('bodyMap.backToFullBodyAria')}
           >
             <span className="chev">‹</span>
             <span className="bc-text">
-              Body <span className="bc-sep">/</span> {ZONE_LABELS[selectedZone]}
+              {t('bodyMap.bodyLabel')} <span className="bc-sep">/</span> {zoneLabelFor(selectedZone)}
             </span>
           </button>
         ) : (
-          <div className="bodymap-label">Full Body</div>
+          <div className="bodymap-label">{t('bodyMap.fullBody')}</div>
         )}
 
-        <div className="view-toggle" role="tablist" aria-label="Body view">
+        <div className="view-toggle" role="tablist" aria-label={t('bodyMap.viewToggleAria')}>
           <button
             type="button"
             role="tab"
@@ -147,7 +150,7 @@ export function BodyMap({
             className={view === 'anterior' ? 'vt-btn active' : 'vt-btn'}
             onClick={() => onViewChange('anterior')}
           >
-            Anterior
+            {t('bodyMap.anterior')}
           </button>
           <button
             type="button"
@@ -156,7 +159,7 @@ export function BodyMap({
             className={view === 'posterior' ? 'vt-btn active' : 'vt-btn'}
             onClick={() => onViewChange('posterior')}
           >
-            Posterior
+            {t('bodyMap.posterior')}
           </button>
         </div>
       </div>
@@ -166,7 +169,7 @@ export function BodyMap({
           viewBox={viewBox}
           className="body-svg-outer"
           xmlns="http://www.w3.org/2000/svg"
-          aria-label={view === 'anterior' ? 'Anterior body map' : 'Posterior body map'}
+          aria-label={view === 'anterior' ? t('bodyMap.ariaAnterior') : t('bodyMap.ariaPosterior')}
         >
           <ViewSvg
             hitLayer={
@@ -202,9 +205,9 @@ export function BodyMap({
       </div>
 
       <div className="bodymap-footnote">
-        {!selectedZone && <span>Click a highlighted zone to drill in</span>}
-        {selectedZone && !selectedSubAreaId && <span>Select a specific sub-area</span>}
-        {selectedSubAreaId && <span>Showing exercise →</span>}
+        {!selectedZone && <span>{t('bodyMap.footnoteClickZone')}</span>}
+        {selectedZone && !selectedSubAreaId && <span>{t('bodyMap.footnoteSelectSubArea')}</span>}
+        {selectedSubAreaId && <span>{t('bodyMap.footnoteShowingExercise')}</span>}
       </div>
     </div>
   );
