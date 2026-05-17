@@ -49,106 +49,132 @@ export const ZONES_BY_VIEW: Record<BodyView, ZoneId[]> = {
   posterior: ['neck', 'shoulders', 'back', 'hands-wrists', 'hip-glutes', 'knees', 'foot-ankle'],
 };
 
+export type HotspotLabelKey =
+  | 'upperTrap'
+  | 'levator'
+  | 'cervical'
+  | 'deltoid'
+  | 'postDelt'
+  | 'rotCuff'
+  | 'bicepsTend'
+  | 'scapular'
+  | 'interscapular'
+  | 'midThoracic'
+  | 'lumbar'
+  | 'flexors'
+  | 'extensors'
+  | 'latElbow'
+  | 'medElbow'
+  | 'deQuervains'
+  | 'gluteMed'
+  | 'gluteMax'
+  | 'patella'
+  | 'hamstring'
+  | 'plantar'
+  | 'latAnkle'
+  | 'achilles';
+
 export interface SubAreaHotspot {
   subAreaId: string;
   x: number;
   y: number;
   label: string;
+  labelKey: HotspotLabelKey;
   showLabel: boolean;
 }
 
 export const SUB_AREA_HOTSPOTS: Record<BodyView, Partial<Record<ZoneId, SubAreaHotspot[]>>> = {
   anterior: {
     neck: [
-      { subAreaId: 'neck-upper-trapezius', x: 152, y: 168, label: 'Upper Trap', showLabel: true },
-      { subAreaId: 'neck-upper-trapezius', x: 248, y: 168, label: 'Upper Trap', showLabel: false },
-      { subAreaId: 'neck-levator-scapulae', x: 188, y: 145, label: 'Levator', showLabel: true },
-      { subAreaId: 'neck-cervical-paraspinals', x: 212, y: 145, label: 'Cervical', showLabel: true },
+      { subAreaId: 'neck-upper-trapezius', x: 152, y: 168, label: 'Upper Trap', labelKey: 'upperTrap', showLabel: true },
+      { subAreaId: 'neck-upper-trapezius', x: 248, y: 168, label: 'Upper Trap', labelKey: 'upperTrap', showLabel: false },
+      { subAreaId: 'neck-levator-scapulae', x: 188, y: 145, label: 'Levator', labelKey: 'levator', showLabel: true },
+      { subAreaId: 'neck-cervical-paraspinals', x: 212, y: 145, label: 'Cervical', labelKey: 'cervical', showLabel: true },
     ],
     shoulders: [
-      { subAreaId: 'shoulders-deltoid', x: 130, y: 200, label: 'Deltoid', showLabel: true },
-      { subAreaId: 'shoulders-deltoid', x: 270, y: 200, label: 'Deltoid', showLabel: false },
-      { subAreaId: 'shoulders-rotator-cuff', x: 150, y: 225, label: 'Rot. Cuff', showLabel: true },
-      { subAreaId: 'shoulders-rotator-cuff', x: 250, y: 225, label: 'Rot. Cuff', showLabel: false },
-      { subAreaId: 'shoulders-biceps-tendon', x: 124, y: 224, label: 'Biceps Tend.', showLabel: true },
-      { subAreaId: 'shoulders-biceps-tendon', x: 276, y: 224, label: 'Biceps Tend.', showLabel: false },
+      { subAreaId: 'shoulders-deltoid', x: 130, y: 200, label: 'Deltoid', labelKey: 'deltoid', showLabel: true },
+      { subAreaId: 'shoulders-deltoid', x: 270, y: 200, label: 'Deltoid', labelKey: 'deltoid', showLabel: false },
+      { subAreaId: 'shoulders-rotator-cuff', x: 150, y: 225, label: 'Rot. Cuff', labelKey: 'rotCuff', showLabel: true },
+      { subAreaId: 'shoulders-rotator-cuff', x: 250, y: 225, label: 'Rot. Cuff', labelKey: 'rotCuff', showLabel: false },
+      { subAreaId: 'shoulders-biceps-tendon', x: 124, y: 224, label: 'Biceps Tend.', labelKey: 'bicepsTend', showLabel: true },
+      { subAreaId: 'shoulders-biceps-tendon', x: 276, y: 224, label: 'Biceps Tend.', labelKey: 'bicepsTend', showLabel: false },
     ],
     'hands-wrists': [
-      { subAreaId: 'wrist-flexor', x: 96, y: 410, label: 'Flexors', showLabel: true },
-      { subAreaId: 'wrist-flexor', x: 304, y: 410, label: 'Flexors', showLabel: false },
-      { subAreaId: 'wrist-extensor', x: 96, y: 392, label: 'Extensors', showLabel: true },
-      { subAreaId: 'wrist-extensor', x: 304, y: 392, label: 'Extensors', showLabel: false },
-      { subAreaId: 'elbow-lateral', x: 84, y: 348, label: 'Lat. Elbow', showLabel: true },
-      { subAreaId: 'elbow-lateral', x: 316, y: 348, label: 'Lat. Elbow', showLabel: false },
-      { subAreaId: 'elbow-medial', x: 108, y: 360, label: 'Med. Elbow', showLabel: true },
-      { subAreaId: 'elbow-medial', x: 292, y: 360, label: 'Med. Elbow', showLabel: false },
-      { subAreaId: 'wrist-de-quervains', x: 80, y: 438, label: "De Quervain's", showLabel: true },
-      { subAreaId: 'wrist-de-quervains', x: 320, y: 438, label: "De Quervain's", showLabel: false },
+      { subAreaId: 'wrist-flexor', x: 96, y: 410, label: 'Flexors', labelKey: 'flexors', showLabel: true },
+      { subAreaId: 'wrist-flexor', x: 304, y: 410, label: 'Flexors', labelKey: 'flexors', showLabel: false },
+      { subAreaId: 'wrist-extensor', x: 96, y: 392, label: 'Extensors', labelKey: 'extensors', showLabel: true },
+      { subAreaId: 'wrist-extensor', x: 304, y: 392, label: 'Extensors', labelKey: 'extensors', showLabel: false },
+      { subAreaId: 'elbow-lateral', x: 84, y: 348, label: 'Lat. Elbow', labelKey: 'latElbow', showLabel: true },
+      { subAreaId: 'elbow-lateral', x: 316, y: 348, label: 'Lat. Elbow', labelKey: 'latElbow', showLabel: false },
+      { subAreaId: 'elbow-medial', x: 108, y: 360, label: 'Med. Elbow', labelKey: 'medElbow', showLabel: true },
+      { subAreaId: 'elbow-medial', x: 292, y: 360, label: 'Med. Elbow', labelKey: 'medElbow', showLabel: false },
+      { subAreaId: 'wrist-de-quervains', x: 80, y: 438, label: "De Quervain's", labelKey: 'deQuervains', showLabel: true },
+      { subAreaId: 'wrist-de-quervains', x: 320, y: 438, label: "De Quervain's", labelKey: 'deQuervains', showLabel: false },
     ],
     'hip-glutes': [
-      { subAreaId: 'hip-glutes-medius', x: 148, y: 410, label: 'Glute Med', showLabel: true },
-      { subAreaId: 'hip-glutes-medius', x: 252, y: 410, label: 'Glute Med', showLabel: false },
-      { subAreaId: 'hip-glutes-maximus', x: 178, y: 435, label: 'Glute Max', showLabel: true },
-      { subAreaId: 'hip-glutes-maximus', x: 222, y: 435, label: 'Glute Max', showLabel: false },
+      { subAreaId: 'hip-glutes-medius', x: 148, y: 410, label: 'Glute Med', labelKey: 'gluteMed', showLabel: true },
+      { subAreaId: 'hip-glutes-medius', x: 252, y: 410, label: 'Glute Med', labelKey: 'gluteMed', showLabel: false },
+      { subAreaId: 'hip-glutes-maximus', x: 178, y: 435, label: 'Glute Max', labelKey: 'gluteMax', showLabel: true },
+      { subAreaId: 'hip-glutes-maximus', x: 222, y: 435, label: 'Glute Max', labelKey: 'gluteMax', showLabel: false },
     ],
     knees: [
-      { subAreaId: 'knees-patellofemoral', x: 174, y: 480, label: 'Patella', showLabel: true },
-      { subAreaId: 'knees-patellofemoral', x: 226, y: 480, label: 'Patella', showLabel: false },
+      { subAreaId: 'knees-patellofemoral', x: 174, y: 480, label: 'Patella', labelKey: 'patella', showLabel: true },
+      { subAreaId: 'knees-patellofemoral', x: 226, y: 480, label: 'Patella', labelKey: 'patella', showLabel: false },
     ],
     'foot-ankle': [
-      { subAreaId: 'foot-ankle-plantar', x: 188, y: 565, label: 'Plantar', showLabel: true },
-      { subAreaId: 'foot-ankle-plantar', x: 212, y: 565, label: 'Plantar', showLabel: false },
-      { subAreaId: 'foot-ankle-lateral', x: 168, y: 545, label: 'Lat. Ankle', showLabel: true },
-      { subAreaId: 'foot-ankle-lateral', x: 232, y: 545, label: 'Lat. Ankle', showLabel: false },
+      { subAreaId: 'foot-ankle-plantar', x: 188, y: 565, label: 'Plantar', labelKey: 'plantar', showLabel: true },
+      { subAreaId: 'foot-ankle-plantar', x: 212, y: 565, label: 'Plantar', labelKey: 'plantar', showLabel: false },
+      { subAreaId: 'foot-ankle-lateral', x: 168, y: 545, label: 'Lat. Ankle', labelKey: 'latAnkle', showLabel: true },
+      { subAreaId: 'foot-ankle-lateral', x: 232, y: 545, label: 'Lat. Ankle', labelKey: 'latAnkle', showLabel: false },
     ],
   },
   posterior: {
     neck: [
-      { subAreaId: 'neck-cervical-paraspinals', x: 200, y: 135, label: 'Cervical', showLabel: true },
-      { subAreaId: 'neck-upper-trapezius', x: 178, y: 160, label: 'Upper Trap', showLabel: true },
-      { subAreaId: 'neck-upper-trapezius', x: 222, y: 160, label: 'Upper Trap', showLabel: false },
-      { subAreaId: 'neck-levator-scapulae', x: 188, y: 175, label: 'Levator', showLabel: true },
+      { subAreaId: 'neck-cervical-paraspinals', x: 200, y: 135, label: 'Cervical', labelKey: 'cervical', showLabel: true },
+      { subAreaId: 'neck-upper-trapezius', x: 178, y: 160, label: 'Upper Trap', labelKey: 'upperTrap', showLabel: true },
+      { subAreaId: 'neck-upper-trapezius', x: 222, y: 160, label: 'Upper Trap', labelKey: 'upperTrap', showLabel: false },
+      { subAreaId: 'neck-levator-scapulae', x: 188, y: 175, label: 'Levator', labelKey: 'levator', showLabel: true },
     ],
     shoulders: [
-      { subAreaId: 'shoulders-deltoid', x: 130, y: 200, label: 'Post. Delt', showLabel: true },
-      { subAreaId: 'shoulders-deltoid', x: 270, y: 200, label: 'Post. Delt', showLabel: false },
-      { subAreaId: 'shoulders-rotator-cuff', x: 158, y: 225, label: 'Rot. Cuff', showLabel: true },
-      { subAreaId: 'shoulders-rotator-cuff', x: 242, y: 225, label: 'Rot. Cuff', showLabel: false },
-      { subAreaId: 'shoulders-scapular-stabilizers', x: 200, y: 215, label: 'Scapular', showLabel: true },
+      { subAreaId: 'shoulders-deltoid', x: 130, y: 200, label: 'Post. Delt', labelKey: 'postDelt', showLabel: true },
+      { subAreaId: 'shoulders-deltoid', x: 270, y: 200, label: 'Post. Delt', labelKey: 'postDelt', showLabel: false },
+      { subAreaId: 'shoulders-rotator-cuff', x: 158, y: 225, label: 'Rot. Cuff', labelKey: 'rotCuff', showLabel: true },
+      { subAreaId: 'shoulders-rotator-cuff', x: 242, y: 225, label: 'Rot. Cuff', labelKey: 'rotCuff', showLabel: false },
+      { subAreaId: 'shoulders-scapular-stabilizers', x: 200, y: 215, label: 'Scapular', labelKey: 'scapular', showLabel: true },
     ],
     back: [
-      { subAreaId: 'back-interscapular', x: 200, y: 230, label: 'Interscapular', showLabel: true },
-      { subAreaId: 'back-mid-thoracic', x: 165, y: 295, label: 'Mid-Thoracic', showLabel: true },
-      { subAreaId: 'back-mid-thoracic', x: 235, y: 295, label: 'Mid-Thoracic', showLabel: false },
-      { subAreaId: 'back-lumbar', x: 200, y: 365, label: 'Lumbar', showLabel: true },
+      { subAreaId: 'back-interscapular', x: 200, y: 230, label: 'Interscapular', labelKey: 'interscapular', showLabel: true },
+      { subAreaId: 'back-mid-thoracic', x: 165, y: 295, label: 'Mid-Thoracic', labelKey: 'midThoracic', showLabel: true },
+      { subAreaId: 'back-mid-thoracic', x: 235, y: 295, label: 'Mid-Thoracic', labelKey: 'midThoracic', showLabel: false },
+      { subAreaId: 'back-lumbar', x: 200, y: 365, label: 'Lumbar', labelKey: 'lumbar', showLabel: true },
     ],
     'hands-wrists': [
-      { subAreaId: 'wrist-extensor', x: 96, y: 410, label: 'Extensors', showLabel: true },
-      { subAreaId: 'wrist-extensor', x: 304, y: 410, label: 'Extensors', showLabel: false },
-      { subAreaId: 'wrist-flexor', x: 96, y: 392, label: 'Flexors', showLabel: true },
-      { subAreaId: 'wrist-flexor', x: 304, y: 392, label: 'Flexors', showLabel: false },
-      { subAreaId: 'elbow-lateral', x: 84, y: 348, label: 'Lat. Elbow', showLabel: true },
-      { subAreaId: 'elbow-lateral', x: 316, y: 348, label: 'Lat. Elbow', showLabel: false },
-      { subAreaId: 'elbow-medial', x: 108, y: 360, label: 'Med. Elbow', showLabel: true },
-      { subAreaId: 'elbow-medial', x: 292, y: 360, label: 'Med. Elbow', showLabel: false },
-      { subAreaId: 'wrist-de-quervains', x: 80, y: 438, label: "De Quervain's", showLabel: true },
-      { subAreaId: 'wrist-de-quervains', x: 320, y: 438, label: "De Quervain's", showLabel: false },
+      { subAreaId: 'wrist-extensor', x: 96, y: 410, label: 'Extensors', labelKey: 'extensors', showLabel: true },
+      { subAreaId: 'wrist-extensor', x: 304, y: 410, label: 'Extensors', labelKey: 'extensors', showLabel: false },
+      { subAreaId: 'wrist-flexor', x: 96, y: 392, label: 'Flexors', labelKey: 'flexors', showLabel: true },
+      { subAreaId: 'wrist-flexor', x: 304, y: 392, label: 'Flexors', labelKey: 'flexors', showLabel: false },
+      { subAreaId: 'elbow-lateral', x: 84, y: 348, label: 'Lat. Elbow', labelKey: 'latElbow', showLabel: true },
+      { subAreaId: 'elbow-lateral', x: 316, y: 348, label: 'Lat. Elbow', labelKey: 'latElbow', showLabel: false },
+      { subAreaId: 'elbow-medial', x: 108, y: 360, label: 'Med. Elbow', labelKey: 'medElbow', showLabel: true },
+      { subAreaId: 'elbow-medial', x: 292, y: 360, label: 'Med. Elbow', labelKey: 'medElbow', showLabel: false },
+      { subAreaId: 'wrist-de-quervains', x: 80, y: 438, label: "De Quervain's", labelKey: 'deQuervains', showLabel: true },
+      { subAreaId: 'wrist-de-quervains', x: 320, y: 438, label: "De Quervain's", labelKey: 'deQuervains', showLabel: false },
     ],
     'hip-glutes': [
-      { subAreaId: 'hip-glutes-maximus', x: 178, y: 425, label: 'Glute Max', showLabel: true },
-      { subAreaId: 'hip-glutes-maximus', x: 222, y: 425, label: 'Glute Max', showLabel: false },
-      { subAreaId: 'hip-glutes-medius', x: 148, y: 408, label: 'Glute Med', showLabel: true },
-      { subAreaId: 'hip-glutes-medius', x: 252, y: 408, label: 'Glute Med', showLabel: false },
+      { subAreaId: 'hip-glutes-maximus', x: 178, y: 425, label: 'Glute Max', labelKey: 'gluteMax', showLabel: true },
+      { subAreaId: 'hip-glutes-maximus', x: 222, y: 425, label: 'Glute Max', labelKey: 'gluteMax', showLabel: false },
+      { subAreaId: 'hip-glutes-medius', x: 148, y: 408, label: 'Glute Med', labelKey: 'gluteMed', showLabel: true },
+      { subAreaId: 'hip-glutes-medius', x: 252, y: 408, label: 'Glute Med', labelKey: 'gluteMed', showLabel: false },
     ],
     knees: [
-      { subAreaId: 'knees-hamstring', x: 174, y: 475, label: 'Hamstring', showLabel: true },
-      { subAreaId: 'knees-hamstring', x: 226, y: 475, label: 'Hamstring', showLabel: false },
+      { subAreaId: 'knees-hamstring', x: 174, y: 475, label: 'Hamstring', labelKey: 'hamstring', showLabel: true },
+      { subAreaId: 'knees-hamstring', x: 226, y: 475, label: 'Hamstring', labelKey: 'hamstring', showLabel: false },
     ],
     'foot-ankle': [
-      { subAreaId: 'foot-ankle-achilles', x: 188, y: 548, label: 'Achilles', showLabel: true },
-      { subAreaId: 'foot-ankle-achilles', x: 212, y: 548, label: 'Achilles', showLabel: false },
-      { subAreaId: 'foot-ankle-lateral', x: 168, y: 545, label: 'Lat. Ankle', showLabel: true },
-      { subAreaId: 'foot-ankle-lateral', x: 232, y: 545, label: 'Lat. Ankle', showLabel: false },
+      { subAreaId: 'foot-ankle-achilles', x: 188, y: 548, label: 'Achilles', labelKey: 'achilles', showLabel: true },
+      { subAreaId: 'foot-ankle-achilles', x: 212, y: 548, label: 'Achilles', labelKey: 'achilles', showLabel: false },
+      { subAreaId: 'foot-ankle-lateral', x: 168, y: 545, label: 'Lat. Ankle', labelKey: 'latAnkle', showLabel: true },
+      { subAreaId: 'foot-ankle-lateral', x: 232, y: 545, label: 'Lat. Ankle', labelKey: 'latAnkle', showLabel: false },
     ],
   },
 };

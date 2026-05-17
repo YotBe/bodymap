@@ -1,9 +1,11 @@
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../types';
 import { EvidencePill } from './EvidencePill';
 import { BandChip } from './BandChip';
 import { VideoEmbed } from './VideoEmbed';
 import { PrescriptionBlock } from './PrescriptionBlock';
+import { ZONE_LABELS, type ZoneId } from './BodyMap/zones';
 
 interface Props {
   exercise: Exercise;
@@ -11,7 +13,13 @@ interface Props {
 
 export function ExerciseCard({ exercise }: Props) {
   const navigate = useNavigate();
-  const location = `${exercise.subArea.zoneName.toUpperCase()} / ${exercise.subArea.name.toUpperCase()}`;
+  const { t, i18n } = useTranslation();
+  const zoneId = exercise.subArea.zoneId as ZoneId;
+  const localizedZone = t(`zones.${zoneId}`, {
+    defaultValue: ZONE_LABELS[zoneId] ?? exercise.subArea.zoneName,
+  });
+  const location = `${localizedZone.toUpperCase()} / ${exercise.subArea.name.toUpperCase()}`;
+  const isHebrew = (i18n.language || 'en').startsWith('he');
 
   return (
     <article className="exercise-card" aria-labelledby="ex-name">
@@ -19,16 +27,22 @@ export function ExerciseCard({ exercise }: Props) {
         type="button"
         className="ex-back"
         onClick={() => navigate(-1)}
-        aria-label="Back to body map"
+        aria-label={t('exercise.backAria')}
       >
         <span aria-hidden="true">‹</span>
-        <span>Back</span>
+        <span>{t('exercise.back')}</span>
       </button>
 
       <div className="ex-location">{location}</div>
       <h2 className="ex-name" id="ex-name">
         {exercise.name}
       </h2>
+
+      {isHebrew && (
+        <div className="translation-pending" role="note">
+          {t('exercise.translationPending')}
+        </div>
+      )}
 
       <EvidencePill evidence={exercise.evidence} />
 
@@ -52,7 +66,7 @@ export function ExerciseCard({ exercise }: Props) {
       <BandChip band={exercise.band} />
 
       <section className="ex-section">
-        <h3 className="ex-h3">Instructions</h3>
+        <h3 className="ex-h3">{t('exercise.instructions')}</h3>
         <ol className="ex-steps">
           {exercise.instructions.map((step, i) => (
             <li key={i}>
@@ -65,7 +79,7 @@ export function ExerciseCard({ exercise }: Props) {
 
       <details className="ex-collapse">
         <summary>
-          <span>Target muscles</span>
+          <span>{t('exercise.targetMuscles')}</span>
           <span className="acc-chev" aria-hidden="true"></span>
         </summary>
         <div className="ex-collapse-body">
@@ -90,7 +104,7 @@ export function ExerciseCard({ exercise }: Props) {
               <path d="M8 7 L8 10" />
               <circle cx="8" cy="11.5" r="0.3" fill="currentColor" />
             </svg>
-            {' '}Common mistakes
+            {' '}{t('exercise.commonMistakes')}
           </span>
           <span className="acc-chev" aria-hidden="true"></span>
         </summary>
@@ -106,7 +120,7 @@ export function ExerciseCard({ exercise }: Props) {
       {exercise.beginnerModification && (
         <details className="ex-collapse">
           <summary>
-            <span>For beginners or in acute pain</span>
+            <span>{t('exercise.beginners')}</span>
             <span className="acc-chev" aria-hidden="true"></span>
           </summary>
           <div className="ex-collapse-body">{exercise.beginnerModification}</div>
@@ -114,13 +128,13 @@ export function ExerciseCard({ exercise }: Props) {
       )}
 
       <aside className="contraindications" role="note">
-        <div className="ci-label">Contraindications</div>
+        <div className="ci-label">{t('exercise.contraindications')}</div>
         <div className="ci-body">{exercise.contraindications.join(' · ')}</div>
       </aside>
 
       <details className="ex-collapse">
         <summary>
-          <span>Full citation</span>
+          <span>{t('exercise.fullCitation')}</span>
           <span className="acc-chev" aria-hidden="true"></span>
         </summary>
         <div className="ex-collapse-body">

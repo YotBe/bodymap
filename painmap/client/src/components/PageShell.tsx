@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Routes, Route, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { SafetyBanner } from './SafetyBanner';
 import { TopHeader } from './TopHeader';
 import { SiteFooter } from './SiteFooter';
@@ -91,6 +92,7 @@ export function PageShell() {
   const prefersReducedMotion = usePrefersReducedMotion();
   const isMobile = useIsMobile();
   const { data: zones } = useZones();
+  const { t } = useTranslation();
 
   const [view, setView] = useState<BodyView>('anterior');
   const [bannerVisible, setBannerVisible] = useState(true);
@@ -189,15 +191,12 @@ export function PageShell() {
 
       <main className="layout" data-route={routeKind}>
         <section className="pane pane-left">
-          <PaneEyebrow num="01" label="SELECT" />
+          <PaneEyebrow num={t('pane.selectNum')} label={t('pane.selectLabel')} />
           <h1 className="page-title">
-            <span className="pt-serif">Where</span>
-            <span className="pt-serif pt-italic"> does it hurt?</span>
+            <span className="pt-serif">{t('pageTitle.wherePrefix')}</span>
+            <span className="pt-serif pt-italic">{t('pageTitle.whereSuffix')}</span>
           </h1>
-          <p className="page-sub">
-            Click a highlighted area on the body. We&apos;ll surface the single resistance-band
-            exercise with the strongest evidence for that pain location.
-          </p>
+          <p className="page-sub">{t('pageSub')}</p>
 
           <BodyMap
             view={view}

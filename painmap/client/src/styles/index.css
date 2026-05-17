@@ -1263,3 +1263,152 @@ button { font-family: inherit; cursor: pointer; }
   details.ex-collapse > .ex-collapse-body { display: block; padding: 0; margin-bottom: 24px; }
   .ex-back { display: none; }
 }
+
+/* ============================================================
+   Language toggle (TopHeader)
+   ============================================================ */
+.lang-toggle {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-inline-start: 4px;
+}
+.lang-btn {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 6px 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ink-muted);
+  cursor: pointer;
+  min-width: 36px;
+  line-height: 1;
+}
+.lang-btn + .lang-btn { border-inline-start: 1px solid var(--rule); }
+.lang-btn:hover { color: var(--ink); }
+.lang-btn.active {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+/* Translation-pending notice on exercise card */
+.translation-pending {
+  margin: 0 0 14px;
+  padding: 8px 12px;
+  border: 1px dashed var(--rule);
+  background: var(--bg);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink-muted);
+  border-radius: 4px;
+}
+
+/* ============================================================
+   Hebrew typography: when html[lang="he"], use Heebo as the
+   primary sans-serif and serif fallback for headings (Fraunces
+   ships no Hebrew). The mono font is left alone — JetBrains
+   has acceptable Hebrew rendering, and our SVG hotspots flip
+   their font-family inline based on language.
+   ============================================================ */
+html[lang="he"] {
+  --sans: 'Heebo', 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Heebo', 'Fraunces', Georgia, serif;
+}
+html[lang="he"] .pt-italic {
+  font-style: normal;
+  font-weight: 500;
+}
+
+/* ============================================================
+   RTL overrides — mirror direction-sensitive UI
+   ============================================================ */
+[dir="rtl"] .chev,
+[dir="rtl"] .bc-sep,
+[dir="rtl"] .es-zone-chev,
+[dir="rtl"] .zp-item-arrow,
+[dir="rtl"] .ex-back > span:first-child,
+[dir="rtl"] .sf-link,
+[dir="rtl"] .sf-inline {
+  /* leave content alone — Hebrew arrows are typed-in already */
+}
+
+[dir="rtl"] .safety-banner {
+  text-align: right;
+}
+[dir="rtl"] .sb-dismiss {
+  right: auto;
+  left: 8px;
+}
+
+[dir="rtl"] .top-header {
+  flex-direction: row-reverse;
+}
+[dir="rtl"] .top-nav {
+  flex-direction: row-reverse;
+}
+[dir="rtl"] .brand {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .layout {
+  direction: rtl;
+}
+[dir="rtl"] .pane,
+[dir="rtl"] .ex-name,
+[dir="rtl"] .ex-why,
+[dir="rtl"] .ex-h3,
+[dir="rtl"] .es-headline,
+[dir="rtl"] .es-sub,
+[dir="rtl"] .zp-headline,
+[dir="rtl"] .zp-sub,
+[dir="rtl"] .page-title,
+[dir="rtl"] .page-sub {
+  text-align: right;
+}
+
+[dir="rtl"] .es-zone-row,
+[dir="rtl"] .zp-item {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .ex-steps {
+  padding-right: 0;
+  padding-left: 0;
+}
+[dir="rtl"] .ex-bullets {
+  padding-right: 18px;
+  padding-left: 0;
+}
+
+[dir="rtl"] .prescription {
+  direction: rtl;
+}
+
+[dir="rtl"] .breadcrumb .chev {
+  transform: scaleX(-1);
+  display: inline-block;
+}
+[dir="rtl"] .ex-back > span:first-child {
+  transform: scaleX(-1);
+  display: inline-block;
+}
+
+[dir="rtl"] .site-footer {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Mobile RTL */
+@media (max-width: 768px) {
+  [dir="rtl"] .safety-banner {
+    padding: 10px 16px 10px 36px;
+  }
+  [dir="rtl"] .video-embed {
+    margin: 0 -16px 20px;
+  }
+}

@@ -1,42 +1,42 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export function SiteFooter() {
+  const { t } = useTranslation();
   return (
     <footer className="site-footer">
       <div className="sf-col">
-        <div className="sf-label">PainMap</div>
-        <div className="sf-text">
-          An educational triage tool. Not a substitute for clinical care.
-        </div>
+        <div className="sf-label">{t('footer.painmapLabel')}</div>
+        <div className="sf-text">{t('footer.painmapText')}</div>
       </div>
       <div className="sf-col">
-        <div className="sf-label">About</div>
+        <div className="sf-label">{t('footer.aboutLabel')}</div>
         <Link className="sf-link" to="/about">
-          Why PainMap exists →
+          {t('footer.aboutLink')}
         </Link>
         <Link className="sf-link" to="/clinician-finder">
-          Find a clinician →
+          {t('footer.clinicianLink')}
         </Link>
       </div>
       <div className="sf-col">
-        <div className="sf-label">Evidence</div>
+        <div className="sf-label">{t('footer.evidenceLabel')}</div>
         <div className="sf-text">
-          Every exercise cites a peer-reviewed source.{' '}
+          {t('footer.evidenceText')}{' '}
           <Link to="/evidence" className="sf-inline">
-            Full bibliography →
+            {t('footer.evidenceFull')}
           </Link>
         </div>
       </div>
       <div className="sf-col">
-        <div className="sf-label">Legal</div>
+        <div className="sf-label">{t('footer.legalLabel')}</div>
         <Link className="sf-link" to="/legal">
-          Medical disclaimer →
+          {t('footer.disclaimerLink')}
         </Link>
         <Link className="sf-link" to="/legal#privacy">
-          Privacy →
+          {t('footer.privacyLink')}
         </Link>
         <Link className="sf-link" to="/legal#terms">
-          Terms of use →
+          {t('footer.termsLink')}
         </Link>
       </div>
     </footer>

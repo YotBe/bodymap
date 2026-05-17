@@ -1,0 +1,152 @@
+{
+  "brand": {
+    "name": "PainMap",
+    "tagline": "V2 · גוף מלא",
+    "homeAria": "PainMap דף הבית"
+  },
+  "nav": {
+    "evidence": "מחקר",
+    "about": "אודות",
+    "findClinician": "מצא קלינאי ↗",
+    "primary": "ראשי"
+  },
+  "lang": {
+    "toggleAria": "שפה",
+    "en": "EN",
+    "he": "עברית"
+  },
+  "safetyBanner": {
+    "text": "PainMap הוא כלי חינוכי בלבד, ולא אבחנה רפואית. אם הסימפטומים נמשכים, יש לפנות לקלינאי.",
+    "dismiss": "סגור הודעה"
+  },
+  "pane": {
+    "selectNum": "01",
+    "selectLabel": "בחר/י",
+    "awaitingNum": "02",
+    "awaitingSelectionLabel": "ממתין/ה לבחירה",
+    "awaitingSubAreaLabel": "ממתין/ה לתת-אזור"
+  },
+  "pageTitle": {
+    "wherePrefix": "איפה",
+    "whereSuffix": " כואב?"
+  },
+  "pageSub": "לחצ/י על אזור מודגש בגוף. נציג את תרגיל הגומיה היחיד עם הראיות החזקות ביותר עבור מיקום הכאב הזה.",
+  "emptyState": {
+    "headline": "לחצ/י איפה שכואב.",
+    "sub": "בחר/י אזור במפת הגוף כדי לקבל תרגיל גומיה יחיד מבוסס-ראיות.",
+    "orPickZone": "או בחר/י אזור",
+    "loading": "טוען אזורים…",
+    "loadError": "לא ניתן לטעון נתוני אזורים. נא לרענן.",
+    "footer": "V2 — גוף מלא"
+  },
+  "zonePrompt": {
+    "eyebrow": "פלג גוף עליון",
+    "loading": "טוען…",
+    "notFoundHeadline": "אזור לא נמצא.",
+    "notFoundSub": "אזור זה אינו בקטלוג עדיין.",
+    "selectHeadline": "בחר/י תת-אזור ספציפי.",
+    "selectSubPrefix": "מפת הגוף התקרבה אל ה",
+    "selectSubSuffix": ". לחצ/י על נקודה ממוספרת בתרשים, או בחר/י מהרשימה למטה."
+  },
+  "bodyMap": {
+    "fullBody": "גוף מלא",
+    "anterior": "קדמי",
+    "posterior": "אחורי",
+    "viewToggleAria": "תצוגת גוף",
+    "backToFullBodyAria": "חזרה לגוף מלא",
+    "bodyLabel": "גוף",
+    "footnoteClickZone": "לחצ/י על אזור מודגש כדי להיכנס",
+    "footnoteSelectSubArea": "בחר/י תת-אזור ספציפי",
+    "footnoteShowingExercise": "← מציג תרגיל",
+    "ariaAnterior": "מפת גוף קדמית",
+    "ariaPosterior": "מפת גוף אחורית",
+    "selectAria": "בחר/י {{label}}"
+  },
+  "exercise": {
+    "back": "חזרה",
+    "backAria": "חזרה למפת הגוף",
+    "instructions": "הוראות",
+    "targetMuscles": "שרירי מטרה",
+    "commonMistakes": "טעויות נפוצות",
+    "beginners": "למתחילים או בזמן כאב חריף",
+    "contraindications": "התוויות נגד",
+    "fullCitation": "ציטוט מלא",
+    "translationPending": "תוכן התרגיל המלא יתורגם בקרוב."
+  },
+  "prescription": {
+    "setsReps": "סטים × חזרות",
+    "tempo": "קצב",
+    "tempoFoot": "אקסצנטרי-השהיה-קונצנטרי (שניות)",
+    "tempoStatic": "החזקה סטטית",
+    "frequency": "תדירות"
+  },
+  "band": {
+    "theraband": "TheraBand"
+  },
+  "video": {
+    "load": "טען הדגמת וידאו",
+    "unavailable": "הוידאו אינו זמין",
+    "sub": "YouTube · נטען בלחיצה",
+    "openExternal": "פתח ב-YouTube ↗",
+    "loadAria": "טען הדגמת וידאו",
+    "title": "הדגמת וידאו של {{name}}"
+  },
+  "notFound": {
+    "headline": "הדף לא נמצא.",
+    "sub": "הכתובת שעקבת אחריה אינה תואמת לדבר ב-PainMap. מפת הגוף היא המקום הטוב ביותר להתחיל ממנו.",
+    "returnHome": "חזרה לדף הבית"
+  },
+  "errorBoundary": {
+    "headline": "משהו השתבש.",
+    "sub": "PainMap נתקל בשגיאה לא צפויה. רענן/י את הדף או חזור/י למפת הגוף כדי להמשיך.",
+    "reset": "חזרה לדף הבית"
+  },
+  "footer": {
+    "painmapLabel": "PainMap",
+    "painmapText": "כלי חינוכי לסיווג כאב. אינו תחליף לטיפול קליני.",
+    "aboutLabel": "אודות",
+    "aboutLink": "למה PainMap קיים →",
+    "clinicianLink": "מצא קלינאי →",
+    "evidenceLabel": "מחקר",
+    "evidenceText": "כל תרגיל מצטט מקור עם ביקורת עמיתים.",
+    "evidenceFull": "ביבליוגרפיה מלאה →",
+    "legalLabel": "משפטי",
+    "disclaimerLink": "הצהרה רפואית →",
+    "privacyLink": "פרטיות →",
+    "termsLink": "תנאי שימוש →"
+  },
+  "zones": {
+    "neck": "צוואר",
+    "shoulders": "כתפיים",
+    "back": "גב",
+    "hands-wrists": "ידיים ושורש כף יד",
+    "hip-glutes": "ירך ועכוז",
+    "knees": "ברכיים",
+    "foot-ankle": "כף רגל וקרסול"
+  },
+  "hotspots": {
+    "upperTrap": "טרפז עליון",
+    "levator": "מרים השכמה",
+    "cervical": "צווארי",
+    "deltoid": "דלתא",
+    "postDelt": "דלתא אחורית",
+    "rotCuff": "שרוול מסובב",
+    "bicepsTend": "גיד בייספס",
+    "scapular": "מייצבי שכמה",
+    "interscapular": "בין-שכמתי",
+    "midThoracic": "גב חזי",
+    "lumbar": "מותני",
+    "flexors": "כופפים",
+    "extensors": "פושטים",
+    "latElbow": "מרפק רוחבי",
+    "medElbow": "מרפק פנימי",
+    "deQuervains": "דה קרבן",
+    "gluteMed": "עכוז אמצעי",
+    "gluteMax": "עכוז גדול",
+    "patella": "פיקת ברך",
+    "hamstring": "הסטרינג",
+    "plantar": "כף רגל",
+    "latAnkle": "קרסול רוחבי",
+    "achilles": "אכילס"
+  }
+}

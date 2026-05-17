@@ -1,4 +1,6 @@
+import { useTranslation } from 'react-i18next';
 import { SUB_AREA_HOTSPOTS, type BodyView, type ZoneId } from './zones';
+import { isRtlLanguage } from '../../i18n';
 
 interface Props {
   view: BodyView;
@@ -17,13 +19,15 @@ export function SubAreaHotspots({
   viewBoxScale,
   onSelect,
 }: Props) {
+  const { t, i18n } = useTranslation();
+  const isRtl = isRtlLanguage(i18n.language || 'en');
   const spots = SUB_AREA_HOTSPOTS[view][zoneId];
   if (!spots) return null;
 
   const ringR = 9 * viewBoxScale;
   const dotR = 3.5 * viewBoxScale;
   const fontSize = 11 * viewBoxScale;
-  const labelOffsetX = 11 * viewBoxScale;
+  const labelOffsetX = (isRtl ? -11 : 11) * viewBoxScale;
   const labelOffsetY = 3 * viewBoxScale;
   const strokeW = Math.max(0.5, 1 * viewBoxScale);
 
@@ -31,6 +35,8 @@ export function SubAreaHotspots({
     <>
       {spots.map((s, i) => {
         const isSelected = selectedSubAreaId === s.subAreaId;
+        const localized = t(`hotspots.${s.labelKey}`, { defaultValue: s.label });
+        const isHebrew = (i18n.language || 'en').startsWith('he');
         return (
           <g
             key={`${s.subAreaId}-${i}`}
@@ -44,7 +50,7 @@ export function SubAreaHotspots({
             onClick={() => onSelect(s.subAreaId)}
             role="button"
             tabIndex={0}
-            aria-label={`Select ${s.label}`}
+            aria-label={t('bodyMap.selectAria', { label: localized })}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -68,10 +74,11 @@ export function SubAreaHotspots({
                 y={labelOffsetY}
                 fontSize={fontSize}
                 fill="var(--ink)"
-                fontFamily="'JetBrains Mono', monospace"
-                letterSpacing="0.05em"
+                fontFamily={isHebrew ? "'Heebo', sans-serif" : "'JetBrains Mono', monospace"}
+                letterSpacing={isHebrew ? '0' : '0.05em'}
+                textAnchor={isRtl ? 'end' : 'start'}
               >
-                {s.label.toUpperCase()}
+                {isHebrew ? localized : localized.toUpperCase()}
               </text>
             )}
           </g>

@@ -1,18 +1,19 @@
+import { useTranslation } from 'react-i18next';
+
 interface Props {
   onDismiss: () => void;
 }
 
 export function SafetyBanner({ onDismiss }: Props) {
+  const { t } = useTranslation();
   return (
     <div className="safety-banner">
-      <span className="sb-text">
-        PainMap is an educational tool, not a medical diagnosis. If symptoms persist, see a clinician.
-      </span>
+      <span className="sb-text">{t('safetyBanner.text')}</span>
       <button
         type="button"
         className="sb-dismiss"
         onClick={onDismiss}
-        aria-label="Dismiss banner"
+        aria-label={t('safetyBanner.dismiss')}
       >
         ×
       </button>

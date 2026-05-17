@@ -1,0 +1,152 @@
+{
+  "brand": {
+    "name": "PainMap",
+    "tagline": "V2 · FULL BODY",
+    "homeAria": "PainMap home"
+  },
+  "nav": {
+    "evidence": "Evidence",
+    "about": "About",
+    "findClinician": "Find a clinician ↗",
+    "primary": "Primary"
+  },
+  "lang": {
+    "toggleAria": "Language",
+    "en": "EN",
+    "he": "עברית"
+  },
+  "safetyBanner": {
+    "text": "PainMap is an educational tool, not a medical diagnosis. If symptoms persist, see a clinician.",
+    "dismiss": "Dismiss banner"
+  },
+  "pane": {
+    "selectNum": "01",
+    "selectLabel": "SELECT",
+    "awaitingNum": "02",
+    "awaitingSelectionLabel": "AWAITING SELECTION",
+    "awaitingSubAreaLabel": "AWAITING SUB-AREA"
+  },
+  "pageTitle": {
+    "wherePrefix": "Where",
+    "whereSuffix": " does it hurt?"
+  },
+  "pageSub": "Click a highlighted area on the body. We'll surface the single resistance-band exercise with the strongest evidence for that pain location.",
+  "emptyState": {
+    "headline": "Click where it hurts.",
+    "sub": "Select a region on the body map to receive a single evidence-backed resistance-band exercise.",
+    "orPickZone": "Or pick a zone",
+    "loading": "Loading zones…",
+    "loadError": "Couldn't load zone data. Please refresh.",
+    "footer": "V2 — FULL BODY"
+  },
+  "zonePrompt": {
+    "eyebrow": "UPPER BODY",
+    "loading": "Loading…",
+    "notFoundHeadline": "Zone not found.",
+    "notFoundSub": "That body region isn't in the catalog yet.",
+    "selectHeadline": "Select a specific sub-area.",
+    "selectSubPrefix": "The body map has zoomed in on the ",
+    "selectSubSuffix": ". Click a numbered hotspot on the diagram, or pick from the list below."
+  },
+  "bodyMap": {
+    "fullBody": "Full Body",
+    "anterior": "Anterior",
+    "posterior": "Posterior",
+    "viewToggleAria": "Body view",
+    "backToFullBodyAria": "Back to full body",
+    "bodyLabel": "Body",
+    "footnoteClickZone": "Click a highlighted zone to drill in",
+    "footnoteSelectSubArea": "Select a specific sub-area",
+    "footnoteShowingExercise": "Showing exercise →",
+    "ariaAnterior": "Anterior body map",
+    "ariaPosterior": "Posterior body map",
+    "selectAria": "Select {{label}}"
+  },
+  "exercise": {
+    "back": "Back",
+    "backAria": "Back to body map",
+    "instructions": "Instructions",
+    "targetMuscles": "Target muscles",
+    "commonMistakes": "Common mistakes",
+    "beginners": "For beginners or in acute pain",
+    "contraindications": "Contraindications",
+    "fullCitation": "Full citation",
+    "translationPending": "Hebrew translation coming soon."
+  },
+  "prescription": {
+    "setsReps": "Sets × Reps",
+    "tempo": "Tempo",
+    "tempoFoot": "eccentric-pause-concentric (s)",
+    "tempoStatic": "Static hold",
+    "frequency": "Frequency"
+  },
+  "band": {
+    "theraband": "TheraBand"
+  },
+  "video": {
+    "load": "Load video demonstration",
+    "unavailable": "Video unavailable",
+    "sub": "YouTube · loads on click",
+    "openExternal": "Open in YouTube ↗",
+    "loadAria": "Load video demonstration",
+    "title": "{{name}} video demonstration"
+  },
+  "notFound": {
+    "headline": "Page not found.",
+    "sub": "The URL you followed doesn't match anything on PainMap. The body map is the best place to start.",
+    "returnHome": "Return home"
+  },
+  "errorBoundary": {
+    "headline": "Something went wrong.",
+    "sub": "PainMap hit an unexpected error. Refresh the page or return to the body map to continue.",
+    "reset": "Return home"
+  },
+  "footer": {
+    "painmapLabel": "PainMap",
+    "painmapText": "An educational triage tool. Not a substitute for clinical care.",
+    "aboutLabel": "About",
+    "aboutLink": "Why PainMap exists →",
+    "clinicianLink": "Find a clinician →",
+    "evidenceLabel": "Evidence",
+    "evidenceText": "Every exercise cites a peer-reviewed source.",
+    "evidenceFull": "Full bibliography →",
+    "legalLabel": "Legal",
+    "disclaimerLink": "Medical disclaimer →",
+    "privacyLink": "Privacy →",
+    "termsLink": "Terms of use →"
+  },
+  "zones": {
+    "neck": "Neck",
+    "shoulders": "Shoulders",
+    "back": "Back",
+    "hands-wrists": "Hands & Wrists",
+    "hip-glutes": "Hip & Glutes",
+    "knees": "Knees",
+    "foot-ankle": "Foot & Ankle"
+  },
+  "hotspots": {
+    "upperTrap": "Upper Trap",
+    "levator": "Levator",
+    "cervical": "Cervical",
+    "deltoid": "Deltoid",
+    "postDelt": "Post. Delt",
+    "rotCuff": "Rot. Cuff",
+    "bicepsTend": "Biceps Tend.",
+    "scapular": "Scapular",
+    "interscapular": "Interscapular",
+    "midThoracic": "Mid-Thoracic",
+    "lumbar": "Lumbar",
+    "flexors": "Flexors",
+    "extensors": "Extensors",
+    "latElbow": "Lat. Elbow",
+    "medElbow": "Med. Elbow",
+    "deQuervains": "De Quervain's",
+    "gluteMed": "Glute Med",
+    "gluteMax": "Glute Max",
+    "patella": "Patella",
+    "hamstring": "Hamstring",
+    "plantar": "Plantar",
+    "latAnkle": "Lat. Ankle",
+    "achilles": "Achilles"
+  }
+}

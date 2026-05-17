@@ -1,24 +1,24 @@
+import { useTranslation } from 'react-i18next';
 import { useZones } from '../api/exercises';
-import type { ZoneId } from './BodyMap/zones';
+import { ZONE_LABELS, type ZoneId } from './BodyMap/zones';
 
 interface Props {
   onPickZone: (zoneId: ZoneId) => void;
 }
 
 export function EmptyState({ onPickZone }: Props) {
+  const { t } = useTranslation();
   const { data: zones, isLoading, isError } = useZones();
 
   return (
     <div className="empty-state">
-      <h2 className="es-headline">Click where it hurts.</h2>
-      <p className="es-sub">
-        Select a region on the body map to receive a single evidence-backed resistance-band exercise.
-      </p>
+      <h2 className="es-headline">{t('emptyState.headline')}</h2>
+      <p className="es-sub">{t('emptyState.sub')}</p>
 
       <div className="es-list">
-        <div className="es-list-label">Or pick a zone</div>
-        {isLoading && <div className="es-zone-subs">Loading zones…</div>}
-        {isError && <div className="es-zone-subs">Couldn't load zone data. Please refresh.</div>}
+        <div className="es-list-label">{t('emptyState.orPickZone')}</div>
+        {isLoading && <div className="es-zone-subs">{t('emptyState.loading')}</div>}
+        {isError && <div className="es-zone-subs">{t('emptyState.loadError')}</div>}
         {zones?.map((z) => (
           <button
             key={z.id}
@@ -27,7 +27,9 @@ export function EmptyState({ onPickZone }: Props) {
             onClick={() => onPickZone(z.id as ZoneId)}
           >
             <div className="es-zone-row">
-              <div className="es-zone-name">{z.name}</div>
+              <div className="es-zone-name">
+                {t(`zones.${z.id}`, { defaultValue: ZONE_LABELS[z.id as ZoneId] ?? z.name })}
+              </div>
               <div className="es-zone-chev">→</div>
             </div>
             <div className="es-zone-subs">
@@ -38,7 +40,7 @@ export function EmptyState({ onPickZone }: Props) {
       </div>
 
       <div className="es-footer">
-        <span className="es-footer-mono">V2 — FULL BODY</span>
+        <span className="es-footer-mono">{t('emptyState.footer')}</span>
       </div>
     </div>
   );
