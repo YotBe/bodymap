@@ -8,6 +8,10 @@ import { PaneEyebrow } from './PaneEyebrow';
 import { HomePage } from '../routes/HomePage';
 import { ZonePage } from '../routes/ZonePage';
 import { ExercisePage } from '../routes/ExercisePage';
+import { AboutPage } from '../routes/AboutPage';
+import { LegalPage } from '../routes/LegalPage';
+import { EvidencePage } from '../routes/EvidencePage';
+import { ClinicianPage } from '../routes/ClinicianPage';
 import { NotFoundPage } from './NotFoundPage';
 import { useZones } from '../api/exercises';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
@@ -165,7 +169,14 @@ export function PageShell() {
   // auto-flip effect above will switch the view momentarily.
   const isZoneInView = selectedZone ? enabledZonesForView.includes(selectedZone) : true;
 
-  const routeKind: 'home' | 'zone' | 'exercise' = location.pathname.startsWith('/exercise')
+  const isStaticPage =
+    location.pathname === '/about' ||
+    location.pathname === '/legal' ||
+    location.pathname === '/evidence' ||
+    location.pathname === '/clinician-finder';
+  const routeKind: 'home' | 'zone' | 'exercise' | 'page' = isStaticPage
+    ? 'page'
+    : location.pathname.startsWith('/exercise')
     ? 'exercise'
     : location.pathname.startsWith('/zone')
       ? 'zone'
@@ -246,6 +257,10 @@ export function PageShell() {
                   </>
                 }
               />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/legal" element={<LegalPage />} />
+              <Route path="/evidence" element={<EvidencePage />} />
+              <Route path="/clinician-finder" element={<ClinicianPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </div>

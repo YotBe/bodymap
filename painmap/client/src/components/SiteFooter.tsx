@@ -1,6 +1,8 @@
+import { Link } from 'react-router-dom';
+
 export function SiteFooter() {
   return (
-    <footer className="site-footer" id="about">
+    <footer className="site-footer">
       <div className="sf-col">
         <div className="sf-label">PainMap</div>
         <div className="sf-text">
@@ -8,19 +10,34 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="sf-col">
-        <div className="sf-label">Safety</div>
-        <a className="sf-link" href="#clinician">
-          Find a clinician near you →
-        </a>
+        <div className="sf-label">About</div>
+        <Link className="sf-link" to="/about">
+          Why PainMap exists →
+        </Link>
+        <Link className="sf-link" to="/clinician-finder">
+          Find a clinician →
+        </Link>
       </div>
-      <div className="sf-col" id="evidence">
+      <div className="sf-col">
         <div className="sf-label">Evidence</div>
         <div className="sf-text">
           Every exercise cites a peer-reviewed source.{' '}
-          <a href="#bibliography" className="sf-inline">
+          <Link to="/evidence" className="sf-inline">
             Full bibliography →
-          </a>
+          </Link>
         </div>
+      </div>
+      <div className="sf-col">
+        <div className="sf-label">Legal</div>
+        <Link className="sf-link" to="/legal">
+          Medical disclaimer →
+        </Link>
+        <Link className="sf-link" to="/legal#privacy">
+          Privacy →
+        </Link>
+        <Link className="sf-link" to="/legal#terms">
+          Terms of use →
+        </Link>
       </div>
     </footer>
   );
