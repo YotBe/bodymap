@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useEvidenceList } from '../api/exercises';
 import { PaneEyebrow } from '../components/PaneEyebrow';
+import { ZONE_LABELS, type ZoneId } from '../components/BodyMap/zones';
 
 export function EvidencePage() {
+  const { t } = useTranslation();
   const { data, isLoading } = useEvidenceList();
 
   const grouped = (() => {
@@ -18,22 +21,20 @@ export function EvidencePage() {
 
   return (
     <article className="long-form">
-      <PaneEyebrow num="·" label="EVIDENCE" />
+      <PaneEyebrow num="·" label={t('pane.evidenceLabel')} />
       <h1 className="page-title">
-        <span className="pt-serif">Every exercise,</span>
-        <span className="pt-serif pt-italic"> every source.</span>
+        <span className="pt-serif">{t('evidence.titlePrefix')}</span>
+        <span className="pt-serif pt-italic">{t('evidence.titleSuffix')}</span>
       </h1>
-      <p className="page-sub">
-        Each primary exercise on PainMap is backed by peer-reviewed literature — RCTs,
-        systematic reviews, or clinical guidelines. Below is the complete bibliography,
-        grouped by body zone. Click an exercise name to open its full card.
-      </p>
+      <p className="page-sub">{t('evidence.sub')}</p>
 
-      {isLoading && <div className="lf-p">Loading bibliography…</div>}
+      {isLoading && <div className="lf-p">{t('evidence.loading')}</div>}
 
       {grouped.map(([zoneId, { zoneName, entries }]) => (
         <section key={zoneId} className="lf-section">
-          <h2 className="lf-h2">{zoneName}</h2>
+          <h2 className="lf-h2">
+            {t(`zones.${zoneId}`, { defaultValue: ZONE_LABELS[zoneId as ZoneId] ?? zoneName })}
+          </h2>
           <ul className="evidence-list">
             {entries.map((e) => (
               <li key={e.exerciseId} className="evidence-item">

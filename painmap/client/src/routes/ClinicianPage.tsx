@@ -1,85 +1,79 @@
+import { useTranslation } from 'react-i18next';
 import { PaneEyebrow } from '../components/PaneEyebrow';
 
 export function ClinicianPage() {
+  const { t } = useTranslation();
   return (
     <article className="long-form">
-      <PaneEyebrow num="·" label="FIND A CLINICIAN" />
+      <PaneEyebrow num="·" label={t('pane.clinicianLabel')} />
       <h1 className="page-title">
-        <span className="pt-serif">When to see</span>
-        <span className="pt-serif pt-italic"> a real clinician.</span>
+        <span className="pt-serif">{t('clinician.titlePrefix')}</span>
+        <span className="pt-serif pt-italic">{t('clinician.titleSuffix')}</span>
       </h1>
 
       <section className="lf-section">
-        <h2 className="lf-h2">PainMap is not a substitute</h2>
+        <h2 className="lf-h2">{t('clinician.introH2')}</h2>
         <p className="lf-p">
-          PainMap is designed to help with common mechanical pain — the kind that responds
-          to a few weeks of targeted exercise. If your symptoms don't fit that profile, or
-          you have any of the red-flag symptoms listed on the{' '}
+          {t('clinician.introPPre')}
           <a className="lf-inline" href="/legal#disclaimer">
-            medical disclaimer page
+            {t('clinician.introPLink')}
           </a>
-          , please see a clinician first.
+          {t('clinician.introPPost')}
         </p>
       </section>
 
       <section className="lf-section">
-        <h2 className="lf-h2">In Israel</h2>
-        <p className="lf-p">
-          Every Israeli resident is enrolled in one of the four health funds. Physical
-          therapy is covered with a referral from your primary-care physician.
-          Appointment-booking and PT-directory portals:
-        </p>
+        <h2 className="lf-h2">{t('clinician.israelH2')}</h2>
+        <p className="lf-p">{t('clinician.israelP1')}</p>
         <ul className="lf-list lf-list-links">
           <li>
             <a href="https://www.clalit.co.il/" target="_blank" rel="noopener noreferrer">
-              Clalit Health Services (כללית) ↗
+              {t('clinician.kupotClalit')}
             </a>
           </li>
           <li>
             <a href="https://www.maccabi4u.co.il/" target="_blank" rel="noopener noreferrer">
-              Maccabi Healthcare Services (מכבי) ↗
+              {t('clinician.kupotMaccabi')}
             </a>
           </li>
           <li>
             <a href="https://www.meuhedet.co.il/" target="_blank" rel="noopener noreferrer">
-              Meuhedet (מאוחדת) ↗
+              {t('clinician.kupotMeuhedet')}
             </a>
           </li>
           <li>
             <a href="https://www.leumit.co.il/" target="_blank" rel="noopener noreferrer">
-              Leumit (לאומית) ↗
+              {t('clinician.kupotLeumit')}
             </a>
           </li>
         </ul>
         <p className="lf-p">
-          The Ministry of Health maintains the registry of licensed physiotherapists at{' '}
+          {t('clinician.israelP2Pre')}
           <a
             className="lf-inline"
             href="https://www.health.gov.il/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            health.gov.il
+            {t('clinician.israelP2Link')}
           </a>
-          .
+          {t('clinician.israelP2Post')}
         </p>
       </section>
 
       <section className="lf-section">
-        <h2 className="lf-h2">Elsewhere</h2>
+        <h2 className="lf-h2">{t('clinician.elsewhereH2')}</h2>
         <p className="lf-p">
-          Search for a licensed physical therapist or physiotherapist through your
-          country's professional regulator. In the US, the American Physical Therapy
-          Association maintains a finder at{' '}
+          {t('clinician.elsewhereP1Pre')}
           <a
             className="lf-inline"
             href="https://aptaapps.apta.org/APTAPTDirectory/FindAPTDirectory.aspx"
             target="_blank"
             rel="noopener noreferrer"
           >
-            APTA Find a PT
+            {t('clinician.elsewhereP1Link')}
           </a>
-          . In the UK, the Chartered Society of Physiotherapy runs Physio2u.
+          {t('clinician.elsewhereP1Post')}
         </p>
       </section>
     </article>

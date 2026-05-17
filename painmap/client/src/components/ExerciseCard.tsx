@@ -6,6 +6,7 @@ import { BandChip } from './BandChip';
 import { VideoEmbed } from './VideoEmbed';
 import { PrescriptionBlock } from './PrescriptionBlock';
 import { ZONE_LABELS, type ZoneId } from './BodyMap/zones';
+import { hasHebrewOverride } from '../api/exercises';
 
 interface Props {
   exercise: Exercise;
@@ -20,6 +21,7 @@ export function ExerciseCard({ exercise }: Props) {
   });
   const location = `${localizedZone.toUpperCase()} / ${exercise.subArea.name.toUpperCase()}`;
   const isHebrew = (i18n.language || 'en').startsWith('he');
+  const showTranslationPending = isHebrew && !hasHebrewOverride(exercise.id);
 
   return (
     <article className="exercise-card" aria-labelledby="ex-name">
@@ -38,7 +40,7 @@ export function ExerciseCard({ exercise }: Props) {
         {exercise.name}
       </h2>
 
-      {isHebrew && (
+      {showTranslationPending && (
         <div className="translation-pending" role="note">
           {t('exercise.translationPending')}
         </div>

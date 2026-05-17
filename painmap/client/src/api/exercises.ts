@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import type {
   BandColor,
   BandInfo,
@@ -7,6 +8,7 @@ import type {
   Zone,
 } from '../types';
 import rawData from '../data/exercises.json';
+import heOverrides from '../data/exercises.he.json';
 
 interface RawExercise {
   id: string;
@@ -142,6 +144,66 @@ function buildExerciseIndex(): Map<string, Exercise> {
 const ZONES = buildZones();
 const EXERCISE_INDEX = buildExerciseIndex();
 
+interface HeSubAreaOverride {
+  name?: string;
+  description?: string | null;
+}
+interface HeExerciseOverride {
+  name?: string;
+  targetMuscles?: string;
+  mechanism?: string;
+  instructions?: string[];
+  tempo?: string | null;
+  bandTensionNote?: string | null;
+  frequency?: string;
+  commonMistakes?: string[];
+  contraindications?: string[];
+  beginnerModification?: string | null;
+  evidenceSummary?: string;
+}
+interface HeOverrides {
+  subAreas: Record<string, HeSubAreaOverride>;
+  exercises: Record<string, HeExerciseOverride>;
+}
+const HE = heOverrides as HeOverrides;
+
+export function hasHebrewOverride(exerciseId: string): boolean {
+  return Object.prototype.hasOwnProperty.call(HE.exercises, exerciseId);
+}
+
+function applyHeExercise(ex: Exercise): Exercise {
+  const heEx = HE.exercises[ex.id];
+  const heSa = HE.subAreas[ex.subArea.id];
+  if (!heEx && !heSa) return ex;
+  return {
+    ...ex,
+    name: heEx?.name ?? ex.name,
+    targetMuscles: heEx?.targetMuscles ?? ex.targetMuscles,
+    mechanism: heEx?.mechanism ?? ex.mechanism,
+    instructions: heEx?.instructions ?? ex.instructions,
+    tempo: heEx?.tempo !== undefined ? heEx.tempo : ex.tempo,
+    band: heEx?.bandTensionNote !== undefined
+      ? { ...ex.band, note: heEx.bandTensionNote }
+      : ex.band,
+    frequency: heEx?.frequency ?? ex.frequency,
+    commonMistakes: heEx?.commonMistakes ?? ex.commonMistakes,
+    contraindications: heEx?.contraindications ?? ex.contraindications,
+    beginnerModification: heEx?.beginnerModification !== undefined
+      ? heEx.beginnerModification
+      : ex.beginnerModification,
+    evidence: heEx?.evidenceSummary
+      ? { ...ex.evidence, summary: heEx.evidenceSummary }
+      : ex.evidence,
+    subArea: heSa
+      ? {
+          ...ex.subArea,
+          name: heSa.name ?? ex.subArea.name,
+          description: heSa.description !== undefined ? heSa.description : ex.subArea.description,
+        }
+      : ex.subArea,
+  };
+}
+
 export function useZones() {
   return useQuery({
     queryKey: ['zones'],
@@ -151,12 +213,14 @@ export function useZones() {
 }
 
 export function useExercise(id: string | undefined) {
+  const { i18n } = useTranslation();
+  const isHebrew = (i18n.language || 'en').startsWith('he');
   return useQuery({
-    queryKey: ['exercise', id],
+    queryKey: ['exercise', id, isHebrew ? 'he' : 'en'],
     queryFn: async () => {
       const ex = id ? EXERCISE_INDEX.get(id) : undefined;
       if (!ex) throw new Error(`Exercise not found: ${id}`);
-      return ex;
+      return isHebrew ? applyHeExercise(ex) : ex;
     },
     enabled: !!id,
     staleTime: Infinity,
