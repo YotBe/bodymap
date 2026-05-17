@@ -16,9 +16,9 @@ export function TopHeader() {
         <span className="brand-version">V2 · FULL BODY</span>
       </Link>
       <nav className="top-nav" aria-label="Primary">
-        <a className="nav-link" href="#evidence">Evidence</a>
-        <a className="nav-link" href="#about">About</a>
-        <a className="nav-link nav-emph" href="#clinician">Find a clinician ↗</a>
+        <Link className="nav-link" to="/evidence">Evidence</Link>
+        <Link className="nav-link" to="/about">About</Link>
+        <Link className="nav-link nav-emph" to="/clinician-finder">Find a clinician ↗</Link>
       </nav>
     </header>
   );

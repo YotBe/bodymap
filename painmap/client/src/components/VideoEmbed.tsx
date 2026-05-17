@@ -16,7 +16,6 @@ export function VideoEmbed({ videoId, videoUrl, exerciseName }: Props) {
           src={`https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1`}
           title={`${exerciseName} video demonstration`}
           allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture"
-          sandbox="allow-scripts allow-same-origin allow-presentation"
           referrerPolicy="no-referrer"
           allowFullScreen
         />

@@ -162,3 +162,46 @@ export function useExercise(id: string | undefined) {
     staleTime: Infinity,
   });
 }
+
+export interface EvidenceEntry {
+  zoneId: string;
+  zoneName: string;
+  subAreaId: string;
+  subAreaName: string;
+  exerciseId: string;
+  exerciseName: string;
+  evidenceShort: string;
+  evidenceFull: string;
+  evidenceSummary: string;
+}
+
+const EVIDENCE_LIST: EvidenceEntry[] = (() => {
+  const out: EvidenceEntry[] = [];
+  for (const z of [...DATA.zones].sort((a, b) => a.displayOrder - b.displayOrder)) {
+    for (const sa of [...z.subAreas].sort((a, b) => a.displayOrder - b.displayOrder)) {
+      for (const e of sa.exercises) {
+        if (!e.isPrimary) continue;
+        out.push({
+          zoneId: z.id,
+          zoneName: z.name,
+          subAreaId: sa.id,
+          subAreaName: sa.name,
+          exerciseId: e.id,
+          exerciseName: e.name,
+          evidenceShort: e.evidenceShort,
+          evidenceFull: e.evidenceFull,
+          evidenceSummary: e.evidenceSummary,
+        });
+      }
+    }
+  }
+  return out;
+})();
+
+export function useEvidenceList() {
+  return useQuery({
+    queryKey: ['evidence-list'],
+    queryFn: async () => EVIDENCE_LIST,
+    staleTime: Infinity,
+  });
+}
