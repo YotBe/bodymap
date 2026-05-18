@@ -640,15 +640,27 @@ button { font-family: inherit; cursor: pointer; }
     color: var(--ink-muted);
   }
   .video-fallback {
-    display: inline-block;
-    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 10px;
+    padding: 10px 14px;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: transparent;
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 0.1em;
-    color: var(--ink-muted);
+    color: var(--ink);
     text-decoration: none;
+    text-align: center;
+    transition: border-color 180ms, background 180ms;
   }
-  .video-fallback:hover { color: var(--accent); }
+  .video-fallback:hover {
+    border-color: var(--ink);
+    background: var(--bg);
+  }
 
   .ex-section { margin-bottom: 24px; }
   .ex-why {
