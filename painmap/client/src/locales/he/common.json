@@ -92,8 +92,10 @@
     "theraband": "TheraBand"
   },
   "video": {
+    "play": "נגן וידאו",
+    "playAria": "נגן את הוידאו של {{name}}",
+    "title": "הדגמת וידאו של {{name}}",
     "watchOn": "צפה ב-YouTube ↗",
-    "watchAria": "צפה ב-{{name}} ב-YouTube",
     "unavailable": "הוידאו אינו זמין"
   },
   "notFound": {
