@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../types';
 import { EvidencePill } from './EvidencePill';
 import { BandChip } from './BandChip';
-import { VideoEmbed } from './VideoEmbed';
+import { ExerciseAnimation } from './ExerciseAnimation';
 import { PrescriptionBlock } from './PrescriptionBlock';
 import { ZONE_LABELS, type ZoneId } from './BodyMap/zones';
 import { hasHebrewOverride } from '../api/exercises';
@@ -48,11 +48,17 @@ export function ExerciseCard({ exercise }: Props) {
 
       <EvidencePill evidence={exercise.evidence} />
 
-      <VideoEmbed
-        videoId={exercise.videoId}
-        videoUrl={exercise.videoUrl}
-        exerciseName={exercise.name}
-      />
+      <ExerciseAnimation exerciseId={exercise.id} exerciseName={exercise.name} />
+      {exercise.videoUrl && (
+        <a
+          className="video-fallback"
+          href={exercise.videoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {t('video.watchReal')}
+        </a>
+      )}
 
       <section className="ex-section">
         <p className="ex-why">{exercise.mechanism}</p>

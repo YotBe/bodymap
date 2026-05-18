@@ -14,6 +14,7 @@ export function EmptyState({ onPickZone }: Props) {
     <div className="empty-state">
       <h2 className="es-headline">{t('emptyState.headline')}</h2>
       <p className="es-sub">{t('emptyState.sub')}</p>
+      <div className="es-valueprop" role="note">{t('emptyState.valueProp')}</div>
 
       <div className="es-list">
         <div className="es-list-label">{t('emptyState.orPickZone')}</div>

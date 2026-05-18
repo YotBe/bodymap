@@ -68,19 +68,6 @@ function bandInfo(color: BandColor, note: string | null): BandInfo {
   return { color, hex: spec.hex, force: spec.force, note };
 }
 
-const YOUTUBE_HOSTS = new Set(['www.youtube.com', 'youtube.com', 'youtu.be', 'm.youtube.com']);
-
-function youtubeId(url: string): string {
-  try {
-    const parsed = new URL(url);
-    if (parsed.protocol !== 'https:' || !YOUTUBE_HOSTS.has(parsed.host)) return '';
-  } catch {
-    return '';
-  }
-  const match = url.match(/(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{11})/);
-  return match ? match[1] : '';
-}
-
 function pickPrimaryExerciseId(sa: RawSubArea): string | null {
   const primary = sa.exercises.find((e) => e.isPrimary);
   return primary?.id ?? sa.exercises[0]?.id ?? null;
@@ -140,7 +127,6 @@ function buildExerciseIndex(): Map<string, Exercise> {
             full: e.evidenceFull,
             summary: e.evidenceSummary,
           },
-          videoId: youtubeId(e.videoUrl),
           videoUrl: e.videoUrl,
         });
       }
