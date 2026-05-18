@@ -48,7 +48,11 @@ export function ExerciseCard({ exercise }: Props) {
 
       <EvidencePill evidence={exercise.evidence} />
 
-      <ExerciseAnimation exerciseId={exercise.id} exerciseName={exercise.name} />
+      <ExerciseAnimation
+        exerciseId={exercise.id}
+        exerciseName={exercise.name}
+        mp4Url={exercise.demoVideoMp4}
+      />
       {exercise.videoUrl && (
         <a
           className="video-fallback"

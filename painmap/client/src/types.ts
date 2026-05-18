@@ -55,4 +55,8 @@ export interface Exercise {
   beginnerModification: string | null;
   evidence: Evidence;
   videoUrl: string;
+  /* Optional self-hosted MP4 URL or path (e.g., "/exercise-demos/<id>.mp4").
+     When set, the exercise card plays this clip instead of the SVG animation.
+     If the URL errors at runtime, the player falls back to the SVG animation. */
+  demoVideoMp4?: string | null;
 }
