@@ -1464,3 +1464,59 @@ html[lang="he"] .pt-italic {
     margin: 0 -16px 20px;
   }
 }
+
+/* ============================================================
+   Investor-demo polish: focus rings, entrance, value-prop ribbon
+   ============================================================ */
+@layer components {
+  /* Visible keyboard focus on SVG body-map hotspots */
+  .subhot:focus-visible {
+    outline: none;
+  }
+  .subhot:focus-visible .subhot-ring {
+    stroke-width: 2.5;
+    filter: drop-shadow(0 0 4px var(--accent));
+  }
+
+  /* Body-map entrance — subtle fade-in/scale on first paint */
+  @keyframes bodyMapEnter {
+    0% { opacity: 0; transform: scale(0.985); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  .body-svg-outer {
+    animation: bodyMapEnter 600ms ease-out both;
+    transform-origin: center;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .body-svg-outer { animation: none; }
+  }
+
+  /* Value-prop ribbon on the empty/landing state */
+  .es-valueprop {
+    display: inline-block;
+    margin: 14px 0 8px;
+    padding: 8px 12px;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    background: var(--surface);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+  }
+  [dir="rtl"] .es-valueprop {
+    font-family: var(--sans);
+    letter-spacing: 0;
+    font-size: 11px;
+    text-transform: none;
+  }
+  @media (max-width: 768px) {
+    .es-valueprop {
+      display: block;
+      font-size: 9px;
+      text-align: center;
+    }
+  }
+}
+

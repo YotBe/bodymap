@@ -54,6 +54,5 @@ export interface Exercise {
   contraindications: string[];
   beginnerModification: string | null;
   evidence: Evidence;
-  videoId: string;
   videoUrl: string;
 }

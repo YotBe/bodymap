@@ -1,0 +1,505 @@
+/* ============================================================
+   Exercise Animation — bulletproof in-app exercise demos.
+   Uses CSS keyframes on named SVG groups; GPU-accelerated;
+   honors prefers-reduced-motion (handled at bottom).
+   ============================================================ */
+
+.exercise-animation {
+  margin-bottom: 24px;
+}
+
+.ea-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ea-stage-fallback { background: var(--bg); }
+.ea-fallback-text {
+  font-size: 13px;
+  color: var(--ink-muted);
+  letter-spacing: 0.02em;
+}
+
+.ea-svg {
+  width: auto;
+  max-width: 100%;
+  height: 100%;
+  max-height: 92%;
+  display: block;
+}
+
+.ea-caption {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  background: rgba(245, 242, 236, 0.92);
+  padding: 4px 10px;
+  border-radius: 2px;
+  max-width: calc(100% - 32px);
+  text-align: center;
+  pointer-events: none;
+}
+
+.ea-paused-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--ink-muted);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  padding: 3px 8px;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+
+.ea-controls {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  align-items: stretch;
+}
+.ea-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: transparent;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 180ms, background 180ms, color 180ms;
+  min-height: 36px;
+}
+.ea-btn:hover { border-color: var(--ink); background: var(--bg); }
+.ea-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.ea-btn[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+.ea-btn svg { flex: 0 0 auto; }
+
+/* ---- Figure base styling ---- */
+.ea-figure line,
+.ea-figure circle,
+.ea-figure path,
+.ea-figure rect,
+.ea-figure ellipse {
+  stroke: var(--ink);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+.ea-head, .ea-hand-l, .ea-hand-r,
+.ea-joint-elbow, .ea-joint-knee, .ea-joint-shoulder {
+  fill: var(--ink);
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+.ea-floor, .ea-bench, .ea-step {
+  stroke: var(--ink-muted);
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+  opacity: 0.55;
+  fill: none;
+}
+.ea-band-shape {
+  stroke: var(--accent);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  fill: none;
+  opacity: 0.95;
+}
+
+/* All animated groups share the same duration / play-state variables.
+   Individual keyframes are defined per-exercise below. */
+.ea-stage [class*="ea-"] {
+  animation-duration: var(--ea-duration, 3500ms);
+  animation-play-state: var(--ea-play-state, running);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  transform-box: fill-box;
+}
+
+/* ============================================================
+   Per-exercise animations
+   ============================================================ */
+
+/* 1. Shrug ------------------------------------------------------ */
+.anim-band-shrug .ea-shoulders,
+.anim-band-shrug .ea-arm-left,
+.anim-band-shrug .ea-arm-right {
+  animation-name: ea-shrug-up;
+  transform-origin: 120px 64px;
+}
+@keyframes ea-shrug-up {
+  0%, 100% { transform: translateY(0); }
+  35%, 65% { transform: translateY(-10px); }
+}
+
+/* 2. Levator stretch ------------------------------------------- */
+.anim-levator-stretch .ea-head-group {
+  animation-name: ea-head-tilt;
+  transform-origin: 106px 92px;
+}
+.anim-levator-stretch .ea-arm-right {
+  animation-name: ea-arm-pull-down;
+  transform-origin: 118px 100px;
+}
+@keyframes ea-head-tilt {
+  0%, 100% { transform: rotate(0deg) translateX(0); }
+  40%, 70% { transform: rotate(-22deg) translateX(-4px); }
+}
+@keyframes ea-arm-pull-down {
+  0%, 100% { transform: translate(0, 0); }
+  40%, 70% { transform: translate(-4px, 6px); }
+}
+
+/* 3. Chin tuck -------------------------------------------------- */
+.anim-chin-tuck .ea-head-group {
+  animation-name: ea-chin-tuck-back;
+  transform-origin: 106px 92px;
+}
+@keyframes ea-chin-tuck-back {
+  0%, 100% { transform: translateX(0); }
+  45%, 65% { transform: translateX(-10px); }
+}
+
+/* 4. External rotation ----------------------------------------- */
+.anim-ext-rotation .ea-forearm-r,
+.anim-ext-rotation .ea-hand-r {
+  animation-name: ea-forearm-rotate-out;
+  transform-origin: 118px 114px;
+}
+@keyframes ea-forearm-rotate-out {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-45deg); }
+}
+
+/* 5. Lateral raise --------------------------------------------- */
+.anim-lateral-raise .ea-arm-left {
+  animation-name: ea-arm-raise-l;
+  transform-origin: 90px 64px;
+}
+.anim-lateral-raise .ea-arm-right {
+  animation-name: ea-arm-raise-r;
+  transform-origin: 150px 64px;
+}
+@keyframes ea-arm-raise-l {
+  0%, 100% { transform: rotate(0deg); }
+  35%, 65% { transform: rotate(-75deg); }
+}
+@keyframes ea-arm-raise-r {
+  0%, 100% { transform: rotate(0deg); }
+  35%, 65% { transform: rotate(75deg); }
+}
+
+/* 6. Face pull -------------------------------------------------- */
+.anim-face-pull .ea-arm-left {
+  animation-name: ea-facepull-l;
+  transform-origin: 90px 64px;
+}
+.anim-face-pull .ea-arm-right {
+  animation-name: ea-facepull-r;
+  transform-origin: 150px 64px;
+}
+@keyframes ea-facepull-l {
+  0%, 100% { transform: rotate(-15deg) translateX(0); }
+  45%, 65% { transform: rotate(-90deg) translateX(8px); }
+}
+@keyframes ea-facepull-r {
+  0%, 100% { transform: rotate(15deg) translateX(0); }
+  45%, 65% { transform: rotate(90deg) translateX(-8px); }
+}
+
+/* 7. Biceps curl (eccentric) ----------------------------------- */
+.anim-biceps-curl .ea-forearm-l,
+.anim-biceps-curl .ea-hand-l {
+  animation-name: ea-curl-l;
+  transform-origin: 80px 108px;
+}
+.anim-biceps-curl .ea-forearm-r,
+.anim-biceps-curl .ea-hand-r {
+  animation-name: ea-curl-r;
+  transform-origin: 160px 108px;
+}
+@keyframes ea-curl-l {
+  0% { transform: rotate(0deg); }
+  20% { transform: rotate(135deg); }   /* fast up */
+  85% { transform: rotate(0deg); }     /* slow eccentric */
+  100% { transform: rotate(0deg); }
+}
+@keyframes ea-curl-r {
+  0% { transform: rotate(0deg); }
+  20% { transform: rotate(-135deg); }
+  85% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* 8. Seated row ------------------------------------------------- */
+.anim-seated-row .ea-arm-right,
+.anim-seated-row .ea-forearm-r,
+.anim-seated-row .ea-hand-r {
+  animation-name: ea-row-pull;
+  transform-origin: 118px 100px;
+}
+@keyframes ea-row-pull {
+  0%, 100% { transform: translateX(0); }
+  45%, 65% { transform: translateX(-32px); }
+}
+
+/* 9. Y-T-W ------------------------------------------------------ */
+.anim-ytw .ea-arm-left {
+  animation-name: ea-ytw-l;
+  transform-origin: 90px 64px;
+}
+.anim-ytw .ea-arm-right {
+  animation-name: ea-ytw-r;
+  transform-origin: 150px 64px;
+}
+@keyframes ea-ytw-l {
+  0%, 100% { transform: rotate(0deg); }
+  20%, 28% { transform: rotate(-130deg); }    /* Y */
+  46%, 54% { transform: rotate(-90deg); }     /* T */
+  72%, 80% { transform: rotate(-55deg); }     /* W */
+}
+@keyframes ea-ytw-r {
+  0%, 100% { transform: rotate(0deg); }
+  20%, 28% { transform: rotate(130deg); }
+  46%, 54% { transform: rotate(90deg); }
+  72%, 80% { transform: rotate(55deg); }
+}
+
+/* 10. Good morning (hip hinge) --------------------------------- */
+.anim-good-morning .ea-spine,
+.anim-good-morning .ea-head-group,
+.anim-good-morning .ea-arm-right {
+  animation-name: ea-hip-hinge;
+  transform-origin: 122px 148px;
+}
+@keyframes ea-hip-hinge {
+  0%, 100% { transform: rotate(0deg); }
+  45%, 65% { transform: rotate(-55deg); }
+}
+
+/* 11. Median nerve glide --------------------------------------- */
+.anim-nerve-glide .ea-forearm-group {
+  animation-name: ea-nerve-extend;
+  transform-origin: 140px 90px;
+}
+.anim-nerve-glide .ea-hand-group {
+  animation-name: ea-wrist-extend;
+  transform-origin: 220px 60px;
+}
+@keyframes ea-nerve-extend {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-18deg); }
+}
+@keyframes ea-wrist-extend {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(35deg); }
+}
+
+/* 12. Wrist extension ------------------------------------------ */
+.anim-wrist-ext .ea-hand-group {
+  animation-name: ea-wrist-ext-up;
+  transform-origin: 210px 120px;
+}
+@keyframes ea-wrist-ext-up {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-50deg); }
+}
+
+/* 13. Tyler twist ---------------------------------------------- */
+.anim-tyler-twist .ea-forearm-group,
+.anim-tyler-twist .ea-hand-group {
+  animation-name: ea-tyler-twist;
+  transform-origin: 120px 120px;
+}
+@keyframes ea-tyler-twist {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(70deg); }
+  85% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* 14. Reverse Tyler -------------------------------------------- */
+.anim-reverse-tyler .ea-forearm-group,
+.anim-reverse-tyler .ea-hand-group {
+  animation-name: ea-reverse-tyler;
+  transform-origin: 120px 120px;
+}
+@keyframes ea-reverse-tyler {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-70deg); }
+  85% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* 15. Thumb eccentric ------------------------------------------ */
+.anim-thumb-eccentric .ea-thumb {
+  animation-name: ea-thumb-ext;
+  transform-origin: 210px 120px;
+}
+@keyframes ea-thumb-ext {
+  0% { transform: rotate(0deg); }
+  20% { transform: rotate(-50deg); }
+  90% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* 16. Clamshell ------------------------------------------------- */
+.anim-clamshell .ea-leg-top {
+  animation-name: ea-clamshell-open;
+  transform-origin: 148px 138px;
+}
+.anim-clamshell .ea-band-shape {
+  animation-name: ea-clamshell-band;
+  transform-origin: 200px 148px;
+}
+@keyframes ea-clamshell-open {
+  0%, 100% { transform: rotate(0deg); }
+  45%, 65% { transform: rotate(-32deg); }
+}
+@keyframes ea-clamshell-band {
+  0%, 100% { transform: scaleY(1); }
+  45%, 65% { transform: scaleY(2.4); }
+}
+
+/* 17. Glute bridge --------------------------------------------- */
+.anim-glute-bridge .ea-spine,
+.anim-glute-bridge .ea-pelvis,
+.anim-glute-bridge .ea-leg-left,
+.anim-glute-bridge .ea-leg-right,
+.anim-glute-bridge .ea-band {
+  animation-name: ea-bridge-up;
+}
+.anim-glute-bridge .ea-spine,
+.anim-glute-bridge .ea-pelvis,
+.anim-glute-bridge .ea-band { transform-origin: 152px 122px; }
+@keyframes ea-bridge-up {
+  0%, 100% { transform: translateY(0); }
+  45%, 65% { transform: translateY(-26px); }
+}
+
+/* 18. Terminal knee extension ---------------------------------- */
+.anim-tke .ea-shin-r {
+  animation-name: ea-tke-extend;
+  transform-origin: 100px 124px;
+}
+.anim-tke .ea-foot-group {
+  animation-name: ea-tke-foot;
+}
+@keyframes ea-tke-extend {
+  0%, 100% { transform: rotate(8deg); }
+  50% { transform: rotate(0deg); }
+}
+@keyframes ea-tke-foot {
+  0%, 100% { transform: translate(6px, 0); }
+  50% { transform: translate(0, 0); }
+}
+
+/* 19. Hamstring curl ------------------------------------------- */
+.anim-hamstring-curl .ea-shin-r,
+.anim-hamstring-curl .ea-foot-group {
+  animation-name: ea-ham-curl;
+  transform-origin: 100px 124px;
+}
+@keyframes ea-ham-curl {
+  0%, 100% { transform: rotate(0deg); }
+  45% { transform: rotate(-120deg); }
+  85% { transform: rotate(0deg); }
+}
+
+/* 20. Heel drop (eccentric) ------------------------------------ */
+.anim-heel-drop .ea-foot-group {
+  animation-name: ea-heel-drop;
+  transform-origin: 100px 240px;
+}
+@keyframes ea-heel-drop {
+  0% { transform: translateY(0); }
+  20% { transform: translateY(-14px); }   /* rise on toes */
+  85% { transform: translateY(10px); }    /* slow drop */
+  100% { transform: translateY(0); }
+}
+
+/* 21. Plantar fascia stretch ----------------------------------- */
+.anim-plantar-stretch .ea-toes {
+  animation-name: ea-toes-pull;
+  transform-origin: 148px 240px;
+}
+.anim-plantar-stretch .ea-foot-r {
+  animation-name: ea-foot-arch;
+  transform-origin: 100px 240px;
+}
+@keyframes ea-toes-pull {
+  0%, 100% { transform: rotate(0deg); }
+  40%, 70% { transform: rotate(-50deg); }
+}
+@keyframes ea-foot-arch {
+  0%, 100% { transform: translateY(0); }
+  40%, 70% { transform: translateY(-2px); }
+}
+
+/* 22. Ankle eversion ------------------------------------------- */
+.anim-ankle-eversion .ea-foot-group {
+  animation-name: ea-foot-evert;
+  transform-origin: 100px 210px;
+}
+@keyframes ea-foot-evert {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(20deg); }
+}
+
+/* ============================================================
+   Reduced motion: freeze all animations mid-cycle, keep figure visible
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .ea-stage [class*="ea-"] {
+    animation: none !important;
+  }
+  .ea-caption::after {
+    content: ' · animation paused for reduced motion';
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+}
+
+/* ============================================================
+   Mobile refinements
+   ============================================================ */
+@media (max-width: 768px) {
+  .exercise-animation { margin: 0 -16px 20px; }
+  .ea-stage { border-radius: 0; }
+  .ea-controls { padding: 0 16px; }
+  .ea-caption { font-size: 9px; }
+}
+
+/* RTL: keep animation orientation correct (do not mirror the figure) */
+[dir="rtl"] .exercise-animation { direction: ltr; }
+[dir="rtl"] .ea-controls { direction: rtl; }
+[dir="rtl"] .ea-caption { direction: rtl; font-family: var(--sans); letter-spacing: 0; font-size: 11px; }
