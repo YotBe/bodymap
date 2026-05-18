@@ -11,6 +11,63 @@
     "neck-cervical-paraspinals": {
       "name": "צוואר אחורי ותת-עורף",
       "description": "חלקו האחורי של הצוואר ובסיס הגולגולת"
+    },
+    "shoulders-rotator-cuff": {
+      "name": "שרוול המסובבים"
+    },
+    "shoulders-deltoid": {
+      "name": "דלתואיד"
+    },
+    "shoulders-scapular-stabilizers": {
+      "name": "מייצבי השכמה"
+    },
+    "shoulders-biceps-tendon": {
+      "name": "גיד הראש הארוך של הביצפס"
+    },
+    "back-interscapular": {
+      "name": "גב עליון (בין השכמות)"
+    },
+    "back-mid-thoracic": {
+      "name": "אמצע הגב (עמוד שדרה חזי)"
+    },
+    "back-lumbar": {
+      "name": "גב תחתון"
+    },
+    "wrist-flexor": {
+      "name": "שורש כף יד (צד הכף) / תעלה קרפלית"
+    },
+    "wrist-extensor": {
+      "name": "שורש כף יד (גב כף היד)"
+    },
+    "elbow-lateral": {
+      "name": "מרפק חיצוני (מרפק טניס)"
+    },
+    "elbow-medial": {
+      "name": "מרפק פנימי (מרפק גולפר)"
+    },
+    "wrist-de-quervains": {
+      "name": "דלקת גידי דה קוורן"
+    },
+    "hip-glutes-medius": {
+      "name": "שריר העכוז האמצעי"
+    },
+    "hip-glutes-maximus": {
+      "name": "שריר העכוז הגדול"
+    },
+    "knees-patellofemoral": {
+      "name": "מפרק הפיקה-ירך"
+    },
+    "knees-hamstring": {
+      "name": "שרירי הירך האחוריים (המסטרינג)"
+    },
+    "foot-ankle-achilles": {
+      "name": "גיד אכילס"
+    },
+    "foot-ankle-plantar": {
+      "name": "פאשיה פלנטרית"
+    },
+    "foot-ankle-lateral": {
+      "name": "קרסול חיצוני"
     }
   },
   "exercises": {
