@@ -92,8 +92,10 @@
     "theraband": "TheraBand"
   },
   "video": {
+    "play": "Play video",
+    "playAria": "Play {{name}} video",
+    "title": "{{name}} video demonstration",
     "watchOn": "Watch on YouTube ↗",
-    "watchAria": "Watch {{name}} on YouTube",
     "unavailable": "Video unavailable"
   },
   "notFound": {

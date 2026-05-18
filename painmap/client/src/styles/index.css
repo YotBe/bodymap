@@ -587,6 +587,8 @@ button { font-family: inherit; cursor: pointer; }
     overflow: hidden;
     text-decoration: none;
     color: #fff;
+    padding: 0;
+    cursor: pointer;
     transition: border-color 180ms;
   }
   .video-thumb:hover { border-color: var(--ink-muted); }
@@ -595,6 +597,14 @@ button { font-family: inherit; cursor: pointer; }
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .video-frame {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    border-radius: 4px;
+    background: #000;
+    display: block;
   }
   .vt-img {
     width: 100%;
@@ -629,6 +639,16 @@ button { font-family: inherit; cursor: pointer; }
     font-size: 13px;
     color: var(--ink-muted);
   }
+  .video-fallback {
+    display: inline-block;
+    margin-top: 8px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    text-decoration: none;
+  }
+  .video-fallback:hover { color: var(--accent); }
 
   .ex-section { margin-bottom: 24px; }
   .ex-why {
@@ -1205,7 +1225,9 @@ button { font-family: inherit; cursor: pointer; }
   .evidence-wrap { margin-bottom: 18px; }
 
   .video-embed { margin: 0 -16px 20px; }
-  .video-thumb { border-radius: 0; }
+  .video-thumb,
+  .video-frame { border-radius: 0; }
+  .video-fallback { padding: 0 16px; }
 
   .ex-section { margin-bottom: 18px; }
   .ex-why { font-size: 14px; line-height: 1.55; }
