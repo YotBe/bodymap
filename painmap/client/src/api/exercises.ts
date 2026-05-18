@@ -68,7 +68,15 @@ function bandInfo(color: BandColor, note: string | null): BandInfo {
   return { color, hex: spec.hex, force: spec.force, note };
 }
 
+const YOUTUBE_HOSTS = new Set(['www.youtube.com', 'youtube.com', 'youtu.be', 'm.youtube.com']);
+
 function youtubeId(url: string): string {
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol !== 'https:' || !YOUTUBE_HOSTS.has(parsed.host)) return '';
+  } catch {
+    return '';
+  }
   const match = url.match(/(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{11})/);
   return match ? match[1] : '';
 }

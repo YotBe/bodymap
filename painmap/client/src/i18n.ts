@@ -25,7 +25,7 @@ i18n
     supportedLngs: SUPPORTED_LANGUAGES as unknown as string[],
     defaultNS: 'common',
     ns: ['common'],
-    interpolation: { escapeValue: false },
+    interpolation: { escapeValue: true },
     detection: {
       order: ['localStorage', 'navigator', 'htmlTag'],
       lookupLocalStorage: 'painmap.lang',

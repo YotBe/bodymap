@@ -1092,6 +1092,11 @@ button { font-family: inherit; cursor: pointer; }
   .top-nav { gap: 14px; }
   .nav-link { font-size: 12px; }
 
+  @media (max-width: 480px) {
+    .top-nav { gap: 8px; }
+    .nav-emph { display: none; }
+  }
+
   /* Single-column layout; pane visibility driven by route */
   .layout {
     display: block;

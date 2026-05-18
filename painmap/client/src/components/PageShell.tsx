@@ -17,6 +17,7 @@ import { NotFoundPage } from './NotFoundPage';
 import { useZones } from '../api/exercises';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 import { useIsMobile } from '../hooks/useIsMobile';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 import {
   type BodyView,
   type ZoneId,
@@ -95,7 +96,10 @@ export function PageShell() {
   const { t } = useTranslation();
 
   const [view, setView] = useState<BodyView>('anterior');
-  const [bannerVisible, setBannerVisible] = useState(true);
+  const [bannerDismissed, setBannerDismissed] = useLocalStorage(
+    'painmap.banner.dismissed',
+    false
+  );
   const [selectedZone, setSelectedZone] = useState<ZoneId | null>(null);
   const [selectedSubArea, setSelectedSubArea] = useState<string | null>(null);
 
@@ -186,7 +190,7 @@ export function PageShell() {
 
   return (
     <>
-      {bannerVisible && <SafetyBanner onDismiss={() => setBannerVisible(false)} />}
+      {!bannerDismissed && <SafetyBanner onDismiss={() => setBannerDismissed(true)} />}
       <TopHeader />
 
       <main className="layout" data-route={routeKind}>
