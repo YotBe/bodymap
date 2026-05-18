@@ -30,6 +30,7 @@ interface RawExercise {
   evidenceFull: string;
   evidenceSummary: string;
   videoUrl: string;
+  demoVideoMp4?: string | null;
 }
 
 interface RawSubArea {
@@ -128,6 +129,7 @@ function buildExerciseIndex(): Map<string, Exercise> {
             summary: e.evidenceSummary,
           },
           videoUrl: e.videoUrl,
+          demoVideoMp4: e.demoVideoMp4 ?? null,
         });
       }
     }

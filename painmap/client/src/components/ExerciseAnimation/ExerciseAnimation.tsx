@@ -1,25 +1,44 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HumanFigure } from './HumanFigure';
+import { MuscleOverlay } from './MuscleOverlay';
+import { MUSCLE_OVERLAYS } from './muscles';
+import { VideoDemo } from './VideoDemo';
 import { ANIMATION_CONFIGS } from './exerciseAnimations';
 import './exerciseAnimation.css';
 
 interface Props {
   exerciseId: string;
   exerciseName: string;
+  /* Optional self-hosted MP4 URL/path. When provided and loadable, the
+     exercise card shows the real-footage clip instead of the SVG animation.
+     On error, falls back to the SVG animation. */
+  mp4Url?: string | null;
 }
 
-export function ExerciseAnimation({ exerciseId, exerciseName }: Props) {
+export function ExerciseAnimation({ exerciseId, exerciseName, mp4Url }: Props) {
   const { t, i18n } = useTranslation();
   const config = ANIMATION_CONFIGS[exerciseId];
   const [paused, setPaused] = useState(false);
   const [slow, setSlow] = useState(false);
+  const [videoErrored, setVideoErrored] = useState(false);
 
   // Reset state when exercise changes
   useEffect(() => {
     setPaused(false);
     setSlow(false);
+    setVideoErrored(false);
   }, [exerciseId]);
+
+  if (mp4Url && !videoErrored) {
+    return (
+      <VideoDemo
+        src={mp4Url}
+        exerciseName={exerciseName}
+        onError={() => setVideoErrored(true)}
+      />
+    );
+  }
 
   if (!config) {
     return (
@@ -46,7 +65,14 @@ export function ExerciseAnimation({ exerciseId, exerciseName }: Props) {
         role="img"
         aria-label={t('animation.aria', { name: exerciseName })}
       >
-        <HumanFigure view={config.view} />
+        <HumanFigure view={config.view}>
+          <MuscleOverlay exerciseId={exerciseId} />
+        </HumanFigure>
+        {MUSCLE_OVERLAYS[exerciseId] && (
+          <span className="ea-muscle-label" aria-hidden="true">
+            {(isHebrew && MUSCLE_OVERLAYS[exerciseId].labelHe) || MUSCLE_OVERLAYS[exerciseId].label}
+          </span>
+        )}
         <span className="ea-caption">{caption}</span>
         {paused && <span className="ea-paused-badge">{t('animation.paused')}</span>}
       </div>

@@ -22,6 +22,27 @@
 }
 
 .ea-stage-fallback { background: var(--bg); }
+.ea-stage-video { background: #000; }
+.ea-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ea-video { }
+  .ea-stage-video::after {
+    content: 'Auto-play paused — press play';
+    position: absolute;
+    inset: auto 0 12px 0;
+    text-align: center;
+    color: #fff;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    pointer-events: none;
+  }
+}
 .ea-fallback-text {
   font-size: 13px;
   color: var(--ink-muted);
@@ -109,30 +130,91 @@
 .ea-figure rect,
 .ea-figure ellipse {
   stroke: var(--ink);
-  stroke-width: 2.2;
+  stroke-width: 1.6;
   stroke-linecap: round;
+  stroke-linejoin: round;
   fill: none;
   vector-effect: non-scaling-stroke;
 }
-.ea-head, .ea-hand-l, .ea-hand-r,
-.ea-joint-elbow, .ea-joint-knee, .ea-joint-shoulder {
+/* Anatomical line work matches body-map: outlined, never filled. */
+.ea-figure .ea-head { fill: none; stroke-width: 1.6; }
+.ea-figure .ea-hand-l,
+.ea-figure .ea-hand-r {
   fill: var(--ink);
   stroke: var(--ink);
-  stroke-width: 1.5;
 }
-.ea-floor, .ea-bench, .ea-step {
+.ea-figure .ea-joint {
+  fill: var(--ink);
+  stroke: none;
+  opacity: 0.7;
+}
+.ea-figure .ea-joint-elbow,
+.ea-figure .ea-joint-knee,
+.ea-figure .ea-joint-shoulder {
+  fill: var(--ink);
+  stroke: none;
+}
+.ea-figure .ea-detail {
+  stroke-width: 0.8;
+  opacity: 0.5;
+}
+.ea-figure .ea-floor,
+.ea-figure .ea-bench,
+.ea-figure .ea-step {
   stroke: var(--ink-muted);
   stroke-width: 1;
   stroke-dasharray: 3 4;
   opacity: 0.55;
   fill: none;
 }
-.ea-band-shape {
+.ea-figure .ea-band-shape {
   stroke: var(--accent);
   stroke-width: 2.2;
   stroke-linecap: round;
   fill: none;
   opacity: 0.95;
+}
+
+/* ---- Muscle activation overlay ---- */
+.ea-muscle-shape {
+  fill: var(--accent);
+  stroke: var(--accent);
+  stroke-width: 0.6;
+  stroke-opacity: 0.4;
+  opacity: 0.18;
+  animation-name: ea-muscle-pulse;
+  animation-duration: var(--ea-duration, 3500ms);
+  animation-play-state: var(--ea-play-state, running);
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+@keyframes ea-muscle-pulse {
+  0%, 100% { opacity: 0.18; }
+  45%, 65% { opacity: 0.68; }
+}
+.ea-muscle-label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(245, 242, 236, 0.94);
+  border: 1px solid var(--accent-soft);
+  padding: 3px 8px;
+  border-radius: 2px;
+  pointer-events: none;
+  max-width: calc(100% - 24px);
+}
+[dir="rtl"] .ea-muscle-label {
+  left: auto;
+  right: 10px;
+  font-family: var(--sans);
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 10px;
 }
 
 /* All animated groups share the same duration / play-state variables.
