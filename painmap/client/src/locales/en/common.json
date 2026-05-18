@@ -92,12 +92,9 @@
     "theraband": "TheraBand"
   },
   "video": {
-    "load": "Load video demonstration",
-    "unavailable": "Video unavailable",
-    "sub": "YouTube · loads on click",
-    "openExternal": "Open in YouTube ↗",
-    "loadAria": "Load video demonstration",
-    "title": "{{name}} video demonstration"
+    "watchOn": "Watch on YouTube ↗",
+    "watchAria": "Watch {{name}} on YouTube",
+    "unavailable": "Video unavailable"
   },
   "notFound": {
     "headline": "Page not found.",

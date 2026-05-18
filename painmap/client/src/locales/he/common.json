@@ -92,12 +92,9 @@
     "theraband": "TheraBand"
   },
   "video": {
-    "load": "טען הדגמת וידאו",
-    "unavailable": "הוידאו אינו זמין",
-    "sub": "YouTube · נטען בלחיצה",
-    "openExternal": "פתח ב-YouTube ↗",
-    "loadAria": "טען הדגמת וידאו",
-    "title": "הדגמת וידאו של {{name}}"
+    "watchOn": "צפה ב-YouTube ↗",
+    "watchAria": "צפה ב-{{name}} ב-YouTube",
+    "unavailable": "הוידאו אינו זמין"
   },
   "notFound": {
     "headline": "הדף לא נמצא.",
