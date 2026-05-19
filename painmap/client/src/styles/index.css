@@ -317,6 +317,25 @@ button { font-family: inherit; cursor: pointer; }
     flex-direction: column;
     overflow: hidden;
   }
+  .flow-scroll {
+    flex: 1 1 0;
+    min-height: 0;
+    overflow-y: auto;
+    padding-inline-end: 4px;
+    padding-bottom: 6px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--rule) transparent;
+  }
+  .flow-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+  .flow-scroll::-webkit-scrollbar-thumb {
+    background: var(--rule);
+    border-radius: 999px;
+  }
+  .flow-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
   /* The fade-stage is a flex column. The pane-eyebrow already declares
      flex: 0 0 auto for itself, and each route's main content
      (.empty-state / .zone-prompt / .exercise-card / .long-form) declares

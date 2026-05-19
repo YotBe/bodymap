@@ -9,7 +9,7 @@ interface Props {
 
 export function HomePage({ onStartScan, onOpenAssessment }: Props) {
   return (
-    <div className="space-y-4">
+    <div className="flow-scroll space-y-4">
       <PaneEyebrow num="01" label="GET STARTED" />
       <HeroValueProp onStartScan={onStartScan} onOpenAssessment={onOpenAssessment} />
       <BodyAreaStep />

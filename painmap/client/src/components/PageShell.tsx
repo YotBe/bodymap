@@ -104,6 +104,17 @@ function ZoneRouteSync({
   return null;
 }
 
+function ResetMapSelectionOnEnter({
+  onReset,
+}: {
+  onReset: () => void;
+}) {
+  useEffect(() => {
+    onReset();
+  }, [onReset]);
+  return null;
+}
+
 function ClassificationRoute({
   assessment,
   selectedZoneId,
@@ -243,13 +254,21 @@ export function PageShell() {
   );
 
   const handleBack = useCallback(() => {
+    if (location.pathname.startsWith('/flow/')) {
+      setSelectedZone(null);
+      setSelectedSubArea(null);
+      flow.setPainArea(null, null, null);
+      navigate('/flow/map');
+      return;
+    }
+
     if (selectedSubArea) {
       if (selectedZone) navigate(`/zone/${selectedZone}`);
       else navigate('/flow/map');
     } else {
       navigate('/');
     }
-  }, [navigate, selectedZone, selectedSubArea]);
+  }, [flow, location.pathname, navigate, selectedZone, selectedSubArea]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -404,20 +423,34 @@ export function PageShell() {
               <Route
                 path="/"
                 element={
-                  <HomePage
-                    onStartScan={handleStartScan}
-                    onOpenAssessment={handleOpenAssessment}
-                  />
+                  <>
+                    <ResetMapSelectionOnEnter
+                      onReset={() => {
+                        setSelectedZone(null);
+                        setSelectedSubArea(null);
+                      }}
+                    />
+                    <HomePage
+                      onStartScan={handleStartScan}
+                      onOpenAssessment={handleOpenAssessment}
+                    />
+                  </>
                 }
               />
 
               <Route
                 path="/flow/map"
                 element={
-                  <>
+                  <div className="flow-scroll">
+                    <ResetMapSelectionOnEnter
+                      onReset={() => {
+                        setSelectedZone(null);
+                        setSelectedSubArea(null);
+                      }}
+                    />
                     <PaneEyebrow num="01" label="BODY AREA" />
                     <BodyAreaStep />
-                  </>
+                  </div>
                 }
               />
 
@@ -442,10 +475,18 @@ export function PageShell() {
                   !flow.state.selectedSubAreaId ? (
                     <Navigate to="/flow/map" replace />
                   ) : (
-                    <AssessmentStep
-                      initial={flow.state.assessment ?? DEFAULT_ASSESSMENT}
-                      onSubmit={handleAssessmentSubmit}
-                    />
+                    <div className="flow-scroll">
+                      <AssessmentStep
+                        initial={flow.state.assessment ?? DEFAULT_ASSESSMENT}
+                        onSubmit={handleAssessmentSubmit}
+                        onChangeArea={() => {
+                          setSelectedZone(null);
+                          setSelectedSubArea(null);
+                          flow.setPainArea(null, null, null);
+                          navigate('/flow/map');
+                        }}
+                      />
+                    </div>
                   )
                 }
               />
@@ -456,13 +497,15 @@ export function PageShell() {
                   !flow.state.assessment || !flow.state.selectedZoneId ? (
                     <Navigate to="/flow/assessment" replace />
                   ) : (
-                    <ClassificationRoute
-                      assessment={flow.state.assessment}
-                      selectedZoneId={flow.state.selectedZoneId}
-                      selectedExerciseId={flow.state.selectedExerciseId}
-                      fallbackExerciseIds={fallbackExerciseIds}
-                      onComplete={handleClassificationResolved}
-                    />
+                    <div className="flow-scroll">
+                      <ClassificationRoute
+                        assessment={flow.state.assessment}
+                        selectedZoneId={flow.state.selectedZoneId}
+                        selectedExerciseId={flow.state.selectedExerciseId}
+                        fallbackExerciseIds={fallbackExerciseIds}
+                        onComplete={handleClassificationResolved}
+                      />
+                    </div>
                   )
                 }
               />
@@ -473,12 +516,14 @@ export function PageShell() {
                   !flow.state.routine || !flow.state.classification ? (
                     <Navigate to="/flow/assessment" replace />
                   ) : (
-                    <RoutineStep
-                      plan={flow.state.routine}
-                      classification={flow.state.classification}
-                      onCompleteSession={completeSession}
-                      onContinue={() => navigate('/flow/progress')}
-                    />
+                    <div className="flow-scroll">
+                      <RoutineStep
+                        plan={flow.state.routine}
+                        classification={flow.state.classification}
+                        onCompleteSession={completeSession}
+                        onContinue={() => navigate('/flow/progress')}
+                      />
+                    </div>
                   )
                 }
               />
@@ -486,11 +531,13 @@ export function PageShell() {
               <Route
                 path="/flow/progress"
                 element={
-                  <ProgressStep
-                    snapshot={flow.state.progress}
-                    onUpdatePain={handlePainScoreUpdate}
-                    onNext={() => navigate('/flow/setup')}
-                  />
+                  <div className="flow-scroll">
+                    <ProgressStep
+                      snapshot={flow.state.progress}
+                      onUpdatePain={handlePainScoreUpdate}
+                      onNext={() => navigate('/flow/setup')}
+                    />
+                  </div>
                 }
               />
 
@@ -500,7 +547,9 @@ export function PageShell() {
                   !flow.state.setup ? (
                     <Navigate to="/flow/assessment" replace />
                   ) : (
-                    <SetupStep setup={flow.state.setup} onRestart={handleRestart} />
+                    <div className="flow-scroll">
+                      <SetupStep setup={flow.state.setup} onRestart={handleRestart} />
+                    </div>
                   )
                 }
               />

@@ -5,9 +5,10 @@ import type { AssessmentAnswers } from '../../flow/types';
 interface Props {
   initial: AssessmentAnswers;
   onSubmit: (answers: AssessmentAnswers) => void;
+  onChangeArea: () => void;
 }
 
-export function AssessmentStep({ initial, onSubmit }: Props) {
+export function AssessmentStep({ initial, onSubmit, onChangeArea }: Props) {
   const [form, setForm] = useState<AssessmentAnswers>(initial);
 
   const answered = useMemo(() => {
@@ -203,7 +204,14 @@ export function AssessmentStep({ initial, onSubmit }: Props) {
           </div>
         </fieldset>
 
-        <div className="mt-2 flex flex-wrap gap-2">
+        <div className="sticky bottom-0 z-10 -mx-2 mt-2 flex flex-wrap gap-2 border-t border-rule bg-surface px-2 pb-1 pt-3">
+          <button
+            type="button"
+            onClick={onChangeArea}
+            className="rounded-xl border border-rule bg-surface px-4 py-2 text-sm text-ink transition hover:border-ink hover:bg-bg"
+          >
+            Change pain area
+          </button>
           <button
             type="submit"
             className="rounded-xl bg-ink px-4 py-2 text-sm font-medium text-bg transition hover:bg-accent"
