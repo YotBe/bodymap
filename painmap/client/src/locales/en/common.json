@@ -95,7 +95,9 @@
     "normal": "Normal",
     "paused": "Paused",
     "unavailable": "Animation coming soon",
-    "rep": "Rep {{current}}"
+    "rep": "Rep {{current}}",
+    "doneRep": "Done · {{current}} / {{target}}",
+    "setComplete": "Set complete · reset"
   },
   "notFound": {
     "headline": "Page not found.",

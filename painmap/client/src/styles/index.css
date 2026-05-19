@@ -257,6 +257,7 @@ button { font-family: inherit; cursor: pointer; }
     min-height: 0;
     aspect-ratio: 4 / 6;
     width: auto;
+    max-width: 380px;
     max-height: 100%;
     margin: 0 auto;
   }
@@ -316,13 +317,12 @@ button { font-family: inherit; cursor: pointer; }
     flex-direction: column;
     overflow: hidden;
   }
-  .pane-right > .fade-stage > * {
-    flex: 1 1 0;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
+  /* The fade-stage is a flex column. The pane-eyebrow already declares
+     flex: 0 0 auto for itself, and each route's main content
+     (.empty-state / .zone-prompt / .exercise-card / .long-form) declares
+     its own flex: 1 1 0 below. We deliberately do NOT add a wildcard
+     `> *` rule here — it would override the eyebrow's flex: 0 0 auto and
+     give the small eyebrow half the right pane. */
 
   .fade-stage {
     animation: fadeSwap 240ms ease-out;
@@ -506,12 +506,12 @@ button { font-family: inherit; cursor: pointer; }
   }
 
   .empty-state {
-    padding-top: 0;
+    padding-top: 8px;
     flex: 1 1 0;
     min-height: 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
   }
   .es-headline {
     font-family: var(--serif);
@@ -634,8 +634,7 @@ button { font-family: inherit; cursor: pointer; }
     border-bottom: 1px solid var(--rule);
     padding: 12px 4px;
     text-align: left;
-    flex: 1 1 0;
-    min-height: 0;
+    flex: 0 0 auto;
   }
   .zp-item:hover { background: rgba(200, 68, 44, 0.04); }
   .zp-item-label {
