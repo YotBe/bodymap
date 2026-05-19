@@ -18,7 +18,6 @@ export function ZonePrompt({ zoneId, onPickSubArea }: Props) {
   if (isLoading) {
     return (
       <div className="zone-prompt">
-        <div className="zp-eyebrow">{t('zonePrompt.eyebrow')}</div>
         <h2 className="zp-headline">{t('zonePrompt.loading')}</h2>
       </div>
     );
@@ -27,7 +26,6 @@ export function ZonePrompt({ zoneId, onPickSubArea }: Props) {
   if (!zone) {
     return (
       <div className="zone-prompt">
-        <div className="zp-eyebrow">{t('zonePrompt.eyebrow')}</div>
         <h2 className="zp-headline">{t('zonePrompt.notFoundHeadline')}</h2>
         <p className="zp-sub">{t('zonePrompt.notFoundSub')}</p>
       </div>
@@ -36,11 +34,8 @@ export function ZonePrompt({ zoneId, onPickSubArea }: Props) {
 
   return (
     <div className="zone-prompt">
-      <div className="zp-eyebrow">{t('zonePrompt.eyebrow')} / {localizedZoneName.toUpperCase()}</div>
+      <div className="zp-eyebrow">{localizedZoneName.toUpperCase()}</div>
       <h2 className="zp-headline">{t('zonePrompt.selectHeadline')}</h2>
-      <p className="zp-sub">
-        {t('zonePrompt.selectSubPrefix')}{localizedZoneName.toLowerCase()}{t('zonePrompt.selectSubSuffix')}
-      </p>
       <div className="zp-list">
         {zone.subAreas.map((sa) => (
           <button

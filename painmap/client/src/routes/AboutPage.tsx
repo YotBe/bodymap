@@ -11,33 +11,17 @@ export function AboutPage() {
         <span className="pt-serif pt-italic">{t('about.titleSuffix')}</span>
       </h1>
 
-      <section className="lf-section">
-        <h2 className="lf-h2">{t('about.problemH2')}</h2>
-        <p className="lf-p">
-          {t('about.problemP1Pre')}
-          <em>{t('about.problemP1Cite')}</em>
-          {t('about.problemP1Post')}
-        </p>
-        <p className="lf-p">{t('about.problemP2')}</p>
-      </section>
+      <div className="lf-body">
+        <section className="lf-section">
+          <h2 className="lf-h2">{t('about.problemH2')}</h2>
+          <p className="lf-p">{t('about.problemP1')}</p>
+        </section>
 
-      <section className="lf-section">
-        <h2 className="lf-h2">{t('about.gapH2')}</h2>
-        <p className="lf-p">{t('about.gapP1')}</p>
-        <p className="lf-p">{t('about.gapP2')}</p>
-      </section>
-
-      <section className="lf-section">
-        <h2 className="lf-h2">{t('about.approachH2')}</h2>
-        <p className="lf-p">{t('about.approachP1')}</p>
-        <p className="lf-p">{t('about.approachP2')}</p>
-        <p className="lf-p">{t('about.approachP3')}</p>
-      </section>
-
-      <section className="lf-section">
-        <h2 className="lf-h2">{t('about.teamH2')}</h2>
-        <p className="lf-p">{t('about.teamP1')}</p>
-      </section>
+        <section className="lf-section">
+          <h2 className="lf-h2">{t('about.approachH2')}</h2>
+          <p className="lf-p">{t('about.approachP1')}</p>
+        </section>
+      </div>
     </article>
   );
 }

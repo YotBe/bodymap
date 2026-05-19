@@ -20,7 +20,7 @@ export function EvidencePage() {
   })();
 
   return (
-    <article className="long-form">
+    <article className="long-form long-form-evidence">
       <PaneEyebrow num="·" label={t('pane.evidenceLabel')} />
       <h1 className="page-title">
         <span className="pt-serif">{t('evidence.titlePrefix')}</span>
@@ -30,27 +30,24 @@ export function EvidencePage() {
 
       {isLoading && <div className="lf-p">{t('evidence.loading')}</div>}
 
-      {grouped.map(([zoneId, { zoneName, entries }]) => (
-        <section key={zoneId} className="lf-section">
-          <h2 className="lf-h2">
-            {t(`zones.${zoneId}`, { defaultValue: ZONE_LABELS[zoneId as ZoneId] ?? zoneName })}
-          </h2>
-          <ul className="evidence-list">
-            {entries.map((e) => (
-              <li key={e.exerciseId} className="evidence-item">
-                <div className="evidence-head">
-                  <Link to={`/exercise/${e.exerciseId}`} className="evidence-link">
+      <div className="lf-body ev-grid">
+        {grouped.map(([zoneId, { zoneName, entries }]) => (
+          <section key={zoneId} className="ev-zone">
+            <h2 className="ev-zone-name">
+              {t(`zones.${zoneId}`, { defaultValue: ZONE_LABELS[zoneId as ZoneId] ?? zoneName })}
+            </h2>
+            <ul className="ev-zone-list">
+              {entries.map((e) => (
+                <li key={e.exerciseId}>
+                  <Link to={`/exercise/${e.exerciseId}`} className="ev-zone-link">
                     {e.exerciseName}
                   </Link>
-                  <span className="evidence-subarea">{e.subAreaName}</span>
-                </div>
-                <p className="evidence-citation">{e.evidenceFull}</p>
-                <p className="evidence-summary">{e.evidenceSummary}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
     </article>
   );
 }
