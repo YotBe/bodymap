@@ -1,18 +1,18 @@
-import { useTranslation } from 'react-i18next';
-import { EmptyState } from '../components/EmptyState';
 import { PaneEyebrow } from '../components/PaneEyebrow';
-import type { ZoneId } from '../components/BodyMap/zones';
+import { HeroValueProp } from '../components/Flow/HeroValueProp';
+import { BodyAreaStep } from '../components/Flow/BodyAreaStep';
 
 interface Props {
-  onPickZone: (zoneId: ZoneId) => void;
+  onStartScan: () => void;
+  onOpenAssessment: () => void;
 }
 
-export function HomePage({ onPickZone }: Props) {
-  const { t } = useTranslation();
+export function HomePage({ onStartScan, onOpenAssessment }: Props) {
   return (
-    <>
-      <PaneEyebrow num={t('pane.awaitingNum')} label={t('pane.awaitingSelectionLabel')} />
-      <EmptyState onPickZone={onPickZone} />
-    </>
+    <div className="space-y-4">
+      <PaneEyebrow num="01" label="GET STARTED" />
+      <HeroValueProp onStartScan={onStartScan} onOpenAssessment={onOpenAssessment} />
+      <BodyAreaStep />
+    </div>
   );
 }
