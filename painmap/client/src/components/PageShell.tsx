@@ -1,5 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Routes, Route, useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { SafetyBanner } from './SafetyBanner';
 import { TopHeader } from './TopHeader';
@@ -23,6 +30,23 @@ import {
   type ZoneId,
   ZONES_BY_VIEW,
 } from './BodyMap/zones';
+import { useFlowSession } from '../flow/flowSession';
+import {
+  DEFAULT_ASSESSMENT,
+  type AssessmentAnswers,
+  type ClassificationResult,
+  type ProgressSnapshot,
+  type RoutinePlan,
+  type SetupProfile,
+} from '../flow/types';
+import { classifyAssessment } from '../flow/classifier';
+import { buildRoutinePlan, buildSetupProfile } from '../flow/routine';
+import { AssessmentStep } from './Flow/AssessmentStep';
+import { BodyAreaStep } from './Flow/BodyAreaStep';
+import { ClassificationStep } from './Flow/ClassificationStep';
+import { ProgressStep } from './Flow/ProgressStep';
+import { RoutineStep } from './Flow/RoutineStep';
+import { SetupStep } from './Flow/SetupStep';
 
 const ALL_ZONE_IDS: readonly ZoneId[] = [
   'neck',
@@ -34,7 +58,7 @@ const ALL_ZONE_IDS: readonly ZoneId[] = [
   'foot-ankle',
 ] as const;
 
-function isZoneId(value: string | undefined): value is ZoneId {
+function isZoneId(value: string | undefined | null): value is ZoneId {
   return !!value && (ALL_ZONE_IDS as readonly string[]).includes(value);
 }
 
@@ -80,11 +104,43 @@ function ZoneRouteSync({
   return null;
 }
 
-function HomeRouteSync({ onSync }: { onSync: () => void }) {
+function ClassificationRoute({
+  assessment,
+  selectedZoneId,
+  selectedExerciseId,
+  fallbackExerciseIds,
+  onComplete,
+}: {
+  assessment: AssessmentAnswers | null;
+  selectedZoneId: string | null;
+  selectedExerciseId: string | null;
+  fallbackExerciseIds: string[];
+  onComplete: (
+    classification: ClassificationResult,
+    routine: RoutinePlan,
+    setup: SetupProfile
+  ) => void;
+}) {
   useEffect(() => {
-    onSync();
-  }, [onSync]);
-  return null;
+    if (!assessment || !selectedZoneId) return;
+
+    const timer = window.setTimeout(() => {
+      const classification = classifyAssessment(assessment);
+      const routine = buildRoutinePlan(classification, selectedExerciseId, fallbackExerciseIds);
+      const setup = buildSetupProfile(assessment);
+      onComplete(classification, routine, setup);
+    }, 650);
+
+    return () => window.clearTimeout(timer);
+  }, [assessment, selectedZoneId, selectedExerciseId, fallbackExerciseIds, onComplete]);
+
+  return <ClassificationStep classification={null} />;
+}
+
+function startOfDayMillis(iso: string): number {
+  const d = new Date(iso);
+  d.setHours(0, 0, 0, 0);
+  return d.getTime();
 }
 
 export function PageShell() {
@@ -94,6 +150,8 @@ export function PageShell() {
   const isMobile = useIsMobile();
   const { data: zones } = useZones();
   const { t } = useTranslation();
+
+  const flow = useFlowSession();
 
   const [view, setView] = useState<BodyView>('anterior');
   const [bannerDismissed, setBannerDismissed] = useLocalStorage(
@@ -113,6 +171,39 @@ export function PageShell() {
     return m;
   }, [zones]);
 
+  const subAreaToZoneId = useMemo(() => {
+    const m = new Map<string, ZoneId>();
+    zones?.forEach((z) => {
+      z.subAreas.forEach((sa) => {
+        if (isZoneId(z.id)) m.set(sa.id, z.id);
+      });
+    });
+    return m;
+  }, [zones]);
+
+  const zoneToPrimaryExerciseIds = useMemo(() => {
+    const m = new Map<ZoneId, string[]>();
+    zones?.forEach((z) => {
+      if (!isZoneId(z.id)) return;
+      m.set(
+        z.id,
+        z.subAreas
+          .map((sa) => sa.primaryExerciseId)
+          .filter((id): id is string => !!id)
+      );
+    });
+    return m;
+  }, [zones]);
+
+  useEffect(() => {
+    if (isZoneId(flow.state.selectedZoneId)) {
+      setSelectedZone(flow.state.selectedZoneId);
+    }
+    if (flow.state.selectedSubAreaId) {
+      setSelectedSubArea(flow.state.selectedSubAreaId);
+    }
+  }, [flow.state.selectedZoneId, flow.state.selectedSubAreaId]);
+
   // Auto-flip view when the selected zone is posterior-only and user is on anterior.
   useEffect(() => {
     if (selectedZone === 'back' && view === 'anterior') {
@@ -120,7 +211,6 @@ export function PageShell() {
     }
   }, [selectedZone, view]);
 
-  // If user is on a back-zone route and flips back to anterior, send them home.
   const handleViewChange = useCallback(
     (next: BodyView) => {
       setView(next);
@@ -133,37 +223,41 @@ export function PageShell() {
 
   const handleZoneSelect = useCallback(
     (zoneId: ZoneId) => {
+      flow.setStep('map');
       navigate(`/zone/${zoneId}`);
     },
-    [navigate]
+    [flow, navigate]
   );
 
   const handleSubAreaSelect = useCallback(
     (subAreaId: string, primaryExerciseId?: string | null) => {
-      const exId =
-        primaryExerciseId ?? subAreaToExerciseId.get(subAreaId) ?? null;
-      if (exId) navigate(`/exercise/${exId}`);
+      const exId = primaryExerciseId ?? subAreaToExerciseId.get(subAreaId) ?? null;
+      const zoneId = selectedZone ?? subAreaToZoneId.get(subAreaId) ?? null;
+
+      if (zoneId) setSelectedZone(zoneId);
+      setSelectedSubArea(subAreaId);
+      flow.setPainArea(zoneId, subAreaId, exId);
+      navigate('/flow/assessment');
     },
-    [navigate, subAreaToExerciseId]
+    [flow, navigate, selectedZone, subAreaToExerciseId, subAreaToZoneId]
   );
 
   const handleBack = useCallback(() => {
     if (selectedSubArea) {
       if (selectedZone) navigate(`/zone/${selectedZone}`);
-      else navigate('/');
+      else navigate('/flow/map');
     } else {
       navigate('/');
     }
   }, [navigate, selectedZone, selectedSubArea]);
 
-  // Esc handler: pop one level at a time.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return;
       if (selectedSubArea && selectedZone) {
         navigate(`/zone/${selectedZone}`);
       } else if (selectedZone) {
-        navigate('/');
+        navigate('/flow/map');
       }
     };
     window.addEventListener('keydown', onKey);
@@ -171,8 +265,6 @@ export function PageShell() {
   }, [navigate, selectedSubArea, selectedZone]);
 
   const enabledZonesForView = ZONES_BY_VIEW[view];
-  // Display a still-disabled selected zone (e.g. back on anterior) but the
-  // auto-flip effect above will switch the view momentarily.
   const isZoneInView = selectedZone ? enabledZonesForView.includes(selectedZone) : true;
 
   const isStaticPage =
@@ -180,13 +272,105 @@ export function PageShell() {
     location.pathname === '/legal' ||
     location.pathname === '/evidence' ||
     location.pathname === '/clinician-finder';
-  const routeKind: 'home' | 'zone' | 'exercise' | 'page' = isStaticPage
+
+  const isFlowPath = location.pathname.startsWith('/flow/');
+
+  const routeKind: 'home' | 'map' | 'zone' | 'exercise' | 'page' | 'flow' = isStaticPage
     ? 'page'
     : location.pathname.startsWith('/exercise')
-    ? 'exercise'
-    : location.pathname.startsWith('/zone')
-      ? 'zone'
-      : 'home';
+      ? 'exercise'
+      : location.pathname.startsWith('/zone')
+        ? 'zone'
+        : location.pathname === '/flow/map'
+          ? 'map'
+          : isFlowPath
+            ? 'flow'
+            : 'home';
+
+  const fallbackExerciseIds = useMemo(() => {
+    if (!isZoneId(flow.state.selectedZoneId)) return [];
+    const inZone = zoneToPrimaryExerciseIds.get(flow.state.selectedZoneId) ?? [];
+    return inZone.filter((id) => id !== flow.state.selectedExerciseId);
+  }, [flow.state.selectedExerciseId, flow.state.selectedZoneId, zoneToPrimaryExerciseIds]);
+
+  const handleStartScan = useCallback(() => {
+    flow.setStep('map');
+    navigate('/flow/map');
+  }, [flow, navigate]);
+
+  const handleOpenAssessment = useCallback(() => {
+    if (flow.state.selectedSubAreaId) {
+      navigate('/flow/assessment');
+      return;
+    }
+    navigate('/flow/map');
+  }, [flow.state.selectedSubAreaId, navigate]);
+
+  const handleAssessmentSubmit = useCallback(
+    (answers: AssessmentAnswers) => {
+      flow.setAssessment(answers);
+      navigate('/flow/classification');
+    },
+    [flow, navigate]
+  );
+
+  const handleClassificationResolved = useCallback(
+    (classification: ClassificationResult, routine: RoutinePlan, setup: SetupProfile) => {
+      flow.setClassification(classification);
+      flow.setRoutine(routine);
+      flow.setSetup(setup);
+      navigate('/flow/routine');
+    },
+    [flow, navigate]
+  );
+
+  const completeSession = useCallback(async () => {
+    const prev = flow.state.progress;
+    const now = new Date().toISOString();
+
+    let streakDays = 1;
+    if (prev.lastCompletedAt) {
+      const diffDays =
+        (startOfDayMillis(now) - startOfDayMillis(prev.lastCompletedAt)) / (1000 * 60 * 60 * 24);
+      if (diffDays <= 0) streakDays = prev.streakDays;
+      else if (diffDays === 1) streakDays = prev.streakDays + 1;
+      else streakDays = 1;
+    }
+
+    const completedSessions = prev.completedSessions + 1;
+    const adherencePercent = Math.min(
+      100,
+      Math.round((completedSessions / (completedSessions + 2)) * 100)
+    );
+
+    const next: ProgressSnapshot = {
+      ...prev,
+      completedSessions,
+      streakDays,
+      adherencePercent,
+      lastCompletedAt: now,
+    };
+
+    await flow.setProgress(next);
+    navigate('/flow/progress');
+  }, [flow, navigate]);
+
+  const handlePainScoreUpdate = useCallback(
+    async (painScore: number) => {
+      await flow.setProgress({
+        ...flow.state.progress,
+        lastPainScore: painScore,
+      });
+    },
+    [flow]
+  );
+
+  const handleRestart = useCallback(() => {
+    flow.resetFlow();
+    setSelectedZone(null);
+    setSelectedSubArea(null);
+    navigate('/');
+  }, [flow, navigate]);
 
   return (
     <div className="app-shell">
@@ -220,17 +404,23 @@ export function PageShell() {
               <Route
                 path="/"
                 element={
+                  <HomePage
+                    onStartScan={handleStartScan}
+                    onOpenAssessment={handleOpenAssessment}
+                  />
+                }
+              />
+
+              <Route
+                path="/flow/map"
+                element={
                   <>
-                    <HomeRouteSync
-                      onSync={() => {
-                        setSelectedZone(null);
-                        setSelectedSubArea(null);
-                      }}
-                    />
-                    <HomePage onPickZone={handleZoneSelect} />
+                    <PaneEyebrow num="01" label="BODY AREA" />
+                    <BodyAreaStep />
                   </>
                 }
               />
+
               <Route
                 path="/zone/:zoneId"
                 element={
@@ -245,6 +435,76 @@ export function PageShell() {
                   </>
                 }
               />
+
+              <Route
+                path="/flow/assessment"
+                element={
+                  !flow.state.selectedSubAreaId ? (
+                    <Navigate to="/flow/map" replace />
+                  ) : (
+                    <AssessmentStep
+                      initial={flow.state.assessment ?? DEFAULT_ASSESSMENT}
+                      onSubmit={handleAssessmentSubmit}
+                    />
+                  )
+                }
+              />
+
+              <Route
+                path="/flow/classification"
+                element={
+                  !flow.state.assessment || !flow.state.selectedZoneId ? (
+                    <Navigate to="/flow/assessment" replace />
+                  ) : (
+                    <ClassificationRoute
+                      assessment={flow.state.assessment}
+                      selectedZoneId={flow.state.selectedZoneId}
+                      selectedExerciseId={flow.state.selectedExerciseId}
+                      fallbackExerciseIds={fallbackExerciseIds}
+                      onComplete={handleClassificationResolved}
+                    />
+                  )
+                }
+              />
+
+              <Route
+                path="/flow/routine"
+                element={
+                  !flow.state.routine || !flow.state.classification ? (
+                    <Navigate to="/flow/assessment" replace />
+                  ) : (
+                    <RoutineStep
+                      plan={flow.state.routine}
+                      classification={flow.state.classification}
+                      onCompleteSession={completeSession}
+                      onContinue={() => navigate('/flow/progress')}
+                    />
+                  )
+                }
+              />
+
+              <Route
+                path="/flow/progress"
+                element={
+                  <ProgressStep
+                    snapshot={flow.state.progress}
+                    onUpdatePain={handlePainScoreUpdate}
+                    onNext={() => navigate('/flow/setup')}
+                  />
+                }
+              />
+
+              <Route
+                path="/flow/setup"
+                element={
+                  !flow.state.setup ? (
+                    <Navigate to="/flow/assessment" replace />
+                  ) : (
+                    <SetupStep setup={flow.state.setup} onRestart={handleRestart} />
+                  )
+                }
+              />
+
               <Route
                 path="/exercise/:exerciseId"
                 element={
@@ -259,6 +519,7 @@ export function PageShell() {
                   </>
                 }
               />
+
               <Route path="/about" element={<AboutPage />} />
               <Route path="/legal" element={<LegalPage />} />
               <Route path="/evidence" element={<EvidencePage />} />
