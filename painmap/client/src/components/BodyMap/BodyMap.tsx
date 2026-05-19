@@ -203,12 +203,6 @@ export function BodyMap({
           </div>
         )}
       </div>
-
-      <div className="bodymap-footnote">
-        {!selectedZone && <span>{t('bodyMap.footnoteClickZone')}</span>}
-        {selectedZone && !selectedSubAreaId && <span>{t('bodyMap.footnoteSelectSubArea')}</span>}
-        {selectedSubAreaId && <span>{t('bodyMap.footnoteShowingExercise')}</span>}
-      </div>
     </div>
   );
 }

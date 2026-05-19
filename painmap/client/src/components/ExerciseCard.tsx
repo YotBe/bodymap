@@ -35,49 +35,54 @@ export function ExerciseCard({ exercise }: Props) {
         <span>{t('exercise.back')}</span>
       </button>
 
-      <div className="ex-location">{location}</div>
-      <h2 className="ex-name" id="ex-name">
-        {exercise.name}
-      </h2>
+      <header className="ex-header">
+        <div className="ex-location">{location}</div>
+        <h2 className="ex-name" id="ex-name">
+          {exercise.name}
+        </h2>
+        <p className="ex-target">{exercise.targetMuscles}</p>
+        <EvidencePill evidence={exercise.evidence} />
+        {showTranslationPending && (
+          <div className="translation-pending" role="note">
+            {t('exercise.translationPending')}
+          </div>
+        )}
+      </header>
 
-      {showTranslationPending && (
-        <div className="translation-pending" role="note">
-          {t('exercise.translationPending')}
-        </div>
-      )}
+      <div className="ex-demo">
+        <ExerciseAnimation
+          exerciseId={exercise.id}
+          exerciseName={exercise.name}
+          mp4Url={exercise.demoVideoMp4}
+          lottieUrl={exercise.demoLottie}
+          reps={exercise.reps}
+        />
+        {exercise.videoUrl && (
+          <a
+            className="video-fallback"
+            href={exercise.videoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t('video.watchReal')}
+          </a>
+        )}
+      </div>
 
-      <EvidencePill evidence={exercise.evidence} />
+      <div className="ex-rx">
+        <PrescriptionBlock
+          sets={exercise.sets}
+          reps={exercise.reps}
+          tempo={exercise.tempo}
+          frequency={exercise.frequency}
+        />
+      </div>
 
-      <ExerciseAnimation
-        exerciseId={exercise.id}
-        exerciseName={exercise.name}
-        mp4Url={exercise.demoVideoMp4}
-      />
-      {exercise.videoUrl && (
-        <a
-          className="video-fallback"
-          href={exercise.videoUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {t('video.watchReal')}
-        </a>
-      )}
+      <div className="ex-band">
+        <BandChip band={exercise.band} />
+      </div>
 
-      <section className="ex-section">
-        <p className="ex-why">{exercise.mechanism}</p>
-      </section>
-
-      <PrescriptionBlock
-        sets={exercise.sets}
-        reps={exercise.reps}
-        tempo={exercise.tempo}
-        frequency={exercise.frequency}
-      />
-
-      <BandChip band={exercise.band} />
-
-      <section className="ex-section">
+      <section className="ex-instructions">
         <h3 className="ex-h3">{t('exercise.instructions')}</h3>
         <ol className="ex-steps">
           {exercise.instructions.map((step, i) => (
@@ -89,70 +94,42 @@ export function ExerciseCard({ exercise }: Props) {
         </ol>
       </section>
 
-      <details className="ex-collapse">
-        <summary>
-          <span>{t('exercise.targetMuscles')}</span>
-          <span className="acc-chev" aria-hidden="true"></span>
-        </summary>
-        <div className="ex-collapse-body">
-          <p className="ex-why" style={{ fontSize: 14 }}>{exercise.targetMuscles}</p>
-        </div>
-      </details>
+      <section className="ex-mistakes">
+        <h3 className="ex-h3">
+          <svg
+            className="warn-icon"
+            viewBox="0 0 16 16"
+            width="12"
+            height="12"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.2"
+            aria-hidden="true"
+          >
+            <path d="M8 2 L14 13 L2 13 Z" />
+            <path d="M8 7 L8 10" />
+            <circle cx="8" cy="11.5" r="0.3" fill="currentColor" />
+          </svg>
+          {t('exercise.commonMistakes')}
+        </h3>
+        <ul className="ex-bullets">
+          {exercise.commonMistakes.slice(0, 3).map((m, i) => (
+            <li key={i}>{m}</li>
+          ))}
+        </ul>
+      </section>
 
-      <details className="ex-collapse">
-        <summary>
-          <span>
-            <svg
-              className="warn-icon"
-              viewBox="0 0 16 16"
-              width="14"
-              height="14"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.2"
-              aria-hidden="true"
-            >
-              <path d="M8 2 L14 13 L2 13 Z" />
-              <path d="M8 7 L8 10" />
-              <circle cx="8" cy="11.5" r="0.3" fill="currentColor" />
-            </svg>
-            {' '}{t('exercise.commonMistakes')}
-          </span>
-          <span className="acc-chev" aria-hidden="true"></span>
-        </summary>
-        <div className="ex-collapse-body">
-          <ul className="ex-bullets">
-            {exercise.commonMistakes.map((m, i) => (
-              <li key={i}>{m}</li>
-            ))}
-          </ul>
-        </div>
-      </details>
-
-      {exercise.beginnerModification && (
-        <details className="ex-collapse">
-          <summary>
-            <span>{t('exercise.beginners')}</span>
-            <span className="acc-chev" aria-hidden="true"></span>
-          </summary>
-          <div className="ex-collapse-body">{exercise.beginnerModification}</div>
-        </details>
-      )}
-
-      <aside className="contraindications" role="note">
+      <aside className="ex-contra contraindications" role="note">
         <div className="ci-label">{t('exercise.contraindications')}</div>
         <div className="ci-body">{exercise.contraindications.join(' · ')}</div>
       </aside>
 
-      <details className="ex-collapse">
-        <summary>
-          <span>{t('exercise.fullCitation')}</span>
-          <span className="acc-chev" aria-hidden="true"></span>
-        </summary>
-        <div className="ex-collapse-body">
-          <div className="cit-text">{exercise.evidence.full}</div>
+      <div className="ex-citation citation-footer">
+        <div className="cit-label">{t('exercise.fullCitation')}</div>
+        <div className="cit-text" title={exercise.evidence.full}>
+          {exercise.evidence.full}
         </div>
-      </details>
+      </div>
     </article>
   );
 }

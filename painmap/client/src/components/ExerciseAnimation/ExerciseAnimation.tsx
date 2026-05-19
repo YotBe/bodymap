@@ -4,43 +4,108 @@ import { HumanFigure } from './HumanFigure';
 import { MuscleOverlay } from './MuscleOverlay';
 import { MUSCLE_OVERLAYS } from './muscles';
 import { VideoDemo } from './VideoDemo';
+import { LottieDemo } from './LottieDemo';
 import { ANIMATION_CONFIGS } from './exerciseAnimations';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import './exerciseAnimation.css';
 
 interface Props {
   exerciseId: string;
   exerciseName: string;
-  /* Optional self-hosted MP4 URL/path. When provided and loadable, the
-     exercise card shows the real-footage clip instead of the SVG animation.
-     On error, falls back to the SVG animation. */
+  /* Optional Lottie JSON URL/path. Highest priority demo source. */
+  lottieUrl?: string | null;
+  /* Optional self-hosted MP4 URL/path. Used when no Lottie is available. */
   mp4Url?: string | null;
+  /* Reps spec (e.g., "10-12") — used for the Lottie rep counter overlay. */
+  reps?: string;
 }
 
-export function ExerciseAnimation({ exerciseId, exerciseName, mp4Url }: Props) {
+export function ExerciseAnimation({
+  exerciseId,
+  exerciseName,
+  lottieUrl,
+  mp4Url,
+  reps,
+}: Props) {
   const { t, i18n } = useTranslation();
+  const prefersReducedMotion = usePrefersReducedMotion();
   const config = ANIMATION_CONFIGS[exerciseId];
   const [paused, setPaused] = useState(false);
   const [slow, setSlow] = useState(false);
   const [videoErrored, setVideoErrored] = useState(false);
+  const [lottieErrored, setLottieErrored] = useState(false);
 
-  // Reset state when exercise changes
   useEffect(() => {
     setPaused(false);
     setSlow(false);
     setVideoErrored(false);
+    setLottieErrored(false);
   }, [exerciseId]);
 
-  if (mp4Url && !videoErrored) {
+  const showLottie = lottieUrl && !lottieErrored;
+  const showVideo = !showLottie && mp4Url && !videoErrored;
+  const showSvg = !showLottie && !showVideo && !!config;
+
+  const controls = (
+    <div className="ea-controls" role="group" aria-label={t('animation.controlsAria')}>
+      <button
+        type="button"
+        className="ea-btn"
+        onClick={() => setPaused((p) => !p)}
+        aria-pressed={paused}
+      >
+        {paused ? (
+          <>
+            <PlayIcon />
+            <span>{t('animation.play')}</span>
+          </>
+        ) : (
+          <>
+            <PauseIcon />
+            <span>{t('animation.pause')}</span>
+          </>
+        )}
+      </button>
+      <button
+        type="button"
+        className="ea-btn"
+        onClick={() => setSlow((s) => !s)}
+        aria-pressed={slow}
+      >
+        <SpeedIcon slow={slow} />
+        <span>{slow ? t('animation.normal') : t('animation.slow')}</span>
+      </button>
+    </div>
+  );
+
+  if (showLottie) {
+    return (
+      <div className="exercise-animation">
+        <LottieDemo
+          src={lottieUrl!}
+          exerciseName={exerciseName}
+          paused={paused}
+          slow={slow}
+          prefersReducedMotion={prefersReducedMotion}
+          reps={reps}
+          onError={() => setLottieErrored(true)}
+        />
+        {controls}
+      </div>
+    );
+  }
+
+  if (showVideo) {
     return (
       <VideoDemo
-        src={mp4Url}
+        src={mp4Url!}
         exerciseName={exerciseName}
         onError={() => setVideoErrored(true)}
       />
     );
   }
 
-  if (!config) {
+  if (!showSvg) {
     return (
       <div className="exercise-animation exercise-animation-missing" role="img" aria-label={exerciseName}>
         <div className="ea-stage ea-stage-fallback">
@@ -76,35 +141,7 @@ export function ExerciseAnimation({ exerciseId, exerciseName, mp4Url }: Props) {
         <span className="ea-caption">{caption}</span>
         {paused && <span className="ea-paused-badge">{t('animation.paused')}</span>}
       </div>
-      <div className="ea-controls" role="group" aria-label={t('animation.controlsAria')}>
-        <button
-          type="button"
-          className="ea-btn"
-          onClick={() => setPaused((p) => !p)}
-          aria-pressed={paused}
-        >
-          {paused ? (
-            <>
-              <PlayIcon />
-              <span>{t('animation.play')}</span>
-            </>
-          ) : (
-            <>
-              <PauseIcon />
-              <span>{t('animation.pause')}</span>
-            </>
-          )}
-        </button>
-        <button
-          type="button"
-          className="ea-btn"
-          onClick={() => setSlow((s) => !s)}
-          aria-pressed={slow}
-        >
-          <SpeedIcon slow={slow} />
-          <span>{slow ? t('animation.normal') : t('animation.slow')}</span>
-        </button>
-      </div>
+      {controls}
     </div>
   );
 }

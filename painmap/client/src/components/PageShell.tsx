@@ -189,7 +189,7 @@ export function PageShell() {
       : 'home';
 
   return (
-    <>
+    <div className="app-shell">
       {!bannerDismissed && <SafetyBanner onDismiss={() => setBannerDismissed(true)} />}
       <TopHeader />
 
@@ -200,7 +200,6 @@ export function PageShell() {
             <span className="pt-serif">{t('pageTitle.wherePrefix')}</span>
             <span className="pt-serif pt-italic">{t('pageTitle.whereSuffix')}</span>
           </h1>
-          <p className="page-sub">{t('pageSub')}</p>
 
           <BodyMap
             view={view}
@@ -271,6 +270,6 @@ export function PageShell() {
       </main>
 
       <SiteFooter />
-    </>
+    </div>
   );
 }

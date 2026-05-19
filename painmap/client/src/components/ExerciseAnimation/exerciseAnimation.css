@@ -5,13 +5,20 @@
    ============================================================ */
 
 .exercise-animation {
-  margin-bottom: 24px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1 1 0;
 }
 
 .ea-stage {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 16 / 10;
+  flex: 1 1 0;
+  min-height: 0;
+  max-height: 100%;
   background: var(--surface);
   border: 1px solid var(--rule);
   border-radius: 4px;
@@ -19,6 +26,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.ea-stage-lottie { background: var(--surface); }
+.ea-lottie {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.ea-rep-counter {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  background: rgba(245, 242, 236, 0.92);
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  border-radius: 2px;
+  pointer-events: none;
 }
 
 .ea-stage-fallback { background: var(--bg); }
@@ -91,25 +118,26 @@
 
 .ea-controls {
   display: flex;
-  gap: 8px;
-  margin-top: 10px;
+  gap: 6px;
+  margin-top: 6px;
   align-items: stretch;
+  flex: 0 0 auto;
 }
 .ea-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
+  gap: 4px;
+  padding: 4px 8px;
   border: 1px solid var(--rule);
   border-radius: 4px;
   background: transparent;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: 0.08em;
   color: var(--ink);
   cursor: pointer;
   transition: border-color 180ms, background 180ms, color 180ms;
-  min-height: 36px;
+  min-height: 26px;
 }
 .ea-btn:hover { border-color: var(--ink); background: var(--bg); }
 .ea-btn:focus-visible {

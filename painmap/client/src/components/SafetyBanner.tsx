@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
@@ -8,7 +9,10 @@ export function SafetyBanner({ onDismiss }: Props) {
   const { t } = useTranslation();
   return (
     <div className="safety-banner">
-      <span className="sb-text">{t('safetyBanner.text')}</span>
+      <span className="sb-text">
+        {t('safetyBanner.text')}
+        <Link to="/legal" className="sb-link">{t('safetyBanner.learnMore')}</Link>
+      </span>
       <button
         type="button"
         className="sb-dismiss"

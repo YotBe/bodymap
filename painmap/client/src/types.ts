@@ -59,4 +59,7 @@ export interface Exercise {
      When set, the exercise card plays this clip instead of the SVG animation.
      If the URL errors at runtime, the player falls back to the SVG animation. */
   demoVideoMp4?: string | null;
+  /* Optional Lottie JSON URL or path (e.g., "/lottie/<id>.json"). Priority
+     over both MP4 and SVG when present; falls back on load error. */
+  demoLottie?: string | null;
 }

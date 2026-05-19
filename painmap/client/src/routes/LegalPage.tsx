@@ -13,58 +13,27 @@ export function LegalPage() {
         <span className="pt-serif pt-italic">{t('legal.titleSuffix')}</span>
       </h1>
 
-      <nav className="lf-toc" aria-label={t('legal.tocAria')}>
-        <a href="#disclaimer">{t('legal.tocDisclaimer')}</a>
-        <span aria-hidden="true">·</span>
-        <a href="#privacy">{t('legal.tocPrivacy')}</a>
-        <span aria-hidden="true">·</span>
-        <a href="#terms">{t('legal.tocTerms')}</a>
-      </nav>
+      <div className="lf-body">
+        <section className="lf-section">
+          <h2 className="lf-h2">{t('legal.disclaimerH2')}</h2>
+          <p className="lf-p">
+            {t('legal.disclaimerP1Pre')}
+            <strong>{t('legal.disclaimerP1Strong')}</strong>
+            {t('legal.disclaimerP1Post')}
+          </p>
+          <p className="lf-p">{t('legal.disclaimerP2')}</p>
+          <ul className="lf-list">
+            {redFlags.map((flag, i) => (
+              <li key={i}>{flag}</li>
+            ))}
+          </ul>
+        </section>
 
-      <section className="lf-section" id="disclaimer">
-        <h2 className="lf-h2">{t('legal.disclaimerH2')}</h2>
-        <p className="lf-p">
-          {t('legal.disclaimerP1Pre')}
-          <strong>{t('legal.disclaimerP1Strong')}</strong>
-          {t('legal.disclaimerP1Post')}
-        </p>
-        <p className="lf-p">{t('legal.disclaimerP2')}</p>
-        <ul className="lf-list">
-          {redFlags.map((flag, i) => (
-            <li key={i}>{flag}</li>
-          ))}
-        </ul>
-        <p className="lf-p">{t('legal.disclaimerP3')}</p>
-      </section>
-
-      <section className="lf-section" id="privacy">
-        <h2 className="lf-h2">{t('legal.privacyH2')}</h2>
-        <p className="lf-p">{t('legal.privacyP1')}</p>
-        <p className="lf-p">
-          {t('legal.privacyP2Pre')}
-          <code>{t('legal.privacyP2Code')}</code>
-          {t('legal.privacyP2Post')}
-        </p>
-        <p className="lf-p">
-          {t('legal.privacyP3Pre')}
-          <a
-            className="lf-inline"
-            href="https://plausible.io/privacy-focused-web-analytics"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {t('legal.privacyP3Link')}
-          </a>
-          {t('legal.privacyP3Post')}
-        </p>
-      </section>
-
-      <section className="lf-section" id="terms">
-        <h2 className="lf-h2">{t('legal.termsH2')}</h2>
-        <p className="lf-p">{t('legal.termsP1')}</p>
-        <p className="lf-p">{t('legal.termsP2')}</p>
-        <p className="lf-p">{t('legal.termsP3')}</p>
-      </section>
+        <section className="lf-section">
+          <h2 className="lf-h2">{t('legal.privacyH2')}</h2>
+          <p className="lf-p">{t('legal.privacyP1')}</p>
+        </section>
+      </div>
     </article>
   );
 }
