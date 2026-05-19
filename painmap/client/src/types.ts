@@ -63,3 +63,11 @@ export interface Exercise {
      over both MP4 and SVG when present; falls back on load error. */
   demoLottie?: string | null;
 }
+
+export type {
+  AssessmentAnswers,
+  ClassificationResult,
+  FlowStep,
+  ProgressSnapshot,
+  RoutinePlan,
+} from './flow/types';
