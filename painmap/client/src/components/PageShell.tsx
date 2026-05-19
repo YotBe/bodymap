@@ -154,6 +154,31 @@ function startOfDayMillis(iso: string): number {
   return d.getTime();
 }
 
+function durationLabel(value: AssessmentAnswers['painDuration']): string {
+  if (value === 'lt1w') return 'Less than 1 week';
+  if (value === '1to6w') return '1-6 weeks';
+  return 'More than 6 weeks';
+}
+
+function aggravatingLabel(value: AssessmentAnswers['aggravatingMovement']): string {
+  switch (value) {
+    case 'overheadReach':
+      return 'Overhead reach';
+    case 'sittingLong':
+      return 'Sitting long';
+    case 'typingMouse':
+      return 'Typing / mouse work';
+    case 'liftingCarry':
+      return 'Lifting / carrying';
+    case 'stairsWalk':
+      return 'Walking / stairs';
+    case 'bendingTwisting':
+      return 'Bending / twisting';
+    default:
+      return 'Mixed movement triggers';
+  }
+}
+
 export function PageShell() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -187,6 +212,16 @@ export function PageShell() {
     zones?.forEach((z) => {
       z.subAreas.forEach((sa) => {
         if (isZoneId(z.id)) m.set(sa.id, z.id);
+      });
+    });
+    return m;
+  }, [zones]);
+
+  const subAreaToDisplayName = useMemo(() => {
+    const m = new Map<string, string>();
+    zones?.forEach((z) => {
+      z.subAreas.forEach((sa) => {
+        m.set(sa.id, sa.name);
       });
     });
     return m;
@@ -314,6 +349,9 @@ export function PageShell() {
 
   const handleStartScan = useCallback(() => {
     flow.setStep('map');
+    setSelectedZone(null);
+    setSelectedSubArea(null);
+    flow.setPainArea(null, null, null);
     navigate('/flow/map');
   }, [flow, navigate]);
 
@@ -376,9 +414,12 @@ export function PageShell() {
 
   const handlePainScoreUpdate = useCallback(
     async (painScore: number) => {
+      const confidenceLevel =
+        painScore <= 3 ? 'high' : painScore <= 6 ? 'medium' : 'low';
       await flow.setProgress({
         ...flow.state.progress,
         lastPainScore: painScore,
+        confidenceLevel,
       });
     },
     [flow]
@@ -392,7 +433,7 @@ export function PageShell() {
   }, [flow, navigate]);
 
   return (
-    <div className="app-shell">
+    <div className="app-shell" data-route={routeKind}>
       {!bannerDismissed && <SafetyBanner onDismiss={() => setBannerDismissed(true)} />}
       <TopHeader />
 
@@ -428,6 +469,7 @@ export function PageShell() {
                       onReset={() => {
                         setSelectedZone(null);
                         setSelectedSubArea(null);
+                        flow.setPainArea(null, null, null);
                       }}
                     />
                     <HomePage
@@ -446,6 +488,7 @@ export function PageShell() {
                       onReset={() => {
                         setSelectedZone(null);
                         setSelectedSubArea(null);
+                        flow.setPainArea(null, null, null);
                       }}
                     />
                     <PaneEyebrow num="01" label="BODY AREA" />
@@ -520,6 +563,16 @@ export function PageShell() {
                       <RoutineStep
                         plan={flow.state.routine}
                         classification={flow.state.classification}
+                        recap={{
+                          areaLabel: selectedSubArea
+                            ? subAreaToDisplayName.get(selectedSubArea) ??
+                              selectedSubArea.replaceAll('-', ' ')
+                            : 'Selected pain area',
+                          durationLabel: durationLabel(flow.state.assessment?.painDuration ?? '1to6w'),
+                          aggravatingLabel: aggravatingLabel(
+                            flow.state.assessment?.aggravatingMovement ?? 'sittingLong'
+                          ),
+                        }}
                         onCompleteSession={completeSession}
                         onContinue={() => navigate('/flow/progress')}
                       />
@@ -535,7 +588,7 @@ export function PageShell() {
                     <ProgressStep
                       snapshot={flow.state.progress}
                       onUpdatePain={handlePainScoreUpdate}
-                      onNext={() => navigate('/flow/setup')}
+                      onNext={() => navigate('/flow/routine')}
                     />
                   </div>
                 }

@@ -81,6 +81,15 @@ button { font-family: inherit; cursor: pointer; }
     margin-inline-start: 6px;
     padding-bottom: 1px;
   }
+  .sb-link-btn {
+    appearance: none;
+    background: transparent;
+    border-top: 0;
+    border-inline: 0;
+    border-bottom: 1px solid var(--rule);
+    padding: 0;
+    font: inherit;
+  }
   .sb-link:hover { color: var(--accent); border-color: var(--accent); }
   .sb-dismiss {
     position: absolute;
@@ -131,6 +140,9 @@ button { font-family: inherit; cursor: pointer; }
   }
   .nav-link:hover { color: var(--ink); }
   .nav-emph { color: var(--ink); }
+  .app-shell[data-route='home'] .top-nav .nav-link { opacity: 0.7; }
+  .app-shell[data-route='home'] .top-nav .nav-link:hover { opacity: 1; }
+  .app-shell[data-route='home'] .top-nav .nav-emph { opacity: 0.8; }
 
   .layout {
     display: grid;

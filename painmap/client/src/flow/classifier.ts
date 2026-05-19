@@ -17,8 +17,8 @@ function scoreRisk(answers: AssessmentAnswers): number {
   else if (answers.painIntensity >= 6) score += 2;
   else if (answers.painIntensity >= 4) score += 1;
 
-  if (answers.painDuration === 'chronic') score += 2;
-  else if (answers.painDuration === 'subacute') score += 1;
+  if (answers.painDuration === 'gt6w') score += 2;
+  else if (answers.painDuration === '1to6w') score += 1;
 
   if (answers.symptomBehavior === 'worseWithMovement') score += 2;
   else if (answers.symptomBehavior === 'mixed') score += 1;
@@ -29,7 +29,11 @@ function scoreRisk(answers: AssessmentAnswers): number {
   if (answers.movementBreaks === 'rarely') score += 2;
   else if (answers.movementBreaks === '1to2') score += 1;
 
-  if (answers.equipmentAccess === 'none') score += 1;
+  if (answers.equipmentAccess === 'bandOnly') score += 1;
+
+  if (answers.aggravatingMovement === 'sittingLong' || answers.aggravatingMovement === 'typingMouse') {
+    score += 1;
+  }
 
   return score;
 }
@@ -37,7 +41,7 @@ function scoreRisk(answers: AssessmentAnswers): number {
 function deriveTrack(answers: AssessmentAnswers, riskTier: RiskTier): PrimaryTrack {
   if (riskTier === 'high') return 'clinician-referral';
 
-  if (answers.symptomBehavior === 'betterWithMovement' && answers.painDuration !== 'acute') {
+  if (answers.symptomBehavior === 'betterWithMovement' && answers.painDuration !== 'lt1w') {
     return 'strength-foundation';
   }
 
@@ -83,6 +87,9 @@ export function classifyAssessment(answers: AssessmentAnswers): ClassificationRe
   if (redFlags) rationale.push('Red-flag symptoms detected; clinician-first path recommended.');
   if (answers.deskHours === 'gt8' || answers.movementBreaks === 'rarely') {
     rationale.push('High desk load and limited breaks increase postural strain risk.');
+  }
+  if (answers.aggravatingMovement === 'typingMouse' || answers.aggravatingMovement === 'sittingLong') {
+    rationale.push('Your trigger pattern suggests desk-posture load as a key contributor.');
   }
   if (answers.symptomBehavior === 'betterWithMovement') {
     rationale.push('Symptoms improving with movement suggest loading tolerance can be built.');

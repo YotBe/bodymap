@@ -7,11 +7,18 @@ export type FlowStep =
   | 'progress'
   | 'setup';
 
-export type PainDuration = 'acute' | 'subacute' | 'chronic';
+export type PainDuration = 'lt1w' | '1to6w' | 'gt6w';
 export type SymptomBehavior = 'betterWithMovement' | 'mixed' | 'worseWithMovement';
+export type AggravatingMovement =
+  | 'overheadReach'
+  | 'sittingLong'
+  | 'typingMouse'
+  | 'liftingCarry'
+  | 'stairsWalk'
+  | 'bendingTwisting';
 export type DeskHours = 'lt4' | '4to6' | '6to8' | 'gt8';
 export type MovementBreaks = 'rarely' | '1to2' | '3plus';
-export type EquipmentAccess = 'none' | 'lightBand' | 'fullSet';
+export type EquipmentAccess = 'bandOnly' | 'bandAndChair' | 'fullSet';
 
 export interface RedFlagAnswers {
   recentTrauma: boolean;
@@ -24,6 +31,7 @@ export interface AssessmentAnswers {
   painIntensity: number;
   painDuration: PainDuration;
   symptomBehavior: SymptomBehavior;
+  aggravatingMovement: AggravatingMovement;
   deskHours: DeskHours;
   movementBreaks: MovementBreaks;
   equipmentAccess: EquipmentAccess;
@@ -59,6 +67,7 @@ export interface ProgressSnapshot {
   streakDays: number;
   lastPainScore: number | null;
   adherencePercent: number;
+  confidenceLevel: 'low' | 'medium' | 'high';
   lastCompletedAt: string | null;
 }
 
@@ -86,16 +95,18 @@ export const DEFAULT_PROGRESS: ProgressSnapshot = {
   streakDays: 0,
   lastPainScore: null,
   adherencePercent: 0,
+  confidenceLevel: 'medium',
   lastCompletedAt: null,
 };
 
 export const DEFAULT_ASSESSMENT: AssessmentAnswers = {
   painIntensity: 5,
-  painDuration: 'subacute',
+  painDuration: '1to6w',
   symptomBehavior: 'mixed',
+  aggravatingMovement: 'sittingLong',
   deskHours: '6to8',
   movementBreaks: '1to2',
-  equipmentAccess: 'lightBand',
+  equipmentAccess: 'bandOnly',
   redFlags: {
     recentTrauma: false,
     radiatingSymptoms: false,

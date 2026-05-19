@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import type { AssessmentAnswers } from '../../flow/types';
 
@@ -8,22 +8,14 @@ interface Props {
   onChangeArea: () => void;
 }
 
+function hasRedFlag(answers: AssessmentAnswers): boolean {
+  const r = answers.redFlags;
+  return r.recentTrauma || r.radiatingSymptoms || r.systemicSymptoms || r.nightPain;
+}
+
 export function AssessmentStep({ initial, onSubmit, onChangeArea }: Props) {
   const [form, setForm] = useState<AssessmentAnswers>(initial);
-
-  const answered = useMemo(() => {
-    let n = 0;
-    if (form.painIntensity >= 1) n += 1;
-    if (form.painDuration) n += 1;
-    if (form.symptomBehavior) n += 1;
-    if (form.deskHours) n += 1;
-    if (form.movementBreaks) n += 1;
-    if (form.equipmentAccess) n += 1;
-    n += 1; // red-flag block is always considered answered
-    return n;
-  }, [form]);
-
-  const progress = Math.round((answered / 7) * 100);
+  const redFlagPresent = hasRedFlag(form);
 
   return (
     <motion.section
@@ -32,37 +24,48 @@ export function AssessmentStep({ initial, onSubmit, onChangeArea }: Props) {
       transition={{ duration: 0.3 }}
       className="rounded-2xl border border-rule bg-surface p-6 shadow-card"
     >
-      <div className="mb-4 flex items-center justify-between gap-4">
+      <div className="mb-4 flex items-start justify-between gap-4">
         <div>
-          <p className="font-mono text-[11px] tracking-[0.14em] text-ink-muted">STEP 2</p>
-          <h2 className="mt-1 font-display text-2xl leading-tight text-ink">Quick discomfort assessment</h2>
+          <p className="font-mono text-[11px] tracking-[0.14em] text-ink-muted">STEP 2 OF 3</p>
+          <h2 className="mt-1 font-display text-2xl leading-tight text-ink">Quick discomfort intake</h2>
         </div>
-        <div className="w-36">
-          <div className="mb-1 flex justify-between text-[11px] text-ink-muted">
-            <span>Progress</span>
-            <span>{progress}%</span>
-          </div>
-          <div className="h-2 rounded-full bg-rule">
-            <div
-              className="h-2 rounded-full bg-accent transition-all"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
+        <div className="text-right text-xs text-ink-muted">
+          <p>Takes about 2 minutes</p>
+          <p>Step 2 of 3</p>
         </div>
       </div>
 
+      <div className="mb-4 flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={onChangeArea}
+          className="rounded-xl border border-rule bg-surface px-4 py-2 text-sm text-ink transition hover:border-ink hover:bg-bg"
+        >
+          Change pain area
+        </button>
+        <button
+          type="submit"
+          form="assessment-step-form"
+          disabled={redFlagPresent}
+          className="rounded-xl bg-ink px-4 py-2 text-sm font-medium text-bg transition enabled:hover:bg-accent disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          Get your plan
+        </button>
+      </div>
+
       <form
-        className="grid gap-4"
+        id="assessment-step-form"
+        className="grid gap-4 pb-2"
         onSubmit={(e) => {
           e.preventDefault();
-          onSubmit(form);
+          if (!redFlagPresent) onSubmit(form);
         }}
       >
         <label className="grid gap-1 text-sm text-ink">
-          Pain intensity (1-10)
+          Pain severity (0-10)
           <input
             type="range"
-            min={1}
+            min={0}
             max={10}
             value={form.painIntensity}
             onChange={(e) => setForm((prev) => ({ ...prev, painIntensity: Number(e.target.value) }))}
@@ -79,60 +82,32 @@ export function AssessmentStep({ initial, onSubmit, onChangeArea }: Props) {
               setForm((prev) => ({ ...prev, painDuration: e.target.value as AssessmentAnswers['painDuration'] }))
             }
           >
-            <option value="acute">Acute (&lt;2 weeks)</option>
-            <option value="subacute">Subacute (2-12 weeks)</option>
-            <option value="chronic">Chronic (&gt;12 weeks)</option>
+            <option value="lt1w">Less than 1 week</option>
+            <option value="1to6w">1-6 weeks</option>
+            <option value="gt6w">More than 6 weeks</option>
           </select>
         </label>
 
         <label className="grid gap-1 text-sm text-ink">
-          Symptom behavior
+          What usually aggravates it most?
           <select
             className="rounded-lg border border-rule bg-bg px-3 py-2"
-            value={form.symptomBehavior}
+            value={form.aggravatingMovement}
             onChange={(e) =>
-              setForm((prev) => ({ ...prev, symptomBehavior: e.target.value as AssessmentAnswers['symptomBehavior'] }))
+              setForm((prev) => ({ ...prev, aggravatingMovement: e.target.value as AssessmentAnswers['aggravatingMovement'] }))
             }
           >
-            <option value="betterWithMovement">Improves with movement</option>
-            <option value="mixed">Mixed response</option>
-            <option value="worseWithMovement">Worsens with movement</option>
+            <option value="overheadReach">Overhead reach</option>
+            <option value="sittingLong">Sitting long</option>
+            <option value="typingMouse">Typing / mouse work</option>
+            <option value="liftingCarry">Lifting / carrying</option>
+            <option value="stairsWalk">Walking / stairs</option>
+            <option value="bendingTwisting">Bending / twisting</option>
           </select>
         </label>
 
         <label className="grid gap-1 text-sm text-ink">
-          Daily desk hours
-          <select
-            className="rounded-lg border border-rule bg-bg px-3 py-2"
-            value={form.deskHours}
-            onChange={(e) =>
-              setForm((prev) => ({ ...prev, deskHours: e.target.value as AssessmentAnswers['deskHours'] }))
-            }
-          >
-            <option value="lt4">Less than 4</option>
-            <option value="4to6">4-6</option>
-            <option value="6to8">6-8</option>
-            <option value="gt8">More than 8</option>
-          </select>
-        </label>
-
-        <label className="grid gap-1 text-sm text-ink">
-          Movement breaks per work block
-          <select
-            className="rounded-lg border border-rule bg-bg px-3 py-2"
-            value={form.movementBreaks}
-            onChange={(e) =>
-              setForm((prev) => ({ ...prev, movementBreaks: e.target.value as AssessmentAnswers['movementBreaks'] }))
-            }
-          >
-            <option value="rarely">Rarely</option>
-            <option value="1to2">1-2 breaks</option>
-            <option value="3plus">3+ breaks</option>
-          </select>
-        </label>
-
-        <label className="grid gap-1 text-sm text-ink">
-          Equipment access
+          Available equipment
           <select
             className="rounded-lg border border-rule bg-bg px-3 py-2"
             value={form.equipmentAccess}
@@ -140,15 +115,15 @@ export function AssessmentStep({ initial, onSubmit, onChangeArea }: Props) {
               setForm((prev) => ({ ...prev, equipmentAccess: e.target.value as AssessmentAnswers['equipmentAccess'] }))
             }
           >
-            <option value="none">No bands yet</option>
-            <option value="lightBand">One light band</option>
-            <option value="fullSet">Full resistance-band set</option>
+            <option value="bandOnly">Resistance band only</option>
+            <option value="bandAndChair">Band + chair</option>
+            <option value="fullSet">Band set + anchor + chair</option>
           </select>
         </label>
 
         <fieldset className="rounded-xl border border-rule p-3">
-          <legend className="px-1 text-sm text-ink">Red-flag symptoms</legend>
-          <div className="grid gap-2 text-sm text-ink">
+          <legend className="px-1 text-sm text-ink">Red-flag check: any of these?</legend>
+          <div className="grid gap-2 text-sm text-ink md:grid-cols-2">
             <label className="inline-flex items-center gap-2">
               <input
                 type="checkbox"
@@ -173,7 +148,7 @@ export function AssessmentStep({ initial, onSubmit, onChangeArea }: Props) {
                   }))
                 }
               />
-              Radiating numbness/tingling or weakness
+              Radiating numbness, tingling, or weakness
             </label>
             <label className="inline-flex items-center gap-2">
               <input
@@ -199,26 +174,21 @@ export function AssessmentStep({ initial, onSubmit, onChangeArea }: Props) {
                   }))
                 }
               />
-              Night pain that wakes you from sleep
+              Night pain waking you from sleep
             </label>
           </div>
         </fieldset>
 
-        <div className="sticky bottom-0 z-10 -mx-2 mt-2 flex flex-wrap gap-2 border-t border-rule bg-surface px-2 pb-1 pt-3">
-          <button
-            type="button"
-            onClick={onChangeArea}
-            className="rounded-xl border border-rule bg-surface px-4 py-2 text-sm text-ink transition hover:border-ink hover:bg-bg"
-          >
-            Change pain area
-          </button>
-          <button
-            type="submit"
-            className="rounded-xl bg-ink px-4 py-2 text-sm font-medium text-bg transition hover:bg-accent"
-          >
-            Continue to analysis
-          </button>
-        </div>
+        {redFlagPresent && (
+          <div className="rounded-xl border border-accent bg-accent-soft p-3 text-sm text-ink">
+            One or more red flags were selected. Pause self-guided exercise and see a clinician.
+            <div className="mt-2">
+              <a className="text-accent underline" href="/clinician-finder">Find a clinician</a>
+            </div>
+          </div>
+        )}
+
+        <div className="h-1" />
       </form>
     </motion.section>
   );

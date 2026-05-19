@@ -22,10 +22,10 @@ export function buildRoutinePlan(
 
   const dosageOverride =
     classification.intensity === 'low'
-      ? '2 sets, low tension, controlled tempo.'
+      ? '2 sets, light band tension, smooth tempo.'
       : classification.intensity === 'medium'
-        ? '2-3 sets, moderate tension, leave 2 reps in reserve.'
-        : '3 sets, progressive tension, smooth tempo and full range.';
+        ? '2-3 sets, moderate tension, stop with 2 reps in reserve.'
+        : '3 sets, progressive tension, full controlled range.';
 
   const warmupNote =
     classification.primaryTrack === 'mobility-reset'
@@ -51,11 +51,11 @@ export function buildRoutinePlan(
 
 export function buildSetupProfile(assessment: AssessmentAnswers): SetupProfile {
   const equipmentRecommendation =
-    assessment.equipmentAccess === 'none'
+    assessment.equipmentAccess === 'bandOnly'
       ? 'Start with a light resistance band set (yellow + red) and a door anchor.'
-      : assessment.equipmentAccess === 'lightBand'
-        ? 'Add one medium resistance band (green) to enable progression.'
-        : 'Keep your full band set sorted by color and log your current load.';
+      : assessment.equipmentAccess === 'bandAndChair'
+        ? 'Add one medium resistance band (green) for progression.'
+        : 'Keep your full band set sorted by color and log your working resistance.';
 
   const deskRecommendation =
     assessment.deskHours === 'gt8'
