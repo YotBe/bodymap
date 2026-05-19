@@ -95,7 +95,9 @@
     "normal": "רגיל",
     "paused": "מושהה",
     "unavailable": "האנימציה תהיה זמינה בקרוב",
-    "rep": "חזרה {{current}}"
+    "rep": "חזרה {{current}}",
+    "doneRep": "בוצע · {{current}} / {{target}}",
+    "setComplete": "סט הושלם · איפוס"
   },
   "notFound": {
     "headline": "הדף לא נמצא.",

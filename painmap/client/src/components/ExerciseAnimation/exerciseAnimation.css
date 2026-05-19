@@ -147,6 +147,29 @@
 }
 .ea-btn svg { flex: 0 0 auto; }
 
+/* Rep tracker — accent-colored, pushed to the end of the controls row */
+.ea-btn-rep {
+  margin-inline-start: auto;
+  border-color: var(--accent);
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.ea-btn-rep:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.ea-btn-rep-done {
+  background: var(--evidence);
+  border-color: var(--evidence);
+  color: #F5F2EC;
+}
+.ea-btn-rep-done:hover {
+  background: #245040;
+  border-color: #245040;
+  color: #F5F2EC;
+}
+
 /* ---- Figure base styling ---- */
 .ea-figure line,
 .ea-figure circle,

@@ -20,6 +20,15 @@ interface Props {
   reps?: string;
 }
 
+function parseRepTarget(reps: string | undefined): number {
+  if (!reps) return 0;
+  // Skip static-hold prescriptions like "30-second hold each side" — they
+  // don't have a per-rep cadence.
+  if (/hold|second/i.test(reps)) return 0;
+  const m = reps.match(/(\d+)/);
+  return m ? Number(m[1]) : 0;
+}
+
 export function ExerciseAnimation({
   exerciseId,
   exerciseName,
@@ -34,12 +43,17 @@ export function ExerciseAnimation({
   const [slow, setSlow] = useState(false);
   const [videoErrored, setVideoErrored] = useState(false);
   const [lottieErrored, setLottieErrored] = useState(false);
+  const [repCount, setRepCount] = useState(0);
+
+  const repTarget = parseRepTarget(reps);
+  const isSetComplete = repTarget > 0 && repCount >= repTarget;
 
   useEffect(() => {
     setPaused(false);
     setSlow(false);
     setVideoErrored(false);
     setLottieErrored(false);
+    setRepCount(0);
   }, [exerciseId]);
 
   const showLottie = lottieUrl && !lottieErrored;
@@ -75,6 +89,22 @@ export function ExerciseAnimation({
         <SpeedIcon slow={slow} />
         <span>{slow ? t('animation.normal') : t('animation.slow')}</span>
       </button>
+      {repTarget > 0 && (
+        <button
+          type="button"
+          className={isSetComplete ? 'ea-btn ea-btn-rep ea-btn-rep-done' : 'ea-btn ea-btn-rep'}
+          onClick={() =>
+            setRepCount((c) => (isSetComplete ? 0 : c + 1))
+          }
+        >
+          <CheckIcon />
+          <span>
+            {isSetComplete
+              ? t('animation.setComplete')
+              : t('animation.doneRep', { current: repCount, target: repTarget })}
+          </span>
+        </button>
+      )}
     </div>
   );
 
@@ -169,6 +199,14 @@ function SpeedIcon({ slow }: { slow: boolean }) {
       <circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.4" />
       <line x1="8" y1="8" x2="8" y2={slow ? '4' : '3'} stroke="currentColor" strokeWidth="1.4" />
       <line x1="8" y1="8" x2={slow ? '11' : '12'} y2="8" stroke="currentColor" strokeWidth="1.4" />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true">
+      <path d="M3 8 L7 12 L13 4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
