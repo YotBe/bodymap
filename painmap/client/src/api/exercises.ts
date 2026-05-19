@@ -141,6 +141,44 @@ function buildExerciseIndex(): Map<string, Exercise> {
 
 const ZONES = buildZones();
 const EXERCISE_INDEX = buildExerciseIndex();
+const SUBAREA_INDEX = (() => {
+  const map = new Map<
+    string,
+    {
+      id: string;
+      name: string;
+      description: string | null;
+      zoneId: string;
+      zoneName: string;
+      primaryExerciseId: string | null;
+    }
+  >();
+  for (const z of ZONES) {
+    for (const sa of z.subAreas) {
+      map.set(sa.id, {
+        id: sa.id,
+        name: sa.name,
+        description: sa.description,
+        zoneId: z.id,
+        zoneName: z.name,
+        primaryExerciseId: sa.primaryExerciseId,
+      });
+    }
+  }
+  return map;
+})();
+const ZONE_PRIMARY_EXERCISES = (() => {
+  const map = new Map<string, string[]>();
+  for (const z of ZONES) {
+    map.set(
+      z.id,
+      z.subAreas
+        .map((sa) => sa.primaryExerciseId)
+        .filter((id): id is string => !!id)
+    );
+  }
+  return map;
+})();
 
 interface HeSubAreaOverride {
   name?: string;
@@ -223,6 +261,31 @@ export function useExercise(id: string | undefined) {
     enabled: !!id,
     staleTime: Infinity,
   });
+}
+
+export function useExercisesByIds(ids: string[]) {
+  const { i18n } = useTranslation();
+  const isHebrew = (i18n.language || 'en').startsWith('he');
+  const normalized = ids.filter(Boolean);
+  return useQuery({
+    queryKey: ['exercise-batch', normalized.join(','), isHebrew ? 'he' : 'en'],
+    queryFn: async () => {
+      return normalized
+        .map((id) => EXERCISE_INDEX.get(id))
+        .filter((ex): ex is Exercise => !!ex)
+        .map((ex) => (isHebrew ? applyHeExercise(ex) : ex));
+    },
+    enabled: normalized.length > 0,
+    staleTime: Infinity,
+  });
+}
+
+export function getSubAreaById(subAreaId: string) {
+  return SUBAREA_INDEX.get(subAreaId) ?? null;
+}
+
+export function getPrimaryExerciseIdsForZone(zoneId: string): string[] {
+  return ZONE_PRIMARY_EXERCISES.get(zoneId)?.slice() ?? [];
 }
 
 export interface EvidenceEntry {
