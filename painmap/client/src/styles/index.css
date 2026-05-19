@@ -1347,8 +1347,10 @@ button { font-family: inherit; cursor: pointer; }
     flex-direction: column;
     overflow: hidden;
   }
-  .layout[data-route="home"] .pane-right,
+  .layout[data-route="map"] .pane-right,
   .layout[data-route="zone"] .pane-right { display: none; }
+  .layout[data-route="home"] .pane-left,
+  .layout[data-route="flow"] .pane-left,
   .layout[data-route="exercise"] .pane-left,
   .layout[data-route="page"] .pane-left { display: none; }
 
@@ -1707,4 +1709,3 @@ html[lang="he"] .pt-italic {
   }
 
 }
-
