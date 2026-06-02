@@ -154,31 +154,6 @@ function startOfDayMillis(iso: string): number {
   return d.getTime();
 }
 
-function durationLabel(value: AssessmentAnswers['painDuration']): string {
-  if (value === 'lt1w') return 'Less than 1 week';
-  if (value === '1to6w') return '1-6 weeks';
-  return 'More than 6 weeks';
-}
-
-function aggravatingLabel(value: AssessmentAnswers['aggravatingMovement']): string {
-  switch (value) {
-    case 'overheadReach':
-      return 'Overhead reach';
-    case 'sittingLong':
-      return 'Sitting long';
-    case 'typingMouse':
-      return 'Typing / mouse work';
-    case 'liftingCarry':
-      return 'Lifting / carrying';
-    case 'stairsWalk':
-      return 'Walking / stairs';
-    case 'bendingTwisting':
-      return 'Bending / twisting';
-    default:
-      return 'Mixed movement triggers';
-  }
-}
-
 export function PageShell() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -491,7 +466,7 @@ export function PageShell() {
                         flow.setPainArea(null, null, null);
                       }}
                     />
-                    <PaneEyebrow num="01" label="BODY AREA" />
+                    <PaneEyebrow num="01" label={t('flow.pane.bodyArea')} />
                     <BodyAreaStep />
                   </div>
                 }
@@ -567,11 +542,9 @@ export function PageShell() {
                           areaLabel: selectedSubArea
                             ? subAreaToDisplayName.get(selectedSubArea) ??
                               selectedSubArea.replaceAll('-', ' ')
-                            : 'Selected pain area',
-                          durationLabel: durationLabel(flow.state.assessment?.painDuration ?? '1to6w'),
-                          aggravatingLabel: aggravatingLabel(
-                            flow.state.assessment?.aggravatingMovement ?? 'sittingLong'
-                          ),
+                            : t('flow.routine.areaFallback'),
+                          durationLabel: t(`flow.assessment.durationOption.${flow.state.assessment?.painDuration ?? '1to6w'}`),
+                          aggravatingLabel: t(`flow.assessment.aggravatingOption.${flow.state.assessment?.aggravatingMovement ?? 'sittingLong'}`),
                         }}
                         onCompleteSession={completeSession}
                         onContinue={() => navigate('/flow/progress')}

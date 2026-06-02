@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import type { ClassificationResult } from '../../flow/types';
 
 interface Props {
@@ -6,6 +7,7 @@ interface Props {
 }
 
 export function ClassificationStep({ classification }: Props) {
+  const { t } = useTranslation();
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -13,8 +15,8 @@ export function ClassificationStep({ classification }: Props) {
       transition={{ duration: 0.25 }}
       className="rounded-2xl border border-rule bg-surface p-6 shadow-card"
     >
-      <p className="font-mono text-[11px] tracking-[0.14em] text-ink-muted">BUILDING YOUR PLAN</p>
-      <h2 className="mt-1 font-display text-2xl leading-tight text-ink">Analyzing your recovery profile...</h2>
+      <p className="font-mono text-[11px] tracking-[0.14em] text-ink-muted">{t('flow.classification.eyebrow')}</p>
+      <h2 className="mt-1 font-display text-2xl leading-tight text-ink">{t('flow.classification.heading')}</h2>
 
       <div className="mt-5 space-y-3">
         {[0, 1, 2].map((i) => (
@@ -35,10 +37,10 @@ export function ClassificationStep({ classification }: Props) {
 
       {classification && (
         <div className="mt-6 grid gap-2 rounded-xl border border-rule bg-bg p-4 text-sm">
-          <p><strong>Risk tier:</strong> {classification.riskTier}</p>
-          <p><strong>Track:</strong> {classification.primaryTrack}</p>
-          <p><strong>Intensity:</strong> {classification.intensity}</p>
-          <p><strong>Session length:</strong> {classification.sessionMinutes} min</p>
+          <p><strong>{t('flow.classification.riskTierLabel')}:</strong> {t(`flow.classification.tier.${classification.riskTier}`)}</p>
+          <p><strong>{t('flow.classification.trackLabel')}:</strong> {t(`flow.classification.track.${classification.primaryTrack}`)}</p>
+          <p><strong>{t('flow.classification.intensityLabel')}:</strong> {t(`flow.classification.intensity.${classification.intensity}`)}</p>
+          <p><strong>{t('flow.classification.sessionLabel')}:</strong> {t('flow.classification.sessionValue', { minutes: classification.sessionMinutes })}</p>
         </div>
       )}
     </motion.section>
