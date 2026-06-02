@@ -46,8 +46,11 @@ export function SubAreaHotspots({
               cursor: 'pointer',
               animation: prefersReducedMotion ? 'none' : 'subFadeIn 280ms ease-out both',
               animationDelay: `${i * 40}ms`,
+              touchAction: 'manipulation',
             }}
-            onClick={() => onSelect(s.subAreaId)}
+            // pointerup fires reliably on first tap (touch) and on mouse; the
+            // synthetic click is unreliable for SVG taps on mobile.
+            onPointerUp={() => onSelect(s.subAreaId)}
             role="button"
             tabIndex={0}
             aria-label={t('bodyMap.selectAria', { label: localized })}

@@ -20,25 +20,21 @@ export function buildRoutinePlan(
   const exerciseCount = classification.intensity === 'low' ? 1 : classification.intensity === 'medium' ? 2 : 3;
   const chosen = uniqueIds.slice(0, Math.max(1, exerciseCount));
 
-  const dosageOverride =
-    classification.intensity === 'low'
-      ? '2 sets, light band tension, smooth tempo.'
-      : classification.intensity === 'medium'
-        ? '2-3 sets, moderate tension, stop with 2 reps in reserve.'
-        : '3 sets, progressive tension, full controlled range.';
+  // The string fields below hold i18n keys (resolved with t() in RoutineStep),
+  // not literal copy — so they re-localize when the user switches language.
+  const dosageOverride = `flow.routine.dosage.${classification.intensity}`;
 
   const warmupNote =
     classification.primaryTrack === 'mobility-reset'
-      ? 'Start with 2 minutes of gentle joint mobility before loading.'
-      : 'Start with 60-90 seconds of dynamic warm-up for the target area.';
+      ? 'flow.routine.warmup.mobility'
+      : 'flow.routine.warmup.default';
 
   const cooldownNote =
     classification.primaryTrack === 'clinician-referral'
-      ? 'Finish with low-load breathing and symptom check before stopping.'
-      : 'Finish with 1-2 minutes of light stretching and breathing.';
+      ? 'flow.routine.cooldown.referral'
+      : 'flow.routine.cooldown.default';
 
-  const progressionRule =
-    'If pain stays <= 3/10 during and after sessions for 3 consecutive days, increase resistance one level or add 1 set.';
+  const progressionRule = 'flow.routine.progressionRule';
 
   return {
     exerciseIds: chosen,
@@ -50,24 +46,18 @@ export function buildRoutinePlan(
 }
 
 export function buildSetupProfile(assessment: AssessmentAnswers): SetupProfile {
-  const equipmentRecommendation =
-    assessment.equipmentAccess === 'bandOnly'
-      ? 'Start with a light resistance band set (yellow + red) and a door anchor.'
-      : assessment.equipmentAccess === 'bandAndChair'
-        ? 'Add one medium resistance band (green) for progression.'
-        : 'Keep your full band set sorted by color and log your working resistance.';
+  // As with buildRoutinePlan, these are i18n keys resolved in SetupStep.
+  const equipmentRecommendation = `flow.setup.equipment.${assessment.equipmentAccess}`;
 
   const deskRecommendation =
-    assessment.deskHours === 'gt8'
-      ? 'Raise monitor to eye level, keep elbows near 90°, and add lumbar support.'
-      : 'Keep monitor centered, feet grounded, and keyboard close to reduce shoulder load.';
+    assessment.deskHours === 'gt8' ? 'flow.setup.desk.gt8' : 'flow.setup.desk.default';
 
   const breakProtocol =
     assessment.movementBreaks === 'rarely'
-      ? 'Use a 30/2 protocol: every 30 minutes, take a 2-minute movement break.'
+      ? 'flow.setup.break.rarely'
       : assessment.movementBreaks === '1to2'
-        ? 'Upgrade to 3 movement breaks per work block with neck/shoulder resets.'
-        : 'Maintain your current break habit and anchor one mobility drill per break.';
+        ? 'flow.setup.break.1to2'
+        : 'flow.setup.break.default';
 
   return {
     equipmentRecommendation,

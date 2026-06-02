@@ -47,10 +47,15 @@ export function HitRegions({
             style={{
               cursor: enabled ? 'pointer' : 'default',
               transition: 'fill-opacity 180ms ease-out',
+              touchAction: 'manipulation',
             }}
             onMouseEnter={() => enabled && onZoneEnter(id)}
             onMouseLeave={onZoneLeave}
-            onClick={() => enabled && onZoneClick(id)}
+            // Select on pointerup (not click): on touch devices the first tap on a
+            // hover-styled SVG path is frequently swallowed activating the hover state,
+            // so the synthetic click never fires. pointerup fires reliably for both
+            // touch and mouse.
+            onPointerUp={() => enabled && onZoneClick(id)}
             tabIndex={enabled ? 0 : -1}
             role="button"
             aria-label={enabled ? `Select ${ZONE_LABELS[id]} area` : `${ZONE_LABELS[id]} unavailable in this view`}

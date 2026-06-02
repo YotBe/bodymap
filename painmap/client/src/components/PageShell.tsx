@@ -13,7 +13,6 @@ import { TopHeader } from './TopHeader';
 import { SiteFooter } from './SiteFooter';
 import { BodyMap } from './BodyMap/BodyMap';
 import { PaneEyebrow } from './PaneEyebrow';
-import { HomePage } from '../routes/HomePage';
 import { ZonePage } from '../routes/ZonePage';
 import { ExercisePage } from '../routes/ExercisePage';
 import { AboutPage } from '../routes/AboutPage';
@@ -152,31 +151,6 @@ function startOfDayMillis(iso: string): number {
   const d = new Date(iso);
   d.setHours(0, 0, 0, 0);
   return d.getTime();
-}
-
-function durationLabel(value: AssessmentAnswers['painDuration']): string {
-  if (value === 'lt1w') return 'Less than 1 week';
-  if (value === '1to6w') return '1-6 weeks';
-  return 'More than 6 weeks';
-}
-
-function aggravatingLabel(value: AssessmentAnswers['aggravatingMovement']): string {
-  switch (value) {
-    case 'overheadReach':
-      return 'Overhead reach';
-    case 'sittingLong':
-      return 'Sitting long';
-    case 'typingMouse':
-      return 'Typing / mouse work';
-    case 'liftingCarry':
-      return 'Lifting / carrying';
-    case 'stairsWalk':
-      return 'Walking / stairs';
-    case 'bendingTwisting':
-      return 'Bending / twisting';
-    default:
-      return 'Mixed movement triggers';
-  }
 }
 
 export function PageShell() {
@@ -347,22 +321,6 @@ export function PageShell() {
     return inZone.filter((id) => id !== flow.state.selectedExerciseId);
   }, [flow.state.selectedExerciseId, flow.state.selectedZoneId, zoneToPrimaryExerciseIds]);
 
-  const handleStartScan = useCallback(() => {
-    flow.setStep('map');
-    setSelectedZone(null);
-    setSelectedSubArea(null);
-    flow.setPainArea(null, null, null);
-    navigate('/flow/map');
-  }, [flow, navigate]);
-
-  const handleOpenAssessment = useCallback(() => {
-    if (flow.state.selectedSubAreaId) {
-      navigate('/flow/assessment');
-      return;
-    }
-    navigate('/flow/map');
-  }, [flow.state.selectedSubAreaId, navigate]);
-
   const handleAssessmentSubmit = useCallback(
     (answers: AssessmentAnswers) => {
       flow.setAssessment(answers);
@@ -461,24 +419,7 @@ export function PageShell() {
         <section className="pane pane-right">
           <div className="fade-stage" key={location.pathname}>
             <Routes>
-              <Route
-                path="/"
-                element={
-                  <>
-                    <ResetMapSelectionOnEnter
-                      onReset={() => {
-                        setSelectedZone(null);
-                        setSelectedSubArea(null);
-                        flow.setPainArea(null, null, null);
-                      }}
-                    />
-                    <HomePage
-                      onStartScan={handleStartScan}
-                      onOpenAssessment={handleOpenAssessment}
-                    />
-                  </>
-                }
-              />
+              <Route path="/" element={<Navigate to="/flow/map" replace />} />
 
               <Route
                 path="/flow/map"
@@ -491,7 +432,7 @@ export function PageShell() {
                         flow.setPainArea(null, null, null);
                       }}
                     />
-                    <PaneEyebrow num="01" label="BODY AREA" />
+                    <PaneEyebrow num="01" label={t('flow.pane.bodyArea')} />
                     <BodyAreaStep />
                   </div>
                 }
@@ -567,11 +508,9 @@ export function PageShell() {
                           areaLabel: selectedSubArea
                             ? subAreaToDisplayName.get(selectedSubArea) ??
                               selectedSubArea.replaceAll('-', ' ')
-                            : 'Selected pain area',
-                          durationLabel: durationLabel(flow.state.assessment?.painDuration ?? '1to6w'),
-                          aggravatingLabel: aggravatingLabel(
-                            flow.state.assessment?.aggravatingMovement ?? 'sittingLong'
-                          ),
+                            : t('flow.routine.areaFallback'),
+                          durationLabel: t(`flow.assessment.durationOption.${flow.state.assessment?.painDuration ?? '1to6w'}`),
+                          aggravatingLabel: t(`flow.assessment.aggravatingOption.${flow.state.assessment?.aggravatingMovement ?? 'sittingLong'}`),
                         }}
                         onCompleteSession={completeSession}
                         onContinue={() => navigate('/flow/progress')}

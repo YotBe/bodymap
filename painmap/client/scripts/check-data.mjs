@@ -107,6 +107,27 @@ for (const id of Object.keys(he.subAreas ?? {})) {
   if (!subAreaIds.has(id)) problems.push(`exercises.he.json references unknown subArea id "${id}"`);
 }
 
+// Every exercise must have a full Hebrew body (the funnel + cards render in Hebrew).
+for (const id of exerciseIds) {
+  if (!(he.exercises ?? {})[id]) problems.push(`"${id}": missing Hebrew translation in exercises.he.json`);
+}
+
+// EN/HE UI string parity: the two locale files must define the same key set.
+const enLocale = JSON.parse(readFileSync(join(repoRoot, 'src/locales/en/common.json'), 'utf8'));
+const heLocale = JSON.parse(readFileSync(join(repoRoot, 'src/locales/he/common.json'), 'utf8'));
+function flatKeys(obj, prefix = '', acc = new Set()) {
+  for (const [k, v] of Object.entries(obj)) {
+    const key = prefix ? `${prefix}.${k}` : k;
+    if (v && typeof v === 'object' && !Array.isArray(v)) flatKeys(v, key, acc);
+    else acc.add(key);
+  }
+  return acc;
+}
+const enKeys = flatKeys(enLocale);
+const heKeys = flatKeys(heLocale);
+for (const k of enKeys) if (!heKeys.has(k)) problems.push(`locale key missing in HE: "${k}"`);
+for (const k of heKeys) if (!enKeys.has(k)) problems.push(`locale key missing in EN: "${k}"`);
+
 if (problems.length) {
   console.error(`\nFAIL — ${problems.length} data problem(s):`);
   for (const p of problems) console.error(`  - ${p}`);
@@ -115,5 +136,6 @@ if (problems.length) {
 
 console.log(
   `OK — ${data.zones.length} zones, ${subAreaCount} sub-areas, ${exerciseCount} exercises; ` +
-    `all required fields present and all ${ytIds.size} video URLs parse as distinct YouTube ids.`,
+    `all required fields present, all ${ytIds.size} video URLs parse as distinct YouTube ids, ` +
+    `full Hebrew coverage, and EN/HE locale keys in parity (${enKeys.size} keys).`,
 );

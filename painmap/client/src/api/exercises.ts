@@ -240,10 +240,29 @@ function applyHeExercise(ex: Exercise): Exercise {
   };
 }
 
+function applyHeZones(zones: Zone[]): Zone[] {
+  return zones.map((z) => ({
+    ...z,
+    subAreas: z.subAreas.map((sa) => {
+      const heSa = HE.subAreas[sa.id];
+      if (!heSa) return sa;
+      return {
+        ...sa,
+        name: heSa.name ?? sa.name,
+        description: heSa.description !== undefined ? heSa.description : sa.description,
+      };
+    }),
+  }));
+}
+
+const ZONES_HE = applyHeZones(ZONES);
+
 export function useZones() {
+  const { i18n } = useTranslation();
+  const isHebrew = (i18n.language || 'en').startsWith('he');
   return useQuery({
-    queryKey: ['zones'],
-    queryFn: async () => ZONES,
+    queryKey: ['zones', isHebrew ? 'he' : 'en'],
+    queryFn: async () => (isHebrew ? ZONES_HE : ZONES),
     staleTime: Infinity,
   });
 }
