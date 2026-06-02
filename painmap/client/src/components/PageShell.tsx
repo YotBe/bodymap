@@ -13,7 +13,6 @@ import { TopHeader } from './TopHeader';
 import { SiteFooter } from './SiteFooter';
 import { BodyMap } from './BodyMap/BodyMap';
 import { PaneEyebrow } from './PaneEyebrow';
-import { HomePage } from '../routes/HomePage';
 import { ZonePage } from '../routes/ZonePage';
 import { ExercisePage } from '../routes/ExercisePage';
 import { AboutPage } from '../routes/AboutPage';
@@ -322,22 +321,6 @@ export function PageShell() {
     return inZone.filter((id) => id !== flow.state.selectedExerciseId);
   }, [flow.state.selectedExerciseId, flow.state.selectedZoneId, zoneToPrimaryExerciseIds]);
 
-  const handleStartScan = useCallback(() => {
-    flow.setStep('map');
-    setSelectedZone(null);
-    setSelectedSubArea(null);
-    flow.setPainArea(null, null, null);
-    navigate('/flow/map');
-  }, [flow, navigate]);
-
-  const handleOpenAssessment = useCallback(() => {
-    if (flow.state.selectedSubAreaId) {
-      navigate('/flow/assessment');
-      return;
-    }
-    navigate('/flow/map');
-  }, [flow.state.selectedSubAreaId, navigate]);
-
   const handleAssessmentSubmit = useCallback(
     (answers: AssessmentAnswers) => {
       flow.setAssessment(answers);
@@ -436,24 +419,7 @@ export function PageShell() {
         <section className="pane pane-right">
           <div className="fade-stage" key={location.pathname}>
             <Routes>
-              <Route
-                path="/"
-                element={
-                  <>
-                    <ResetMapSelectionOnEnter
-                      onReset={() => {
-                        setSelectedZone(null);
-                        setSelectedSubArea(null);
-                        flow.setPainArea(null, null, null);
-                      }}
-                    />
-                    <HomePage
-                      onStartScan={handleStartScan}
-                      onOpenAssessment={handleOpenAssessment}
-                    />
-                  </>
-                }
-              />
+              <Route path="/" element={<Navigate to="/flow/map" replace />} />
 
               <Route
                 path="/flow/map"
