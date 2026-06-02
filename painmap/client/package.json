@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "check:animations": "node scripts/check-animations.mjs",
+    "check:data": "node scripts/check-data.mjs",
     "test:classifier": "tsx --test tests/classifier.test.ts"
   },
   "dependencies": {
