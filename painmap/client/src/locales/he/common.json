@@ -84,7 +84,10 @@
     "theraband": "TheraBand"
   },
   "video": {
-    "watchReal": "צפו בהדגמה אמיתית ↗"
+    "watchReal": "צפו בהדגמה אמיתית ↗",
+    "playDemo": "נגן הדגמת וידאו של {{name}}",
+    "demoTitle": "{{name}} — הדגמת וידאו",
+    "openYouTube": "פתח ביוטיוב ↗"
   },
   "animation": {
     "aria": "הדגמה מונפשת של {{name}}",

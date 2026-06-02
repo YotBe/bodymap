@@ -869,6 +869,87 @@ button { font-family: inherit; cursor: pointer; }
     background: var(--bg);
   }
 
+  /* Inline YouTube demo (lazy facade) */
+  .yt-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 0;
+  }
+  .yt-facade {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #000;
+  }
+  .yt-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .yt-poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    cursor: pointer;
+    background-color: #000;
+    background-size: cover;
+    background-position: center;
+    display: grid;
+    place-items: center;
+  }
+  .yt-poster::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.1);
+    transition: background 180ms ease-out;
+  }
+  .yt-poster:hover::after,
+  .yt-poster:focus-visible::after {
+    background: rgba(0, 0, 0, 0.28);
+  }
+  .yt-play {
+    position: relative;
+    z-index: 1;
+    display: block;
+    filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.45));
+    transition: transform 180ms ease-out;
+  }
+  .yt-poster:hover .yt-play {
+    transform: scale(1.06);
+  }
+  .yt-play-bg {
+    fill: #cc1f1f;
+    transition: fill 180ms ease-out;
+  }
+  .yt-poster:hover .yt-play-bg {
+    fill: #e60f0f;
+  }
+  .yt-open {
+    align-self: flex-start;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1px;
+    transition: color 180ms, border-color 180ms;
+  }
+  .yt-open:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
   .ex-section { margin-bottom: 24px; }
   .ex-why {
     font-size: 15px;

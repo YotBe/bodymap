@@ -13,7 +13,7 @@ export function ClassificationStep({ classification }: Props) {
       transition={{ duration: 0.25 }}
       className="rounded-2xl border border-rule bg-surface p-6 shadow-card"
     >
-      <p className="font-mono text-[11px] tracking-[0.14em] text-ink-muted">STEP 3</p>
+      <p className="font-mono text-[11px] tracking-[0.14em] text-ink-muted">BUILDING YOUR PLAN</p>
       <h2 className="mt-1 font-display text-2xl leading-tight text-ink">Analyzing your recovery profile...</h2>
 
       <div className="mt-5 space-y-3">

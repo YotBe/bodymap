@@ -6,9 +6,10 @@ interface Props {
   snapshot: ProgressSnapshot;
   onUpdatePain: (painScore: number) => void;
   onNext: () => void;
+  onViewSetup?: () => void;
 }
 
-export function ProgressStep({ snapshot, onUpdatePain, onNext }: Props) {
+export function ProgressStep({ snapshot, onUpdatePain, onNext, onViewSetup }: Props) {
   const [painScore, setPainScore] = useState<number>(snapshot.lastPainScore ?? 4);
 
   const trendLabel = useMemo(() => {
@@ -70,7 +71,7 @@ export function ProgressStep({ snapshot, onUpdatePain, onNext }: Props) {
         </button>
       </div>
 
-      <div className="mt-5">
+      <div className="mt-5 flex flex-wrap gap-2">
         <button
           type="button"
           onClick={onNext}
@@ -78,6 +79,15 @@ export function ProgressStep({ snapshot, onUpdatePain, onNext }: Props) {
         >
           Back to today's plan
         </button>
+        {onViewSetup && (
+          <button
+            type="button"
+            onClick={onViewSetup}
+            className="rounded-xl border border-rule bg-surface px-4 py-2 text-sm text-ink transition hover:border-ink hover:bg-bg"
+          >
+            Desk &amp; equipment setup
+          </button>
+        )}
       </div>
     </motion.section>
   );

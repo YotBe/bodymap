@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import type { ClassificationResult, RoutinePlan } from '../../flow/types';
 import { useExercisesByIds } from '../../api/exercises';
+import { YouTubeFacade } from '../YouTubeFacade';
 
 interface Props {
   plan: RoutinePlan;
@@ -67,6 +68,12 @@ export function RoutineStep({
           <h3 className="font-display text-2xl text-ink">{primary.name}</h3>
           <p className="text-sm text-ink-muted">{primary.targetMuscles}</p>
 
+          {primary.videoUrl && (
+            <div className="mt-3">
+              <YouTubeFacade videoUrl={primary.videoUrl} title={primary.name} />
+            </div>
+          )}
+
           <div className="mt-3 rounded-lg border border-rule bg-bg p-3 text-sm text-ink">
             <p><strong>Prescription:</strong> {plan.dosageOverride}</p>
             <p className="mt-1"><strong>What you should feel:</strong> Gentle muscular effort around the target area, not sharp or radiating pain.</p>
@@ -103,7 +110,7 @@ export function RoutineStep({
 
           <div className="mt-4 text-sm">
             <Link to={`/exercise/${primary.id}`} className="text-accent underline decoration-rule underline-offset-2">
-              Open full exercise card (video + detailed cues)
+              Open full exercise card (detailed cues + citation)
             </Link>
           </div>
         </div>

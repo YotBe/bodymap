@@ -14,7 +14,7 @@ export function SetupStep({ setup, onRestart }: Props) {
       transition={{ duration: 0.3 }}
       className="rounded-2xl border border-rule bg-surface p-6 shadow-card"
     >
-      <p className="font-mono text-[11px] tracking-[0.14em] text-ink-muted">STEP 6</p>
+      <p className="font-mono text-[11px] tracking-[0.14em] text-ink-muted">DESK &amp; EQUIPMENT</p>
       <h2 className="mt-1 font-display text-2xl leading-tight text-ink">Equipment and desk setup</h2>
 
       <div className="mt-4 grid gap-3">

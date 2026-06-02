@@ -589,6 +589,9 @@ export function PageShell() {
                       snapshot={flow.state.progress}
                       onUpdatePain={handlePainScoreUpdate}
                       onNext={() => navigate('/flow/routine')}
+                      onViewSetup={
+                        flow.state.setup ? () => navigate('/flow/setup') : undefined
+                      }
                     />
                   </div>
                 }

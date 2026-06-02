@@ -4,6 +4,7 @@ import type { Exercise } from '../types';
 import { EvidencePill } from './EvidencePill';
 import { BandChip } from './BandChip';
 import { ExerciseAnimation } from './ExerciseAnimation';
+import { YouTubeFacade } from './YouTubeFacade';
 import { PrescriptionBlock } from './PrescriptionBlock';
 import { ZONE_LABELS, type ZoneId } from './BodyMap/zones';
 import { hasHebrewOverride } from '../api/exercises';
@@ -50,22 +51,16 @@ export function ExerciseCard({ exercise }: Props) {
       </header>
 
       <div className="ex-demo">
-        <ExerciseAnimation
-          exerciseId={exercise.id}
-          exerciseName={exercise.name}
-          mp4Url={exercise.demoVideoMp4}
-          lottieUrl={exercise.demoLottie}
-          reps={exercise.reps}
-        />
-        {exercise.videoUrl && (
-          <a
-            className="video-fallback"
-            href={exercise.videoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {t('video.watchReal')}
-          </a>
+        {exercise.videoUrl ? (
+          <YouTubeFacade videoUrl={exercise.videoUrl} title={exercise.name} />
+        ) : (
+          <ExerciseAnimation
+            exerciseId={exercise.id}
+            exerciseName={exercise.name}
+            mp4Url={exercise.demoVideoMp4}
+            lottieUrl={exercise.demoLottie}
+            reps={exercise.reps}
+          />
         )}
       </div>
 

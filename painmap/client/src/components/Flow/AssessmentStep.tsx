@@ -31,7 +31,7 @@ export function AssessmentStep({ initial, onSubmit, onChangeArea }: Props) {
         </div>
         <div className="text-right text-xs text-ink-muted">
           <p>Takes about 2 minutes</p>
-          <p>Step 2 of 3</p>
+          <p>4 quick questions</p>
         </div>
       </div>
 
