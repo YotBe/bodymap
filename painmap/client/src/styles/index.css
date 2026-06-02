@@ -1631,6 +1631,32 @@ button { font-family: inherit; cursor: pointer; }
   }
   .site-footer .sf-copy,
   .site-footer .sf-spacer { display: none; }
+
+  /* ------------------------------------------------------------
+     Exercise page (mobile): the card markup no longer fits the
+     old "everything on one fixed-height screen" model, which left
+     a large empty band above the content. Let the pane flow
+     naturally from the top and scroll instead of clipping. */
+  .layout[data-route="exercise"] .pane-right { overflow-y: auto; }
+  .layout[data-route="exercise"] .pane-right > .fade-stage {
+    flex: 0 0 auto;
+    overflow: visible;
+  }
+  .layout[data-route="exercise"] .exercise-card {
+    flex: 0 0 auto;
+    overflow: visible;
+  }
+  .layout[data-route="exercise"] .ex-demo,
+  .layout[data-route="exercise"] .ex-rx,
+  .layout[data-route="exercise"] .ex-band,
+  .layout[data-route="exercise"] .ex-contra,
+  .layout[data-route="exercise"] .ex-instructions,
+  .layout[data-route="exercise"] .ex-mistakes,
+  .layout[data-route="exercise"] .ex-citation {
+    flex: 0 0 auto;
+    overflow: visible;
+    min-height: 0;
+  }
 }
 
 /* ============================================================
