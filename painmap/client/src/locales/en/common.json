@@ -165,9 +165,9 @@
     "titlePrefix": "Why",
     "titleSuffix": " PainMap exists.",
     "problemH2": "The problem",
-    "problemP1": "Musculoskeletal pain is the leading cause of disability worldwide. For most desk-bound adults the pain is mechanical, and a short course of targeted exercise resolves it — but the path from \"my neck hurts\" to \"the right exercise\" is broken.",
+    "problemP1": "For most desk workers, aches are mechanical — and the right exercise resolves them. The hard part is finding which one.",
     "approachH2": "The approach",
-    "approachP1": "Click where it hurts. PainMap surfaces one resistance-band exercise per pain location — the one with the strongest peer-reviewed evidence. Each card ships with the citation, the mechanism, sets/reps, contraindications, and an in-app demo. No upsell, no engagement loop, no ads."
+    "approachP1": "Click where it hurts. Get the single resistance-band exercise with the strongest evidence — dosage, contraindications, a citation, and a video. No upsell, no ads."
   },
   "legal": {
     "titlePrefix": "The",
@@ -176,19 +176,19 @@
     "disclaimerP1Pre": "PainMap is an educational tool. It is ",
     "disclaimerP1Strong": "not a medical device",
     "disclaimerP1Post": " and is not intended to diagnose or treat any condition.",
-    "disclaimerP2": "Consult a clinician before starting any new exercise program — especially if you experience:",
+    "disclaimerP2": "Check with a clinician before starting — especially if you have:",
     "disclaimerRedFlags": [
       "Numbness, tingling, or weakness radiating into the limbs",
       "Recent trauma, fever, or unexplained weight loss",
       "Pain that worsens with rest or wakes you from sleep"
     ],
     "privacyH2": "Privacy & terms",
-    "privacyP1": "PainMap runs in your browser. The app stores no personal data and uses no tracking cookies. Source code is MIT-licensed; the curated exercise content is © PainMap. Provided \"as is\" without warranty."
+    "privacyP1": "Runs entirely in your browser — no personal data, no tracking cookies. Code is MIT-licensed; content © PainMap. Provided \"as is\", no warranty."
   },
   "clinician": {
     "titlePrefix": "When to see",
     "titleSuffix": " a clinician.",
-    "introP": "If your symptoms don't fit common mechanical pain — or you have red-flag symptoms — see a clinician first.",
+    "introP": "Red-flag symptoms, or pain that doesn't fit the usual mechanical pattern? See a clinician first.",
     "israelH2": "In Israel",
     "israelP1": "Physical therapy is covered by all four health funds with a primary-care referral:",
     "kupotClalit": "Clalit (כללית) ↗",
@@ -238,10 +238,10 @@
       "footnote": "Need source details? Review the clinical references in the Evidence page."
     },
     "bodyArea": {
-      "step": "STEP 1 OF 3",
-      "heading": "Select where you feel pain.",
-      "sub": "Choose a body region, then a specific spot. You will answer 4 quick questions next to tailor your routine.",
-      "next": "What happens next: focused intake (~2 minutes) → tailored plan with safety notes."
+      "step": "START HERE",
+      "heading": "Where does it hurt?",
+      "sub": "Pick a region, then the exact spot.",
+      "next": "Your exercise opens right away — with a short video demo."
     },
     "scale": {
       "current": "Current: {{value}}/10"
