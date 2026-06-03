@@ -172,6 +172,19 @@ export function PageShell() {
     [navigate, selectedZone, selectedSubArea, isMobile, subAreaToExerciseId, subAreaToZoneId]
   );
 
+  // Memoized so each route-sync effect runs only when its route param changes
+  // (not on every render). With an inline arrow these effects re-ran constantly
+  // and wiped the map's armed sub-area on mobile, breaking tap-to-open.
+  const handleZoneSync = useCallback((z: ZoneId | null) => {
+    setSelectedZone(z);
+    setSelectedSubArea(null);
+  }, []);
+
+  const handleExerciseSync = useCallback((sa: string | null, z: ZoneId | null) => {
+    setSelectedSubArea(sa);
+    if (z) setSelectedZone(z);
+  }, []);
+
   const handleBack = useCallback(() => {
     if (selectedSubArea) {
       if (selectedZone) navigate(`/zone/${selectedZone}`);
@@ -265,12 +278,7 @@ export function PageShell() {
                 path="/zone/:zoneId"
                 element={
                   <>
-                    <ZoneRouteSync
-                      onSync={(z) => {
-                        setSelectedZone(z);
-                        setSelectedSubArea(null);
-                      }}
-                    />
+                    <ZoneRouteSync onSync={handleZoneSync} />
                     <ZonePage onPickSubArea={handleSubAreaSelect} />
                   </>
                 }
@@ -280,12 +288,7 @@ export function PageShell() {
                 path="/exercise/:exerciseId"
                 element={
                   <>
-                    <ExerciseRouteSync
-                      onSync={(sa, z) => {
-                        setSelectedSubArea(sa);
-                        if (z) setSelectedZone(z);
-                      }}
-                    />
+                    <ExerciseRouteSync onSync={handleExerciseSync} />
                     <ExercisePage />
                   </>
                 }
