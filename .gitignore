@@ -1,3 +1,6 @@
+# Standalone HTML build artifact (2.1MB, generated file)
+PainMap _standalone_.html
+
 # Dependencies
 node_modules/
 **/node_modules/

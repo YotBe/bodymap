@@ -64,10 +64,3 @@ export interface Exercise {
   demoLottie?: string | null;
 }
 
-export type {
-  AssessmentAnswers,
-  ClassificationResult,
-  FlowStep,
-  ProgressSnapshot,
-  RoutinePlan,
-} from './flow/types';

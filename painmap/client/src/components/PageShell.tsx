@@ -28,23 +28,7 @@ import {
   type ZoneId,
   ZONES_BY_VIEW,
 } from './BodyMap/zones';
-import { useFlowSession } from '../flow/flowSession';
-import {
-  DEFAULT_ASSESSMENT,
-  type AssessmentAnswers,
-  type ClassificationResult,
-  type ProgressSnapshot,
-  type RoutinePlan,
-  type SetupProfile,
-} from '../flow/types';
-import { classifyAssessment } from '../flow/classifier';
-import { buildRoutinePlan, buildSetupProfile } from '../flow/routine';
-import { AssessmentStep } from './Flow/AssessmentStep';
 import { BodyAreaStep } from './Flow/BodyAreaStep';
-import { ClassificationStep } from './Flow/ClassificationStep';
-import { ProgressStep } from './Flow/ProgressStep';
-import { RoutineStep } from './Flow/RoutineStep';
-import { SetupStep } from './Flow/SetupStep';
 
 const ALL_ZONE_IDS: readonly ZoneId[] = [
   'neck',
@@ -102,63 +86,6 @@ function ZoneRouteSync({
   return null;
 }
 
-function ResetMapSelectionOnEnter({
-  onReset,
-}: {
-  onReset: () => void;
-}) {
-  // Run the reset exactly once on enter. The fade-stage is keyed on
-  // location.pathname, so this remounts on every navigation (mount === route
-  // entered). We intentionally do NOT depend on `onReset`: it's a fresh inline
-  // closure each render that dispatches flow state (which always bumps
-  // updatedAt), so depending on it re-fires the effect every render and loops
-  // infinitely ("Maximum update depth exceeded").
-  useEffect(() => {
-    onReset();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  return null;
-}
-
-function ClassificationRoute({
-  assessment,
-  selectedZoneId,
-  selectedExerciseId,
-  fallbackExerciseIds,
-  onComplete,
-}: {
-  assessment: AssessmentAnswers | null;
-  selectedZoneId: string | null;
-  selectedExerciseId: string | null;
-  fallbackExerciseIds: string[];
-  onComplete: (
-    classification: ClassificationResult,
-    routine: RoutinePlan,
-    setup: SetupProfile
-  ) => void;
-}) {
-  useEffect(() => {
-    if (!assessment || !selectedZoneId) return;
-
-    const timer = window.setTimeout(() => {
-      const classification = classifyAssessment(assessment);
-      const routine = buildRoutinePlan(classification, selectedExerciseId, fallbackExerciseIds);
-      const setup = buildSetupProfile(assessment);
-      onComplete(classification, routine, setup);
-    }, 650);
-
-    return () => window.clearTimeout(timer);
-  }, [assessment, selectedZoneId, selectedExerciseId, fallbackExerciseIds, onComplete]);
-
-  return <ClassificationStep classification={null} />;
-}
-
-function startOfDayMillis(iso: string): number {
-  const d = new Date(iso);
-  d.setHours(0, 0, 0, 0);
-  return d.getTime();
-}
-
 export function PageShell() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -166,8 +93,6 @@ export function PageShell() {
   const isMobile = useIsMobile();
   const { data: zones } = useZones();
   const { t } = useTranslation();
-
-  const flow = useFlowSession();
 
   const [view, setView] = useState<BodyView>('anterior');
   const [bannerDismissed, setBannerDismissed] = useLocalStorage(
@@ -197,39 +122,6 @@ export function PageShell() {
     return m;
   }, [zones]);
 
-  const subAreaToDisplayName = useMemo(() => {
-    const m = new Map<string, string>();
-    zones?.forEach((z) => {
-      z.subAreas.forEach((sa) => {
-        m.set(sa.id, sa.name);
-      });
-    });
-    return m;
-  }, [zones]);
-
-  const zoneToPrimaryExerciseIds = useMemo(() => {
-    const m = new Map<ZoneId, string[]>();
-    zones?.forEach((z) => {
-      if (!isZoneId(z.id)) return;
-      m.set(
-        z.id,
-        z.subAreas
-          .map((sa) => sa.primaryExerciseId)
-          .filter((id): id is string => !!id)
-      );
-    });
-    return m;
-  }, [zones]);
-
-  useEffect(() => {
-    if (isZoneId(flow.state.selectedZoneId)) {
-      setSelectedZone(flow.state.selectedZoneId);
-    }
-    if (flow.state.selectedSubAreaId) {
-      setSelectedSubArea(flow.state.selectedSubAreaId);
-    }
-  }, [flow.state.selectedZoneId, flow.state.selectedSubAreaId]);
-
   // Auto-flip view when the selected zone is posterior-only and user is on anterior.
   useEffect(() => {
     if (selectedZone === 'back' && view === 'anterior') {
@@ -249,10 +141,9 @@ export function PageShell() {
 
   const handleZoneSelect = useCallback(
     (zoneId: ZoneId) => {
-      flow.setStep('map');
       navigate(`/zone/${zoneId}`);
     },
-    [flow, navigate]
+    [navigate]
   );
 
   const handleSubAreaSelect = useCallback(
@@ -262,34 +153,23 @@ export function PageShell() {
 
       if (zoneId) setSelectedZone(zoneId);
       setSelectedSubArea(subAreaId);
-      flow.setPainArea(zoneId, subAreaId, exId);
-      // Skip the discomfort intake for now: go straight to the exercise with
-      // the demo auto-playing. Fall back to the map if no exercise resolves.
       if (exId) {
-        navigate(`/exercise/${exId}?play=1`);
+        navigate(`/exercise/${exId}`);
       } else {
         navigate('/flow/map');
       }
     },
-    [flow, navigate, selectedZone, subAreaToExerciseId, subAreaToZoneId]
+    [navigate, selectedZone, subAreaToExerciseId, subAreaToZoneId]
   );
 
   const handleBack = useCallback(() => {
-    if (location.pathname.startsWith('/flow/')) {
-      setSelectedZone(null);
-      setSelectedSubArea(null);
-      flow.setPainArea(null, null, null);
-      navigate('/flow/map');
-      return;
-    }
-
     if (selectedSubArea) {
       if (selectedZone) navigate(`/zone/${selectedZone}`);
       else navigate('/flow/map');
     } else {
       navigate('/');
     }
-  }, [flow, location.pathname, navigate, selectedZone, selectedSubArea]);
+  }, [navigate, selectedZone, selectedSubArea]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -312,94 +192,13 @@ export function PageShell() {
     location.pathname === '/legal' ||
     location.pathname === '/clinician-finder';
 
-  const isFlowPath = location.pathname.startsWith('/flow/');
-
-  const routeKind: 'home' | 'map' | 'zone' | 'exercise' | 'page' | 'flow' = isStaticPage
+  const routeKind: 'map' | 'zone' | 'exercise' | 'page' = isStaticPage
     ? 'page'
     : location.pathname.startsWith('/exercise')
       ? 'exercise'
       : location.pathname.startsWith('/zone')
         ? 'zone'
-        : location.pathname === '/flow/map'
-          ? 'map'
-          : isFlowPath
-            ? 'flow'
-            : 'home';
-
-  const fallbackExerciseIds = useMemo(() => {
-    if (!isZoneId(flow.state.selectedZoneId)) return [];
-    const inZone = zoneToPrimaryExerciseIds.get(flow.state.selectedZoneId) ?? [];
-    return inZone.filter((id) => id !== flow.state.selectedExerciseId);
-  }, [flow.state.selectedExerciseId, flow.state.selectedZoneId, zoneToPrimaryExerciseIds]);
-
-  const handleAssessmentSubmit = useCallback(
-    (answers: AssessmentAnswers) => {
-      flow.setAssessment(answers);
-      navigate('/flow/classification');
-    },
-    [flow, navigate]
-  );
-
-  const handleClassificationResolved = useCallback(
-    (classification: ClassificationResult, routine: RoutinePlan, setup: SetupProfile) => {
-      flow.setClassification(classification);
-      flow.setRoutine(routine);
-      flow.setSetup(setup);
-      navigate('/flow/routine');
-    },
-    [flow, navigate]
-  );
-
-  const completeSession = useCallback(async () => {
-    const prev = flow.state.progress;
-    const now = new Date().toISOString();
-
-    let streakDays = 1;
-    if (prev.lastCompletedAt) {
-      const diffDays =
-        (startOfDayMillis(now) - startOfDayMillis(prev.lastCompletedAt)) / (1000 * 60 * 60 * 24);
-      if (diffDays <= 0) streakDays = prev.streakDays;
-      else if (diffDays === 1) streakDays = prev.streakDays + 1;
-      else streakDays = 1;
-    }
-
-    const completedSessions = prev.completedSessions + 1;
-    const adherencePercent = Math.min(
-      100,
-      Math.round((completedSessions / (completedSessions + 2)) * 100)
-    );
-
-    const next: ProgressSnapshot = {
-      ...prev,
-      completedSessions,
-      streakDays,
-      adherencePercent,
-      lastCompletedAt: now,
-    };
-
-    await flow.setProgress(next);
-    navigate('/flow/progress');
-  }, [flow, navigate]);
-
-  const handlePainScoreUpdate = useCallback(
-    async (painScore: number) => {
-      const confidenceLevel =
-        painScore <= 3 ? 'high' : painScore <= 6 ? 'medium' : 'low';
-      await flow.setProgress({
-        ...flow.state.progress,
-        lastPainScore: painScore,
-        confidenceLevel,
-      });
-    },
-    [flow]
-  );
-
-  const handleRestart = useCallback(() => {
-    flow.resetFlow();
-    setSelectedZone(null);
-    setSelectedSubArea(null);
-    navigate('/');
-  }, [flow, navigate]);
+        : 'map';
 
   return (
     <div className="app-shell" data-route={routeKind}>
@@ -435,17 +234,13 @@ export function PageShell() {
               <Route
                 path="/flow/map"
                 element={
-                  <div className="flow-scroll">
-                    <ResetMapSelectionOnEnter
-                      onReset={() => {
-                        setSelectedZone(null);
-                        setSelectedSubArea(null);
-                        flow.setPainArea(null, null, null);
-                      }}
-                    />
-                    <PaneEyebrow num="01" label={t('flow.pane.bodyArea')} />
-                    <BodyAreaStep />
-                  </div>
+                  <MapRoute
+                    onReset={() => {
+                      setSelectedZone(null);
+                      setSelectedSubArea(null);
+                    }}
+                    eyebrow={t('flow.pane.bodyArea')}
+                  />
                 }
               />
 
@@ -461,102 +256,6 @@ export function PageShell() {
                     />
                     <ZonePage onPickSubArea={handleSubAreaSelect} />
                   </>
-                }
-              />
-
-              <Route
-                path="/flow/assessment"
-                element={
-                  !flow.state.selectedSubAreaId ? (
-                    <Navigate to="/flow/map" replace />
-                  ) : (
-                    <div className="flow-scroll">
-                      <AssessmentStep
-                        initial={flow.state.assessment ?? DEFAULT_ASSESSMENT}
-                        onSubmit={handleAssessmentSubmit}
-                        onChangeArea={() => {
-                          setSelectedZone(null);
-                          setSelectedSubArea(null);
-                          flow.setPainArea(null, null, null);
-                          navigate('/flow/map');
-                        }}
-                      />
-                    </div>
-                  )
-                }
-              />
-
-              <Route
-                path="/flow/classification"
-                element={
-                  !flow.state.assessment || !flow.state.selectedZoneId ? (
-                    <Navigate to="/flow/assessment" replace />
-                  ) : (
-                    <div className="flow-scroll">
-                      <ClassificationRoute
-                        assessment={flow.state.assessment}
-                        selectedZoneId={flow.state.selectedZoneId}
-                        selectedExerciseId={flow.state.selectedExerciseId}
-                        fallbackExerciseIds={fallbackExerciseIds}
-                        onComplete={handleClassificationResolved}
-                      />
-                    </div>
-                  )
-                }
-              />
-
-              <Route
-                path="/flow/routine"
-                element={
-                  !flow.state.routine || !flow.state.classification ? (
-                    <Navigate to="/flow/assessment" replace />
-                  ) : (
-                    <div className="flow-scroll">
-                      <RoutineStep
-                        plan={flow.state.routine}
-                        classification={flow.state.classification}
-                        recap={{
-                          areaLabel: selectedSubArea
-                            ? subAreaToDisplayName.get(selectedSubArea) ??
-                              selectedSubArea.replaceAll('-', ' ')
-                            : t('flow.routine.areaFallback'),
-                          durationLabel: t(`flow.assessment.durationOption.${flow.state.assessment?.painDuration ?? '1to6w'}`),
-                          aggravatingLabel: t(`flow.assessment.aggravatingOption.${flow.state.assessment?.aggravatingMovement ?? 'sittingLong'}`),
-                        }}
-                        onCompleteSession={completeSession}
-                        onContinue={() => navigate('/flow/progress')}
-                      />
-                    </div>
-                  )
-                }
-              />
-
-              <Route
-                path="/flow/progress"
-                element={
-                  <div className="flow-scroll">
-                    <ProgressStep
-                      snapshot={flow.state.progress}
-                      onUpdatePain={handlePainScoreUpdate}
-                      onNext={() => navigate('/flow/routine')}
-                      onViewSetup={
-                        flow.state.setup ? () => navigate('/flow/setup') : undefined
-                      }
-                    />
-                  </div>
-                }
-              />
-
-              <Route
-                path="/flow/setup"
-                element={
-                  !flow.state.setup ? (
-                    <Navigate to="/flow/assessment" replace />
-                  ) : (
-                    <div className="flow-scroll">
-                      <SetupStep setup={flow.state.setup} onRestart={handleRestart} />
-                    </div>
-                  )
                 }
               />
 
@@ -585,6 +284,24 @@ export function PageShell() {
       </main>
 
       <SiteFooter />
+    </div>
+  );
+}
+
+/**
+ * The /flow/map route content. Rendered as a named component so it can call
+ * useEffect at the top level (Rules of Hooks), resetting map selection once on
+ * route-enter without an infinite loop.
+ */
+function MapRoute({ onReset, eyebrow }: { onReset: () => void; eyebrow: string }) {
+  useEffect(() => {
+    onReset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return (
+    <div className="flow-scroll">
+      <PaneEyebrow num="01" label={eyebrow} />
+      <BodyAreaStep />
     </div>
   );
 }
