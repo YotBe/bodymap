@@ -29,6 +29,7 @@ import {
   ZONES_BY_VIEW,
 } from './BodyMap/zones';
 import { BodyAreaStep } from './Flow/BodyAreaStep';
+import { AssessmentFlow } from './Flow/AssessmentFlow';
 
 const ALL_ZONE_IDS: readonly ZoneId[] = [
   'neck',
@@ -192,13 +193,15 @@ export function PageShell() {
     location.pathname === '/legal' ||
     location.pathname === '/clinician-finder';
 
-  const routeKind: 'map' | 'zone' | 'exercise' | 'page' = isStaticPage
+  const routeKind: 'map' | 'zone' | 'exercise' | 'page' | 'assessment' = isStaticPage
     ? 'page'
     : location.pathname.startsWith('/exercise')
       ? 'exercise'
       : location.pathname.startsWith('/zone')
         ? 'zone'
-        : 'map';
+        : location.pathname === '/flow/map'
+          ? 'map'
+          : 'assessment';
 
   return (
     <div className="app-shell" data-route={routeKind}>
@@ -242,6 +245,11 @@ export function PageShell() {
                     eyebrow={t('flow.pane.bodyArea')}
                   />
                 }
+              />
+
+              <Route
+                path="/flow/assessment"
+                element={<AssessmentFlow />}
               />
 
               <Route
