@@ -59,6 +59,7 @@
     "ariaAnterior": "Anterior body map",
     "ariaPosterior": "Posterior body map",
     "selectAria": "Select {{label}}",
+    "selectedOpenAria": "Open {{label}} exercise",
     "unavailableAria": "{{label}} unavailable in this view"
   },
   "exercise": {
@@ -100,6 +101,7 @@
     "playDemo": "Play video demonstration of {{name}}",
     "demoTitle": "{{name}} — video demonstration",
     "openYouTube": "Open on YouTube ↗",
+    "unmuteHint": "Playing muted — tap the video to unmute",
     "loading": "Loading video…",
     "error": "Video unavailable.",
     "retry": "Retry"

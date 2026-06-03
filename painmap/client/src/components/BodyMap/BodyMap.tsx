@@ -190,8 +190,9 @@ export function BodyMap({
               view={view}
               zoneId={selectedZone}
               selectedSubAreaId={selectedSubAreaId}
+              isMobile={isMobile}
               prefersReducedMotion={prefersReducedMotion}
-              viewBoxScale={(parseFloat(viewBox.split(' ')[2] || '400') || 400) / 400}
+              viewBox={viewBox}
               onSelect={onSubAreaSelect}
             />
           )}

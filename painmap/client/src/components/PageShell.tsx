@@ -148,11 +148,20 @@ export function PageShell() {
   );
 
   const handleSubAreaSelect = useCallback(
-    (subAreaId: string, primaryExerciseId?: string | null) => {
+    (subAreaId: string, primaryExerciseId?: string | null, opts?: { fromMap?: boolean }) => {
       const exId = primaryExerciseId ?? subAreaToExerciseId.get(subAreaId) ?? null;
       const zoneId = selectedZone ?? subAreaToZoneId.get(subAreaId) ?? null;
 
       if (zoneId) setSelectedZone(zoneId);
+
+      // Mobile map: the first tap on a new marker reveals its label and arms it
+      // (no navigation); tapping the already-selected marker opens the exercise.
+      // The list (ZonePage) keeps single-tap navigation.
+      if (opts?.fromMap && isMobile && subAreaId !== selectedSubArea) {
+        setSelectedSubArea(subAreaId);
+        return;
+      }
+
       setSelectedSubArea(subAreaId);
       if (exId) {
         navigate(`/exercise/${exId}`);
@@ -160,7 +169,7 @@ export function PageShell() {
         navigate('/flow/map');
       }
     },
-    [navigate, selectedZone, subAreaToExerciseId, subAreaToZoneId]
+    [navigate, selectedZone, selectedSubArea, isMobile, subAreaToExerciseId, subAreaToZoneId]
   );
 
   const handleBack = useCallback(() => {
@@ -224,7 +233,7 @@ export function PageShell() {
             isMobile={isMobile}
             onViewChange={handleViewChange}
             onZoneSelect={handleZoneSelect}
-            onSubAreaSelect={(sa) => handleSubAreaSelect(sa)}
+            onSubAreaSelect={(sa) => handleSubAreaSelect(sa, undefined, { fromMap: true })}
             onBack={handleBack}
           />
         </section>
