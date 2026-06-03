@@ -153,6 +153,63 @@
       ],
       "beginnerModification": "כניסת סנטר בשכיבה על הגב על הרצפה ללא גומיה — כוח המשיכה מספק התנגדות מספקת.",
       "evidenceSummary": "אימון ממוקד של כופפי צוואר עמוקים שיפר דפוסי הפעלה שרירית והפחית כאב במטופלים עם כאבי צוואר כרוניים בהשוואה לאימון כללי."
+    },
+    "ex-band-external-rotation": {
+      "name": "סיבוב כתף חיצוני עם גומיה"
+    },
+    "ex-lateral-raise": {
+      "name": "הרמה צידית עם גומיה"
+    },
+    "ex-face-pull": {
+      "name": "משיכת פנים עם גומיה"
+    },
+    "ex-banded-biceps-eccentric": {
+      "name": "כפיפת מרפק עם גומיה ודגש אקסצנטרי"
+    },
+    "ex-seated-row": {
+      "name": "חתירה בישיבה עם גומיה"
+    },
+    "ex-ytw": {
+      "name": "תרגיל Y-T-W עם גומיה"
+    },
+    "ex-good-morning": {
+      "name": "ציר ירך עם גומיה (Good Morning)"
+    },
+    "ex-median-nerve-glide": {
+      "name": "החלקת עצב מדיאני"
+    },
+    "ex-wrist-extension": {
+      "name": "יישור שורש כף יד עם גומיה"
+    },
+    "ex-tyler-twist": {
+      "name": "סיבוב טיילר (יישור שורש כף יד אקסצנטרי)"
+    },
+    "ex-reverse-tyler": {
+      "name": "סיבוב טיילר הפוך"
+    },
+    "ex-banded-thumb-eccentric": {
+      "name": "יישור אגודל אקסצנטרי עם גומיה"
+    },
+    "ex-banded-clamshell": {
+      "name": "תרגיל צדפה עם גומיה"
+    },
+    "ex-banded-glute-bridge": {
+      "name": "גשר ישבן עם גומיה"
+    },
+    "ex-banded-tke": {
+      "name": "יישור ברך סופי עם גומיה"
+    },
+    "ex-banded-hamstring-curl": {
+      "name": "כפיפת ירך עם גומיה"
+    },
+    "ex-eccentric-heel-drop": {
+      "name": "הורדת עקב אקסצנטרית"
+    },
+    "ex-plantar-fascia-stretch": {
+      "name": "מתיחת פאשיה פלנטרית"
+    },
+    "ex-banded-eversion": {
+      "name": "היפוך קרסול עם גומיה"
     }
   }
 }
