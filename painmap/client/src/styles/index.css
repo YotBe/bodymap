@@ -1464,6 +1464,7 @@ button { font-family: inherit; cursor: pointer; }
   .layout[data-route="home"] .pane-left,
   .layout[data-route="flow"] .pane-left,
   .layout[data-route="exercise"] .pane-left,
+  .layout[data-route="assessment"] .pane-left,
   .layout[data-route="page"] .pane-left { display: none; }
 
   /* On home and zone, the body map IS the screen — hide the side copy */
@@ -2032,4 +2033,39 @@ html[lang="he"] .pt-italic {
   white-space: normal;
 }
 .zp-item-arrow { align-self: center; }
+
+/* ===========================================================================
+   Centered Map Layout on Homepage (Desktop)
+   =========================================================================== */
+@media (min-width: 769px) {
+  .layout[data-route='map'] {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+  
+  .layout[data-route='map'] .pane-left {
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .layout[data-route='map'] .pane-left .pane-eyebrow {
+    justify-content: center;
+  }
+  
+  .layout[data-route='map'] .pane-left .page-title {
+    text-align: center;
+    font-size: 48px; /* Slightly larger heading for center stage */
+  }
+  
+  .layout[data-route='map'] .bodymap-canvas {
+    max-width: 480px; /* Centered layout enables a larger map */
+  }
+  
+  .layout[data-route='map'] .pane-right {
+    display: none;
+  }
+}
 

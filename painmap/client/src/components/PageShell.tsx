@@ -193,13 +193,15 @@ export function PageShell() {
     location.pathname === '/legal' ||
     location.pathname === '/clinician-finder';
 
-  const routeKind: 'map' | 'zone' | 'exercise' | 'page' = isStaticPage
+  const routeKind: 'map' | 'zone' | 'exercise' | 'page' | 'assessment' = isStaticPage
     ? 'page'
     : location.pathname.startsWith('/exercise')
       ? 'exercise'
       : location.pathname.startsWith('/zone')
         ? 'zone'
-        : 'map';
+        : location.pathname === '/flow/map'
+          ? 'map'
+          : 'assessment';
 
   return (
     <div className="app-shell" data-route={routeKind}>
