@@ -9,12 +9,30 @@
   --ink-muted: #5C5751;
   --rule: #E4DFD6;
   --accent: #C8442C;
+  --accent-ink: #A8351F;
   --accent-soft: #F0D9D2;
   --evidence: #2E5C4A;
 
   --serif: 'Fraunces', 'Tiempos Headline', Georgia, serif;
   --sans: 'Inter Tight', 'Söhne', -apple-system, BlinkMacSystemFont, sans-serif;
   --mono: 'JetBrains Mono', 'Berkeley Mono', ui-monospace, Menlo, monospace;
+
+  /* Spacing scale (4px base) */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
+
+  /* Radius scale */
+  --r-1: 3px; --r-2: 6px; --r-3: 10px; --r-4: 14px; --r-pill: 999px;
+
+  /* Elevation — warm, low-contrast (suits the cream paper). */
+  --sh-1: 0 1px 2px rgba(26, 26, 26, 0.05);
+  --sh-2: 0 4px 14px rgba(26, 26, 26, 0.07);
+  --sh-3: 0 12px 32px rgba(26, 26, 26, 0.10);
+
+  /* Motion */
+  --dur-1: 120ms; --dur-2: 180ms; --dur-3: 280ms; --dur-4: 480ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-std: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * { box-sizing: border-box; }
@@ -51,6 +69,13 @@ body::before {
 body > * { position: relative; z-index: 2; }
 
 button { font-family: inherit; cursor: pointer; }
+
+/* Visible keyboard focus across all interactive elements (accent ring). */
+:where(button, a, [role="button"], summary, input, select, textarea):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--r-1);
+}
 
 @layer components {
   /* Fixed-height shell — every page fits viewport, nothing scrolls. */
@@ -133,12 +158,27 @@ button { font-family: inherit; cursor: pointer; }
   }
   .top-nav { display: flex; align-items: center; gap: 28px; }
   .nav-link {
+    position: relative;
     font-size: 13px;
     color: var(--ink-muted);
     text-decoration: none;
     letter-spacing: 0.01em;
+    transition: color var(--dur-2) var(--ease-std);
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 100%;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur-2) var(--ease-out);
   }
   .nav-link:hover { color: var(--ink); }
+  .nav-link:hover::after { transform: scaleX(1); }
   .nav-emph { color: var(--ink); }
   .app-shell[data-route='home'] .top-nav .nav-link { opacity: 0.7; }
   .app-shell[data-route='home'] .top-nav .nav-link:hover { opacity: 1; }
@@ -244,9 +284,10 @@ button { font-family: inherit; cursor: pointer; }
   .view-toggle {
     display: inline-flex;
     border: 1px solid var(--rule);
-    border-radius: 3px;
+    border-radius: var(--r-2);
     overflow: hidden;
     background: var(--surface);
+    box-shadow: var(--sh-1);
   }
   .vt-btn {
     background: none;
@@ -256,6 +297,7 @@ button { font-family: inherit; cursor: pointer; }
     letter-spacing: 0.04em;
     color: var(--ink-muted);
     font-family: var(--sans);
+    transition: background var(--dur-2) var(--ease-std), color var(--dur-2) var(--ease-std);
   }
   .vt-btn:hover { color: var(--ink); }
   .vt-btn.active {
@@ -294,6 +336,23 @@ button { font-family: inherit; cursor: pointer; }
      were invisible inside the zoomed viewBox. */
   @keyframes subFadeIn {
     from { opacity: 0; }
+  }
+
+  /* Mobile tap-to-reveal label pill + "armed" selected marker. */
+  .subhot-pill { animation: subFadeIn 160ms ease-out both; }
+  .subhot-pill rect { filter: drop-shadow(0 2px 6px rgba(26, 26, 26, 0.25)); }
+
+  @keyframes subhotPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.14); }
+  }
+  .subhot.is-selected .subhot-ring {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: subhotPulse 1.8s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .subhot.is-selected .subhot-ring { animation: none; }
   }
 
   .map-tooltip {
@@ -961,6 +1020,20 @@ button { font-family: inherit; cursor: pointer; }
     color: var(--accent);
     border-color: var(--accent);
   }
+  .yt-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+  }
+  .yt-hint {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--ink-muted);
+    opacity: 0.8;
+  }
 
   .ex-section { margin-bottom: 24px; }
   .ex-why {
@@ -992,8 +1065,9 @@ button { font-family: inherit; cursor: pointer; }
   }
   .rx-value {
     font-family: var(--serif);
-    font-size: 16px;
-    letter-spacing: -0.01em;
+    font-size: 19px;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
   }
   .rx-foot {
     font-family: var(--mono);
@@ -1125,10 +1199,10 @@ button { font-family: inherit; cursor: pointer; }
 
   .contraindications {
     background: var(--accent-soft);
-    padding: 8px 10px;
-    border-radius: 4px;
+    padding: 10px 12px;
+    border-radius: var(--r-2);
     margin: 0;
-    border-left: 1px solid var(--accent);
+    border-left: 3px solid var(--accent);
     overflow: hidden;
   }
   .ci-label {
@@ -1272,9 +1346,11 @@ button { font-family: inherit; cursor: pointer; }
     font-size: 13px;
     letter-spacing: 0.03em;
     font-family: var(--sans);
-    border-radius: 3px;
+    border-radius: var(--r-1);
+    transition: background var(--dur-2) var(--ease-std), transform var(--dur-1) var(--ease-std);
   }
   .btn-primary:hover { background: var(--accent); }
+  .btn-primary:active { background: var(--accent-ink); transform: translateY(1px); }
   .btn-primary.is-disabled,
   .btn-primary:disabled {
     background: var(--rule);
@@ -1288,10 +1364,13 @@ button { font-family: inherit; cursor: pointer; }
     padding: 11px 22px;
     font-size: 13px;
     letter-spacing: 0.03em;
-    border-radius: 3px;
+    border-radius: var(--r-1);
     font-family: var(--sans);
+    transition: background var(--dur-2) var(--ease-std), color var(--dur-2) var(--ease-std),
+      transform var(--dur-1) var(--ease-std);
   }
   .btn-secondary:hover { background: var(--ink); color: var(--bg); }
+  .btn-secondary:active { transform: translateY(1px); }
   .btn-link {
     background: none;
     border: none;
@@ -1704,6 +1783,15 @@ button { font-family: inherit; cursor: pointer; }
   details.ex-collapse > summary { display: none; }
   details.ex-collapse > .ex-collapse-body { display: block; padding: 0; margin: 0; }
   .ex-back { display: none; }
+
+  /* Desktop: lift the exercise card onto a soft paper surface. */
+  .exercise-card.exercise-card-v2 {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-4);
+    box-shadow: var(--sh-2);
+    padding: var(--sp-6);
+  }
 }
 
 /* ============================================================
@@ -1945,6 +2033,7 @@ html[lang="he"] .pt-italic {
   transition: background 160ms ease, color 160ms ease;
 }
 .ex-howto:hover { background: var(--ink); color: var(--bg); }
+.ex-howto:active { transform: translateY(1px); }
 .ex-finish { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .ex-setcount {
   font-family: var(--mono);
@@ -1952,8 +2041,46 @@ html[lang="he"] .pt-italic {
   letter-spacing: 0.08em;
   color: var(--ink-muted);
 }
+.ex-setdots { display: flex; align-items: center; gap: 7px; }
+.set-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid var(--ink);
+  background: transparent;
+  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+.set-dot.is-done {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.05);
+}
 .ex-finish .btn-primary,
 .ex-finish .btn-secondary { border-radius: 999px; cursor: pointer; }
+
+/* Mobile: stack the action bar into full-width, ≥48px tap targets. */
+@media (max-width: 768px) {
+  .ex-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .ex-finish {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .ex-setdots { order: -1; justify-content: center; padding: 2px 0; }
+  .ex-howto,
+  .ex-finish .btn-primary,
+  .ex-finish .btn-secondary {
+    width: 100%;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
 
 .exercise-card-v2 .ex-contra { margin: 0; }
 

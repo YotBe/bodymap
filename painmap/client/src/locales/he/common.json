@@ -59,6 +59,7 @@
     "ariaAnterior": "מפת גוף קדמית",
     "ariaPosterior": "מפת גוף אחורית",
     "selectAria": "בחר/י {{label}}",
+    "selectedOpenAria": "פתח/י תרגיל {{label}}",
     "unavailableAria": "{{label}} אינו זמין בתצוגה זו"
   },
   "exercise": {
@@ -100,6 +101,7 @@
     "playDemo": "נגן הדגמת וידאו של {{name}}",
     "demoTitle": "{{name}} — הדגמת וידאו",
     "openYouTube": "פתח ביוטיוב ↗",
+    "unmuteHint": "מתנגן בהשתקה — הקישו על הווידאו לביטול ההשתקה",
     "loading": "טוען וידאו…",
     "error": "הווידאו אינו זמין.",
     "retry": "נסה שוב"

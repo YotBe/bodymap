@@ -129,9 +129,15 @@ export function ExerciseCard({ exercise, autoStartVideo = false }: Props) {
           {t('exercise.howTo')}
         </button>
         <div className="ex-finish">
-          <span className="ex-setcount">
-            {t('exercise.setProgress', { done: setsDone, total: totalSets })}
-          </span>
+          <div
+            className="ex-setdots"
+            role="img"
+            aria-label={t('exercise.setProgress', { done: setsDone, total: totalSets })}
+          >
+            {Array.from({ length: totalSets }).map((_, i) => (
+              <span key={i} className={i < setsDone ? 'set-dot is-done' : 'set-dot'} aria-hidden="true" />
+            ))}
+          </div>
           <button type="button" className="btn-secondary ex-finish-set" onClick={finishSet}>
             {t('exercise.finishSet')}
           </button>

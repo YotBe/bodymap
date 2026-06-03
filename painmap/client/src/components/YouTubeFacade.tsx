@@ -31,7 +31,7 @@ interface Props {
   autoStart?: boolean;
 }
 
-export function YouTubeFacade({ videoUrl, title, autoStart = false }: Props) {
+export function YouTubeFacade({ videoUrl, title, autoStart = true }: Props) {
   const { t } = useTranslation();
   const [active, setActive] = useState(autoStart);
   const id = youTubeId(videoUrl);
@@ -45,9 +45,11 @@ export function YouTubeFacade({ videoUrl, title, autoStart = false }: Props) {
     );
   }
 
+  // mute=1 is required for browsers to honor autoplay; the viewer can unmute
+  // with YouTube's own control inside the player.
   const embedSrc =
     `https://www.youtube-nocookie.com/embed/${id}` +
-    '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+    '?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1';
   const poster = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
   const watchUrl = `https://www.youtube.com/watch?v=${id}`;
 
@@ -83,9 +85,12 @@ export function YouTubeFacade({ videoUrl, title, autoStart = false }: Props) {
           </button>
         )}
       </figure>
-      <a className="yt-open" href={watchUrl} target="_blank" rel="noopener noreferrer">
-        {t('video.openYouTube')}
-      </a>
+      <div className="yt-meta">
+        {active && <span className="yt-hint">{t('video.unmuteHint')}</span>}
+        <a className="yt-open" href={watchUrl} target="_blank" rel="noopener noreferrer">
+          {t('video.openYouTube')}
+        </a>
+      </div>
     </div>
   );
 }
