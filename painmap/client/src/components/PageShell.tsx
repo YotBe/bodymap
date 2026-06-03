@@ -108,9 +108,16 @@ function ResetMapSelectionOnEnter({
 }: {
   onReset: () => void;
 }) {
+  // Run the reset exactly once on enter. The fade-stage is keyed on
+  // location.pathname, so this remounts on every navigation (mount === route
+  // entered). We intentionally do NOT depend on `onReset`: it's a fresh inline
+  // closure each render that dispatches flow state (which always bumps
+  // updatedAt), so depending on it re-fires the effect every render and loops
+  // infinitely ("Maximum update depth exceeded").
   useEffect(() => {
     onReset();
-  }, [onReset]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return null;
 }
 
@@ -257,7 +264,13 @@ export function PageShell() {
       if (zoneId) setSelectedZone(zoneId);
       setSelectedSubArea(subAreaId);
       flow.setPainArea(zoneId, subAreaId, exId);
-      navigate('/flow/assessment');
+      // Skip the discomfort intake for now: go straight to the exercise with
+      // the demo auto-playing. Fall back to the map if no exercise resolves.
+      if (exId) {
+        navigate(`/exercise/${exId}?play=1`);
+      } else {
+        navigate('/flow/map');
+      }
     },
     [flow, navigate, selectedZone, subAreaToExerciseId, subAreaToZoneId]
   );

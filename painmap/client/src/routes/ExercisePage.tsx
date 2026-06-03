@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useExercise } from '../api/exercises';
 import { ExerciseCard } from '../components/ExerciseCard';
@@ -6,6 +6,8 @@ import { PaneEyebrow } from '../components/PaneEyebrow';
 
 export function ExercisePage() {
   const { exerciseId } = useParams<{ exerciseId: string }>();
+  const [searchParams] = useSearchParams();
+  const autoStartVideo = searchParams.get('play') === '1';
   const { data, isLoading, isError, error } = useExercise(exerciseId);
   const { t } = useTranslation();
 
@@ -23,7 +25,7 @@ export function ExercisePage() {
           <p className="zp-sub">{(error as Error)?.message ?? t('exercise.errorUnknown')}</p>
         </div>
       )}
-      {data && <ExerciseCard exercise={data} />}
+      {data && <ExerciseCard exercise={data} autoStartVideo={autoStartVideo} />}
     </>
   );
 }

@@ -11,9 +11,11 @@ import { hasHebrewOverride } from '../api/exercises';
 
 interface Props {
   exercise: Exercise;
+  /** Autoplay the demo immediately (used when arriving straight from the map). */
+  autoStartVideo?: boolean;
 }
 
-export function ExerciseCard({ exercise }: Props) {
+export function ExerciseCard({ exercise, autoStartVideo = false }: Props) {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const zoneId = exercise.subArea.zoneId as ZoneId;
@@ -52,7 +54,11 @@ export function ExerciseCard({ exercise }: Props) {
 
       <div className="ex-demo">
         {exercise.videoUrl ? (
-          <YouTubeFacade videoUrl={exercise.videoUrl} title={exercise.name} />
+          <YouTubeFacade
+            videoUrl={exercise.videoUrl}
+            title={exercise.name}
+            autoStart={autoStartVideo}
+          />
         ) : (
           <ExerciseAnimation
             exerciseId={exercise.id}

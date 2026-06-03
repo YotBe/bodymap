@@ -27,11 +27,13 @@ interface Props {
   videoUrl: string;
   /** Exercise name, used for accessible labels. */
   title: string;
+  /** When true, mount the player immediately and autoplay (skip the poster). */
+  autoStart?: boolean;
 }
 
-export function YouTubeFacade({ videoUrl, title }: Props) {
+export function YouTubeFacade({ videoUrl, title, autoStart = false }: Props) {
   const { t } = useTranslation();
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState(autoStart);
   const id = youTubeId(videoUrl);
 
   // Unrecognized URL (e.g. a non-YouTube host): degrade to a plain link.
