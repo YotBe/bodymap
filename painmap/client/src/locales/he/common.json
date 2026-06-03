@@ -58,7 +58,8 @@
     "bodyLabel": "גוף",
     "ariaAnterior": "מפת גוף קדמית",
     "ariaPosterior": "מפת גוף אחורית",
-    "selectAria": "בחר/י {{label}}"
+    "selectAria": "בחר/י {{label}}",
+    "unavailableAria": "{{label}} אינו זמין בתצוגה זו"
   },
   "exercise": {
     "back": "חזרה",

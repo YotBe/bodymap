@@ -321,13 +321,25 @@ button { font-family: inherit; cursor: pointer; }
     flex: 0 0 auto;
   }
 
-  .pane-right { padding-top: 0; }
+  .pane-right {
+    padding-top: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--rule) transparent;
+  }
+  .pane-right::-webkit-scrollbar {
+    width: 6px;
+  }
+  .pane-right::-webkit-scrollbar-thumb {
+    background: var(--rule);
+    border-radius: 999px;
+  }
   .pane-right > .fade-stage {
     flex: 1 1 0;
     min-height: 0;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: visible;
   }
   .flow-scroll {
     flex: 1 1 0;
@@ -1434,8 +1446,12 @@ button { font-family: inherit; cursor: pointer; }
   .nav-link { font-size: 12px; }
 
   @media (max-width: 480px) {
-    .top-nav { gap: 8px; }
-    .nav-emph { display: none; }
+    .top-header { padding: 10px 8px; }
+    .top-nav { gap: 6px; }
+    .top-nav .nav-link:not(.nav-emph) { display: none; }
+    .top-nav .nav-link.nav-emph { display: inline-block; font-size: 11px; }
+    .lang-toggle { margin-inline-start: 2px; }
+    .lang-btn { padding: 6px 6px; min-width: 28px; letter-spacing: 0; }
   }
 
   /* Single-column layout; pane visibility driven by route */
@@ -1449,8 +1465,7 @@ button { font-family: inherit; cursor: pointer; }
     overflow: hidden;
   }
   .pane,
-  .pane-left,
-  .pane-right {
+  .pane-left {
     padding: 0;
     height: 100%;
     min-width: 0;
@@ -1458,6 +1473,15 @@ button { font-family: inherit; cursor: pointer; }
     display: flex;
     flex-direction: column;
     overflow: hidden;
+  }
+  .pane-right {
+    padding: 0;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
   }
   .layout[data-route="map"] .pane-right,
   .layout[data-route="zone"] .pane-right { display: none; }
@@ -1467,9 +1491,19 @@ button { font-family: inherit; cursor: pointer; }
   .layout[data-route="assessment"] .pane-left,
   .layout[data-route="page"] .pane-left { display: none; }
 
-  /* On home and zone, the body map IS the screen — hide the side copy */
-  .pane-left > .pane-eyebrow,
-  .pane-left > .page-title,
+  /* On home and zone, the body map IS the screen — show a compact title */
+  .pane-left > .pane-eyebrow {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2px;
+    font-size: 10px;
+  }
+  .pane-left > .page-title {
+    display: block;
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 4px;
+  }
   .pane-left > .page-sub { display: none; }
 
   /* Body map sized for phone portrait */
