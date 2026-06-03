@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { HIT_PATHS, type BodyView, type ZoneId, ZONE_LABELS } from './zones';
 
 interface Props {
@@ -20,6 +21,7 @@ export function HitRegions({
   onZoneClick,
 }: Props) {
   const paths = HIT_PATHS[view];
+  const { t } = useTranslation();
 
   return (
     <g className="hit-layer">
@@ -35,6 +37,7 @@ export function HitRegions({
         } else if (isHover && enabled) {
           fillOpacity = 0.4;
         }
+        const localizedLabel = t(`zones.${id}`, { defaultValue: ZONE_LABELS[id] });
         return (
           <path
             key={id}
@@ -58,7 +61,11 @@ export function HitRegions({
             onPointerUp={() => enabled && onZoneClick(id)}
             tabIndex={enabled ? 0 : -1}
             role="button"
-            aria-label={enabled ? `Select ${ZONE_LABELS[id]} area` : `${ZONE_LABELS[id]} unavailable in this view`}
+            aria-label={
+              enabled
+                ? t('bodyMap.selectAria', { label: localizedLabel })
+                : t('bodyMap.unavailableAria', { label: localizedLabel })
+            }
             onKeyDown={(e) => {
               if (enabled && (e.key === 'Enter' || e.key === ' ')) {
                 e.preventDefault();

@@ -24,7 +24,7 @@ export const ZONE_VIEWBOX: Record<ZoneId, string> = {
   back: '100 160 200 260',
   'hands-wrists': '50 370 300 100',
   'hip-glutes': '120 370 160 120',
-  knees: '130 450 140 90',
+  knees: '130 440 140 140',
   'foot-ankle': '130 520 140 80',
 };
 

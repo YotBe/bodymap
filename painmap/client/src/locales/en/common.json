@@ -58,7 +58,8 @@
     "bodyLabel": "Body",
     "ariaAnterior": "Anterior body map",
     "ariaPosterior": "Posterior body map",
-    "selectAria": "Select {{label}}"
+    "selectAria": "Select {{label}}",
+    "unavailableAria": "{{label}} unavailable in this view"
   },
   "exercise": {
     "back": "Back",
