@@ -29,6 +29,7 @@ import {
   ZONES_BY_VIEW,
 } from './BodyMap/zones';
 import { BodyAreaStep } from './Flow/BodyAreaStep';
+import { AssessmentFlow } from './Flow/AssessmentFlow';
 
 const ALL_ZONE_IDS: readonly ZoneId[] = [
   'neck',
@@ -242,6 +243,11 @@ export function PageShell() {
                     eyebrow={t('flow.pane.bodyArea')}
                   />
                 }
+              />
+
+              <Route
+                path="/flow/assessment"
+                element={<AssessmentFlow />}
               />
 
               <Route
