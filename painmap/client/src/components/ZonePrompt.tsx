@@ -44,11 +44,11 @@ export function ZonePrompt({ zoneId, onPickSubArea }: Props) {
             className="zp-item"
             onClick={() => onPickSubArea(sa.id, sa.primaryExerciseId)}
           >
-            <span className="zp-item-label">{sa.name}</span>
-            <span className="zp-item-loc">
-              {sa.description ?? ''}
+            <span className="zp-item-main">
+              <span className="zp-item-label">{sa.name}</span>
+              {sa.description && <span className="zp-item-loc">{sa.description}</span>}
             </span>
-            <span className="zp-item-arrow">→</span>
+            <span className="zp-item-arrow" aria-hidden="true">→</span>
           </button>
         ))}
       </div>

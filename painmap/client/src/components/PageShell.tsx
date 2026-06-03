@@ -17,7 +17,6 @@ import { ZonePage } from '../routes/ZonePage';
 import { ExercisePage } from '../routes/ExercisePage';
 import { AboutPage } from '../routes/AboutPage';
 import { LegalPage } from '../routes/LegalPage';
-import { EvidencePage } from '../routes/EvidencePage';
 import { ClinicianPage } from '../routes/ClinicianPage';
 import { NotFoundPage } from './NotFoundPage';
 import { useZones } from '../api/exercises';
@@ -311,7 +310,6 @@ export function PageShell() {
   const isStaticPage =
     location.pathname === '/about' ||
     location.pathname === '/legal' ||
-    location.pathname === '/evidence' ||
     location.pathname === '/clinician-finder';
 
   const isFlowPath = location.pathname.startsWith('/flow/');
@@ -579,7 +577,6 @@ export function PageShell() {
 
               <Route path="/about" element={<AboutPage />} />
               <Route path="/legal" element={<LegalPage />} />
-              <Route path="/evidence" element={<EvidencePage />} />
               <Route path="/clinician-finder" element={<ClinicianPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>

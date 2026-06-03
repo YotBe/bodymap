@@ -8,6 +8,7 @@
     "evidence": "מחקר",
     "about": "אודות",
     "findClinician": "מצא קלינאי ↗",
+    "findPhysio": "מצא פיזיותרפיסט ↗",
     "primary": "ראשי"
   },
   "lang": {
@@ -71,7 +72,17 @@
     "translationPending": "תרגום מלא לעברית בעבודה.",
     "loadingHeadline": "טוען תרגיל…",
     "errorHeadline": "לא ניתן לטעון את התרגיל.",
-    "errorUnknown": "שגיאה לא ידועה"
+    "errorUnknown": "שגיאה לא ידועה",
+    "howTo": "איך מבצעים",
+    "instructionsTitle": "איך מבצעים",
+    "close": "הבנתי",
+    "finishSet": "סיום סט",
+    "setProgress": "{{done}} מתוך {{total}} סטים",
+    "finishExercise": "סיום התרגיל",
+    "doneTitle": "כל הכבוד — סיימת.",
+    "doneSub": "השלמת את {{name}}.",
+    "pickAnother": "בחירת אזור נוסף",
+    "again": "שוב"
   },
   "prescription": {
     "setsReps": "סטים × חזרות",
@@ -119,6 +130,7 @@
     "aboutLink": "למה PainMap קיים →",
     "clinicianLink": "מצא קלינאי →",
     "clinicianShort": "קלינאים",
+    "physioShort": "פיזיותרפיסטים",
     "evidenceLabel": "מחקר",
     "evidenceText": "כל תרגיל מצטט מקור עם ביקורת עמיתים.",
     "evidenceFull": "ביבליוגרפיה מלאה →",
@@ -184,6 +196,14 @@
     ],
     "privacyH2": "פרטיות ותנאים",
     "privacyP1": "רץ כולו בדפדפן שלך — בלי מידע אישי, בלי עוגיות מעקב. הקוד ברישיון MIT; התוכן © PainMap. מסופק \"כמות שהוא\", ללא אחריות."
+  },
+  "physio": {
+    "eyebrow": "מצא פיזיותרפיסט",
+    "titlePrefix": "מצא",
+    "titleSuffix": " פיזיותרפיסט.",
+    "sub": "מרפאות פיזיותרפיה וטיפול בספורט בתל אביב.",
+    "redFlagNote": "יש לך סימני דגל אדום — נימול, חבלה לאחרונה, חום או כאב לילי? פנה/י לרופא/ה לפני אימון.",
+    "disclaimer": "מרפאות המופיעות בפומבי, ללא המלצה — נא לאמת זמינות ומחיר ישירות. ערים נוספות בקרוב."
   },
   "clinician": {
     "titlePrefix": "מתי לפנות",

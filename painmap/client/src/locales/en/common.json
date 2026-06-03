@@ -8,6 +8,7 @@
     "evidence": "Evidence",
     "about": "About",
     "findClinician": "Find a clinician ↗",
+    "findPhysio": "Find a physiotherapist ↗",
     "primary": "Primary"
   },
   "lang": {
@@ -71,7 +72,17 @@
     "translationPending": "Full Hebrew translation in progress.",
     "loadingHeadline": "Loading exercise…",
     "errorHeadline": "Could not load exercise.",
-    "errorUnknown": "Unknown error"
+    "errorUnknown": "Unknown error",
+    "howTo": "How to do it",
+    "instructionsTitle": "How to do it",
+    "close": "Got it",
+    "finishSet": "Finish set",
+    "setProgress": "{{done}} of {{total}} sets",
+    "finishExercise": "Finish exercise",
+    "doneTitle": "Done — nice work.",
+    "doneSub": "You finished {{name}}.",
+    "pickAnother": "Pick another area",
+    "again": "Do it again"
   },
   "prescription": {
     "setsReps": "Sets × Reps",
@@ -119,6 +130,7 @@
     "aboutLink": "Why PainMap exists →",
     "clinicianLink": "Find a clinician →",
     "clinicianShort": "Clinicians",
+    "physioShort": "Physiotherapists",
     "evidenceLabel": "Evidence",
     "evidenceText": "Every exercise cites a peer-reviewed source.",
     "evidenceFull": "Full bibliography →",
@@ -184,6 +196,14 @@
     ],
     "privacyH2": "Privacy & terms",
     "privacyP1": "Runs entirely in your browser — no personal data, no tracking cookies. Code is MIT-licensed; content © PainMap. Provided \"as is\", no warranty."
+  },
+  "physio": {
+    "eyebrow": "FIND A PHYSIOTHERAPIST",
+    "titlePrefix": "Find a",
+    "titleSuffix": " physiotherapist.",
+    "sub": "Physiotherapy & sports-therapy clinics in Tel Aviv.",
+    "redFlagNote": "Have red-flag symptoms — numbness, recent trauma, fever, or night pain? See a doctor before exercising.",
+    "disclaimer": "Publicly listed clinics, not endorsements — please confirm availability and pricing directly. More cities coming."
   },
   "clinician": {
     "titlePrefix": "When to see",

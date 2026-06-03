@@ -23,9 +23,8 @@ export function TopHeader() {
         <span className="brand-version">{t('brand.tagline')}</span>
       </Link>
       <nav className="top-nav" aria-label={t('nav.primary')}>
-        <Link className="nav-link" to="/evidence">{t('nav.evidence')}</Link>
         <Link className="nav-link" to="/about">{t('nav.about')}</Link>
-        <Link className="nav-link nav-emph" to="/clinician-finder">{t('nav.findClinician')}</Link>
+        <Link className="nav-link nav-emph" to="/clinician-finder">{t('nav.findPhysio')}</Link>
         <div className="lang-toggle" role="group" aria-label={t('lang.toggleAria')}>
           <button
             type="button"

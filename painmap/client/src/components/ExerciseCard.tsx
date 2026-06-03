@@ -1,7 +1,7 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../types';
-import { EvidencePill } from './EvidencePill';
 import { BandChip } from './BandChip';
 import { ExerciseAnimation } from './ExerciseAnimation';
 import { YouTubeFacade } from './YouTubeFacade';
@@ -26,8 +26,49 @@ export function ExerciseCard({ exercise, autoStartVideo = false }: Props) {
   const isHebrew = (i18n.language || 'en').startsWith('he');
   const showTranslationPending = isHebrew && !hasHebrewOverride(exercise.id);
 
+  const totalSets = exercise.sets;
+  const [setsDone, setSetsDone] = useState(0);
+  const [finished, setFinished] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
+
+  const finishSet = () => {
+    setSetsDone((n) => {
+      const next = Math.min(n + 1, totalSets);
+      if (next >= totalSets) setFinished(true);
+      return next;
+    });
+  };
+
+  const restart = () => {
+    setSetsDone(0);
+    setFinished(false);
+  };
+
+  // Done state — shown after the last set, or when "Finish exercise" is tapped.
+  if (finished) {
+    return (
+      <article className="exercise-card exercise-done" aria-labelledby="ex-done-title">
+        <div className="done-card">
+          <div className="done-eyebrow">{location}</div>
+          <h2 className="done-title" id="ex-done-title">
+            {t('exercise.doneTitle')}
+          </h2>
+          <p className="done-sub">{t('exercise.doneSub', { name: exercise.name })}</p>
+          <div className="done-actions">
+            <button type="button" className="btn-primary" onClick={() => navigate('/flow/map')}>
+              {t('exercise.pickAnother')}
+            </button>
+            <button type="button" className="btn-secondary" onClick={restart}>
+              {t('exercise.again')}
+            </button>
+          </div>
+        </div>
+      </article>
+    );
+  }
+
   return (
-    <article className="exercise-card" aria-labelledby="ex-name">
+    <article className="exercise-card exercise-card-v2" aria-labelledby="ex-name">
       <button
         type="button"
         className="ex-back"
@@ -44,7 +85,6 @@ export function ExerciseCard({ exercise, autoStartVideo = false }: Props) {
           {exercise.name}
         </h2>
         <p className="ex-target">{exercise.targetMuscles}</p>
-        <EvidencePill evidence={exercise.evidence} />
         {showTranslationPending && (
           <div className="translation-pending" role="note">
             {t('exercise.translationPending')}
@@ -70,67 +110,85 @@ export function ExerciseCard({ exercise, autoStartVideo = false }: Props) {
         )}
       </div>
 
-      <div className="ex-rx">
-        <PrescriptionBlock
-          sets={exercise.sets}
-          reps={exercise.reps}
-          tempo={exercise.tempo}
-          frequency={exercise.frequency}
-        />
+      <div className="ex-meta">
+        <div className="ex-rx">
+          <PrescriptionBlock
+            sets={exercise.sets}
+            reps={exercise.reps}
+            tempo={exercise.tempo}
+            frequency={exercise.frequency}
+          />
+        </div>
+        <div className="ex-band">
+          <BandChip band={exercise.band} />
+        </div>
       </div>
 
-      <div className="ex-band">
-        <BandChip band={exercise.band} />
+      <div className="ex-actions">
+        <button type="button" className="ex-howto" onClick={() => setShowInstructions(true)}>
+          {t('exercise.howTo')}
+        </button>
+        <div className="ex-finish">
+          <span className="ex-setcount">
+            {t('exercise.setProgress', { done: setsDone, total: totalSets })}
+          </span>
+          <button type="button" className="btn-secondary ex-finish-set" onClick={finishSet}>
+            {t('exercise.finishSet')}
+          </button>
+          <button type="button" className="btn-primary" onClick={() => setFinished(true)}>
+            {t('exercise.finishExercise')}
+          </button>
+        </div>
       </div>
-
-      <section className="ex-instructions">
-        <h3 className="ex-h3">{t('exercise.instructions')}</h3>
-        <ol className="ex-steps">
-          {exercise.instructions.map((step, i) => (
-            <li key={i}>
-              <span className="step-num">{String(i + 1).padStart(2, '0')}</span>
-              <span className="step-text">{step}</span>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <section className="ex-mistakes">
-        <h3 className="ex-h3">
-          <svg
-            className="warn-icon"
-            viewBox="0 0 16 16"
-            width="12"
-            height="12"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.2"
-            aria-hidden="true"
-          >
-            <path d="M8 2 L14 13 L2 13 Z" />
-            <path d="M8 7 L8 10" />
-            <circle cx="8" cy="11.5" r="0.3" fill="currentColor" />
-          </svg>
-          {t('exercise.commonMistakes')}
-        </h3>
-        <ul className="ex-bullets">
-          {exercise.commonMistakes.slice(0, 3).map((m, i) => (
-            <li key={i}>{m}</li>
-          ))}
-        </ul>
-      </section>
 
       <aside className="ex-contra contraindications" role="note">
         <div className="ci-label">{t('exercise.contraindications')}</div>
         <div className="ci-body">{exercise.contraindications.join(' · ')}</div>
       </aside>
 
-      <div className="ex-citation citation-footer">
-        <div className="cit-label">{t('exercise.fullCitation')}</div>
-        <div className="cit-text" title={exercise.evidence.full}>
-          {exercise.evidence.full}
+      {showInstructions && (
+        <div
+          className="modal-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label={t('exercise.instructionsTitle')}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowInstructions(false);
+          }}
+        >
+          <div className="modal modal-instructions">
+            <div className="modal-eyebrow">{exercise.name}</div>
+            <h2 className="modal-title">{t('exercise.instructionsTitle')}</h2>
+            <ol className="ex-steps modal-steps">
+              {exercise.instructions.map((step, i) => (
+                <li key={i}>
+                  <span className="step-num">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="step-text">{step}</span>
+                </li>
+              ))}
+            </ol>
+            {exercise.commonMistakes.length > 0 && (
+              <div className="modal-mistakes">
+                <h3 className="ex-h3">{t('exercise.commonMistakes')}</h3>
+                <ul className="ex-bullets">
+                  {exercise.commonMistakes.slice(0, 4).map((m, i) => (
+                    <li key={i}>{m}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            <div className="modal-actions">
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={() => setShowInstructions(false)}
+              >
+                {t('exercise.close')}
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </article>
   );
 }

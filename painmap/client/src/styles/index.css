@@ -1847,3 +1847,189 @@ html[lang="he"] .pt-italic {
   }
 
 }
+
+/* ===========================================================================
+   Exercise card v2 — video-centric, decluttered.
+   Appended OUTSIDE @layer components so these win over the older grid rules.
+   =========================================================================== */
+
+/* Full-width exercise screen on desktop: hide the body-map pane so the demo
+   video gets the whole width (mobile already hides the left pane), and bring
+   back the in-card "Back" affordance since the map is gone. */
+.layout[data-route='exercise'] { grid-template-columns: 1fr; }
+.layout[data-route='exercise'] .pane-left { display: none; }
+.layout[data-route='exercise'] .ex-back { display: inline-flex; }
+
+.exercise-card.exercise-card-v2 {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  flex: 1 1 0;
+  min-height: 0;
+  padding: 8px 12px 18px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.exercise-card-v2 .ex-header { display: block; min-width: 0; }
+.exercise-card-v2 .ex-demo { width: 100%; min-height: 0; }
+.exercise-card-v2 .yt-demo { gap: 10px; }
+.exercise-card-v2 .yt-facade { border-radius: 14px; }
+
+.exercise-card-v2 .ex-meta {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px 18px;
+  align-items: start;
+}
+@media (min-width: 680px) {
+  .exercise-card-v2 .ex-meta { grid-template-columns: 1.5fr 1fr; }
+}
+
+.ex-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 2px;
+}
+.ex-howto {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 11px 18px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
+}
+.ex-howto:hover { background: var(--ink); color: var(--bg); }
+.ex-finish { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.ex-setcount {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+}
+.ex-finish .btn-primary,
+.ex-finish .btn-secondary { border-radius: 999px; cursor: pointer; }
+
+.exercise-card-v2 .ex-contra { margin: 0; }
+
+/* "Done — nice work" state */
+.exercise-card.exercise-done {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 0;
+  min-height: 0;
+  padding: 24px;
+}
+.done-card { max-width: 480px; text-align: center; }
+.done-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--ink-muted);
+  margin-bottom: 10px;
+}
+.done-title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+}
+.done-sub { color: var(--ink-muted); font-size: 14px; line-height: 1.5; margin: 0 0 22px; }
+.done-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.done-actions .btn-primary,
+.done-actions .btn-secondary { border-radius: 999px; cursor: pointer; }
+
+/* Instructions popup (reuses the .modal pattern) */
+.modal-instructions .modal-steps {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+  max-height: 52vh;
+  overflow-y: auto;
+}
+.modal-instructions .modal-steps li {
+  display: flex;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 14px;
+  line-height: 1.45;
+}
+.modal-instructions .modal-steps li:last-child { border-bottom: none; }
+.modal-mistakes { margin-top: 16px; border-top: 1px solid var(--rule); padding-top: 12px; }
+.modal-mistakes .ex-h3 { margin-bottom: 8px; }
+.modal-mistakes .ex-bullets li { font-size: 13px; }
+
+/* ===== Find a physiotherapist (Tel Aviv) list ===== */
+.physio-list { list-style: none; margin: 8px 0 0; padding: 0; }
+.physio-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.physio-main { min-width: 0; }
+.physio-name {
+  font-family: var(--serif);
+  font-size: 20px;
+  line-height: 1.15;
+  color: var(--ink);
+  text-decoration: none;
+}
+.physio-name:hover { color: var(--accent); }
+.physio-focus { font-size: 13px; color: var(--ink); margin: 4px 0 0; }
+.physio-area {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink-muted);
+  margin: 4px 0 0;
+}
+.physio-phone {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+.physio-phone:hover { text-decoration: underline; }
+.physio-note {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border-left: 2px solid var(--accent);
+  background: var(--accent-soft);
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.physio-disclaimer { margin-top: 12px; font-size: 11px; color: var(--ink-muted); line-height: 1.5; }
+
+/* ===== Sub-area list: stack label + description so labels never wrap mid-word ===== */
+.zp-item { grid-template-columns: 1fr auto; gap: 16px; align-items: center; }
+.zp-item-main { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.zp-item-label { font-size: 18px; line-height: 1.15; white-space: normal; min-width: 0; }
+.zp-item-loc {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--ink-muted);
+  white-space: normal;
+}
+.zp-item-arrow { align-self: center; }
+
