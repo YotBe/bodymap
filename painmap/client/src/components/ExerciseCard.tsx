@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../types';
@@ -8,6 +9,19 @@ import { YouTubeFacade } from './YouTubeFacade';
 import { PrescriptionBlock } from './PrescriptionBlock';
 import { ZONE_LABELS, type ZoneId } from './BodyMap/zones';
 import { hasHebrewOverride } from '../api/exercises';
+
+const CONFETTI_DOTS = [
+  { color: '#C8442C', x: -72,  y: -88,  size: 8 },
+  { color: '#2E5C4A', x: 72,   y: -88,  size: 6 },
+  { color: '#F59E0B', x: -100, y: 12,   size: 7 },
+  { color: '#8B5CF6', x: 100,  y: 12,   size: 5 },
+  { color: '#C8442C', x: -50,  y: 100,  size: 6 },
+  { color: '#2E5C4A', x: 50,   y: 100,  size: 8 },
+  { color: '#F59E0B', x: 0,    y: -108, size: 5 },
+  { color: '#8B5CF6', x: -108, y: -44,  size: 7 },
+  { color: '#C8442C', x: 108,  y: -44,  size: 5 },
+  { color: '#2E5C4A', x: 0,    y: 116,  size: 6 },
+] as const;
 
 interface Props {
   exercise: Exercise;
@@ -32,6 +46,7 @@ export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
   const [showInstructions, setShowInstructions] = useState(false);
   const [showEvidence, setShowEvidence] = useState(false);
   const [copied, setCopied] = useState(false);
+  const encouragementIdx = useMemo(() => Math.floor(Math.random() * 5), []);
 
   const howToBtnRef = useRef<HTMLButtonElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -74,21 +89,108 @@ export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
   if (finished) {
     return (
       <article className="exercise-card exercise-done" aria-labelledby="ex-done-title">
-        <div className="done-card">
-          <div className="done-eyebrow">{location}</div>
-          <h2 className="done-title" id="ex-done-title">
+        {/* Confetti burst, centered over the check mark */}
+        <div className="done-confetti" aria-hidden="true">
+          {CONFETTI_DOTS.map((dot, i) => (
+            <span
+              key={i}
+              className="done-confetti-dot"
+              style={{
+                background: dot.color,
+                width: dot.size,
+                height: dot.size,
+                '--dx': `${dot.x}px`,
+                '--dy': `${dot.y}px`,
+                animationDelay: `${0.12 + i * 0.04}s`,
+              } as React.CSSProperties}
+            />
+          ))}
+        </div>
+
+        <motion.div
+          className="done-card"
+          initial={{ scale: 0.82, opacity: 0, y: 28 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+        >
+          <motion.div
+            className="done-check"
+            aria-hidden="true"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: 'spring', stiffness: 520, damping: 16, delay: 0.15 }}
+          >
+            ✓
+          </motion.div>
+
+          <motion.div
+            className="done-eyebrow"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.32, duration: 0.28 }}
+          >
+            {location}
+          </motion.div>
+
+          <motion.h2
+            className="done-title"
+            id="ex-done-title"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.38, duration: 0.28 }}
+          >
             {t('exercise.doneTitle')}
-          </h2>
-          <p className="done-sub">{t('exercise.doneSub', { name: exercise.name })}</p>
-          <div className="done-actions">
+          </motion.h2>
+
+          <motion.p
+            className="done-encouragement"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.46, duration: 0.28 }}
+          >
+            {t(`exercise.encouragement${encouragementIdx}` as const)}
+          </motion.p>
+
+          <motion.div
+            className="done-stats"
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.52, duration: 0.28 }}
+          >
+            <div className="done-stat">
+              <span className="done-stat-num">{totalSets}</span>
+              <span className="done-stat-label">{t('exercise.statSets')}</span>
+            </div>
+            <span className="done-stat-div" aria-hidden="true" />
+            <div className="done-stat">
+              <span className="done-stat-num">{exercise.reps}</span>
+              <span className="done-stat-label">{t('exercise.statReps')}</span>
+            </div>
+          </motion.div>
+
+          <motion.p
+            className="done-sub"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.58, duration: 0.28 }}
+          >
+            {exercise.name}
+          </motion.p>
+
+          <motion.div
+            className="done-actions"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.64, duration: 0.28 }}
+          >
             <button type="button" className="btn-primary" onClick={() => navigate('/flow/map')}>
               {t('exercise.pickAnother')}
             </button>
             <button type="button" className="btn-secondary" onClick={restart}>
               {t('exercise.again')}
             </button>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </article>
     );
   }

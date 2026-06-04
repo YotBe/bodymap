@@ -87,7 +87,14 @@
     "again": "שוב",
     "copyLink": "העתק קישור",
     "linkCopied": "הועתק!",
-    "copyLinkAria": "העתק קישור לתרגיל זה"
+    "copyLinkAria": "העתק קישור לתרגיל זה",
+    "statSets": "סטים",
+    "statReps": "חזרות",
+    "encouragement0": "חזרה אחת קרובה יותר לחיים ללא כאב.",
+    "encouragement1": "עקביות עולה על עצימות.",
+    "encouragement2": "העתיד שלך אומר תודה.",
+    "encouragement3": "ניצחונות קטנים מצטברים.",
+    "encouragement4": "התקדמות, לא שלמות."
   },
   "prescription": {
     "setsReps": "סטים × חזרות",
