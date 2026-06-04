@@ -198,15 +198,21 @@ export function PageShell() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return;
-      if (selectedSubArea && selectedZone) {
+      // Step up one level. Update state directly rather than navigating to the
+      // route we're already on (which would be a no-op and leave the user stuck).
+      if (location.pathname.startsWith('/exercise') && selectedZone) {
         navigate(`/zone/${selectedZone}`);
+      } else if (selectedSubArea) {
+        setSelectedSubArea(null); // de-arm the marker on the zoomed map
       } else if (selectedZone) {
+        setSelectedSubArea(null);
+        setSelectedZone(null);
         navigate('/flow/map');
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [navigate, selectedSubArea, selectedZone]);
+  }, [navigate, selectedSubArea, selectedZone, location.pathname]);
 
   const enabledZonesForView = ZONES_BY_VIEW[view];
   const isZoneInView = selectedZone ? enabledZonesForView.includes(selectedZone) : true;

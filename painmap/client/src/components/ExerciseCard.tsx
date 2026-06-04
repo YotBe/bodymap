@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../types';
@@ -30,6 +30,20 @@ export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
   const [setsDone, setSetsDone] = useState(0);
   const [finished, setFinished] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
+
+  const howToBtnRef = useRef<HTMLButtonElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const closeInstructions = () => {
+    setShowInstructions(false);
+    howToBtnRef.current?.focus();
+  };
+
+  // Move focus into the dialog when it opens so its Escape handler (which stops
+  // propagation) intercepts the key before the page-level Escape navigation.
+  useEffect(() => {
+    if (showInstructions) modalRef.current?.focus();
+  }, [showInstructions]);
 
   const finishSet = () => {
     setSetsDone((n) => {
@@ -125,7 +139,12 @@ export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
       </div>
 
       <div className="ex-actions">
-        <button type="button" className="ex-howto" onClick={() => setShowInstructions(true)}>
+        <button
+          ref={howToBtnRef}
+          type="button"
+          className="ex-howto"
+          onClick={() => setShowInstructions(true)}
+        >
           {t('exercise.howTo')}
         </button>
         <div className="ex-finish">
@@ -155,14 +174,24 @@ export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
       {showInstructions && (
         <div
           className="modal-overlay"
-          role="dialog"
-          aria-modal="true"
-          aria-label={t('exercise.instructionsTitle')}
           onClick={(e) => {
-            if (e.target === e.currentTarget) setShowInstructions(false);
+            if (e.target === e.currentTarget) closeInstructions();
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') {
+              e.stopPropagation();
+              closeInstructions();
+            }
           }}
         >
-          <div className="modal modal-instructions">
+          <div
+            ref={modalRef}
+            className="modal modal-instructions"
+            role="dialog"
+            aria-modal="true"
+            aria-label={t('exercise.instructionsTitle')}
+            tabIndex={-1}
+          >
             <div className="modal-eyebrow">{exercise.name}</div>
             <h2 className="modal-title">{t('exercise.instructionsTitle')}</h2>
             <ol className="ex-steps modal-steps">
@@ -187,7 +216,7 @@ export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
               <button
                 type="button"
                 className="btn-primary"
-                onClick={() => setShowInstructions(false)}
+                onClick={closeInstructions}
               >
                 {t('exercise.close')}
               </button>
