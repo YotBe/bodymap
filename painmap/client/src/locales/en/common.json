@@ -306,5 +306,19 @@
     "saveFavorites": "Save Routine to Favorites",
     "savedSuccess": "Routine saved!",
     "noExercises": "Please select a zone on the body map to see targeted exercises here."
+  },
+  "a11y": {
+    "skipToContent": "Skip to main content",
+    "view": {
+      "map": "Body map",
+      "assessment": "Triage assessment",
+      "zone": "{{zone}} area",
+      "zoneGeneric": "Body area",
+      "exercise": "Exercise details",
+      "about": "About page",
+      "legal": "Legal and privacy",
+      "clinician": "Find a clinician",
+      "notFound": "Page not found"
+    }
   }
 }
