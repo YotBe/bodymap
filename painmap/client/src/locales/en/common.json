@@ -87,7 +87,14 @@
     "again": "Do it again",
     "copyLink": "Copy link",
     "linkCopied": "Copied!",
-    "copyLinkAria": "Copy link to this exercise"
+    "copyLinkAria": "Copy link to this exercise",
+    "statSets": "Sets",
+    "statReps": "Reps",
+    "encouragement0": "One rep closer to pain-free.",
+    "encouragement1": "Consistency beats intensity.",
+    "encouragement2": "Your future self says thanks.",
+    "encouragement3": "Small wins compound.",
+    "encouragement4": "Progress, not perfection."
   },
   "prescription": {
     "setsReps": "Sets × Reps",
