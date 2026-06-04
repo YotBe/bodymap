@@ -185,14 +185,15 @@ export function PageShell() {
     if (z) setSelectedZone(z);
   }, []);
 
+  // The map breadcrumb ("‹ Body / {zone}") always returns to the full-body map.
+  // Clear the selection directly so the un-zoom is immediate and doesn't depend
+  // on the zone route param changing (navigating to the same /zone route would
+  // otherwise be a no-op when a sub-area is armed).
   const handleBack = useCallback(() => {
-    if (selectedSubArea) {
-      if (selectedZone) navigate(`/zone/${selectedZone}`);
-      else navigate('/flow/map');
-    } else {
-      navigate('/');
-    }
-  }, [navigate, selectedZone, selectedSubArea]);
+    setSelectedSubArea(null);
+    setSelectedZone(null);
+    navigate('/flow/map');
+  }, [navigate]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
