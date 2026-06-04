@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../types';
@@ -30,6 +30,8 @@ export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
   const [setsDone, setSetsDone] = useState(0);
   const [finished, setFinished] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
+  const [showEvidence, setShowEvidence] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const howToBtnRef = useRef<HTMLButtonElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -58,6 +60,16 @@ export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
     setFinished(false);
   };
 
+  const handleCopyLink = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard blocked (e.g. non-HTTPS dev)
+    }
+  }, []);
+
   // Done state — shown after the last set, or when "Finish exercise" is tapped.
   if (finished) {
     return (
@@ -83,15 +95,25 @@ export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
 
   return (
     <article className="exercise-card exercise-card-v2" aria-labelledby="ex-name">
-      <button
-        type="button"
-        className="ex-back"
-        onClick={() => navigate(-1)}
-        aria-label={t('exercise.backAria')}
-      >
-        <span aria-hidden="true">‹</span>
-        <span>{t('exercise.back')}</span>
-      </button>
+      <div className="ex-nav">
+        <button
+          type="button"
+          className="ex-back"
+          onClick={() => navigate(-1)}
+          aria-label={t('exercise.backAria')}
+        >
+          <span aria-hidden="true">‹</span>
+          <span>{t('exercise.back')}</span>
+        </button>
+        <button
+          type="button"
+          className="ex-copy-link"
+          onClick={handleCopyLink}
+          aria-label={t('exercise.copyLinkAria')}
+        >
+          {copied ? t('exercise.linkCopied') : t('exercise.copyLink')}
+        </button>
+      </div>
 
       <header className="ex-header">
         <div className="ex-location">{location}</div>
@@ -170,6 +192,24 @@ export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
         <div className="ci-label">{t('exercise.contraindications')}</div>
         <div className="ci-body">{exercise.contraindications.join(' · ')}</div>
       </aside>
+
+      <div className="ex-evidence">
+        <button
+          type="button"
+          className="ev-toggle"
+          onClick={() => setShowEvidence((v) => !v)}
+          aria-expanded={showEvidence}
+        >
+          <span className="ev-short">{exercise.evidence.short}</span>
+          <span aria-hidden="true">{showEvidence ? '▲' : '▼'}</span>
+        </button>
+        {showEvidence && (
+          <div className="ev-body">
+            <p className="ev-summary">{exercise.evidence.summary}</p>
+            <p className="ev-full">{exercise.evidence.full}</p>
+          </div>
+        )}
+      </div>
 
       {showInstructions && (
         <div

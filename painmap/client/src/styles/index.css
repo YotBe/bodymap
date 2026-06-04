@@ -2161,6 +2161,68 @@ html[lang="he"] .pt-italic {
 
 .exercise-card-v2 .ex-contra { margin: 0; }
 
+/* Evidence citation collapsible */
+.ex-evidence {
+  border-top: 1px solid var(--rule);
+  padding-top: var(--sp-3);
+  margin-top: var(--sp-3);
+}
+.ev-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.72rem;
+  font-family: var(--mono);
+  color: var(--evidence);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  gap: var(--sp-2);
+}
+.ev-body {
+  margin-top: var(--sp-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.ev-summary {
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+  line-height: 1.5;
+}
+.ev-full {
+  font-size: 0.72rem;
+  font-family: var(--mono);
+  color: var(--evidence);
+  line-height: 1.5;
+}
+
+/* Navigation row: back + copy-link */
+.ex-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--sp-2);
+}
+.ex-copy-link {
+  background: none;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-2);
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  font-family: var(--mono);
+  color: var(--ink-muted);
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.ex-copy-link:hover { color: var(--ink); border-color: var(--ink-muted); }
+
 /* "Done — nice work" state */
 .exercise-card.exercise-done {
   display: flex;

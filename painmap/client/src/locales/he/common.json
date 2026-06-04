@@ -84,7 +84,10 @@
     "doneTitle": "כל הכבוד — סיימת.",
     "doneSub": "השלמת את {{name}}.",
     "pickAnother": "בחירת אזור נוסף",
-    "again": "שוב"
+    "again": "שוב",
+    "copyLink": "העתק קישור",
+    "linkCopied": "הועתק!",
+    "copyLinkAria": "העתק קישור לתרגיל זה"
   },
   "prescription": {
     "setsReps": "סטים × חזרות",
@@ -305,7 +308,11 @@
     "viewExercise": "התחל תרגיל",
     "saveFavorites": "שמור אימון למועדפים",
     "savedSuccess": "האימון נשמר בהצלחה!",
-    "noExercises": "אנא בחר אזור במפת הגוף כדי לראות כאן תרגילים ממוקדים."
+    "noExercises": "אנא בחר אזור במפת הגוף כדי לראות כאן תרגילים ממוקדים.",
+    "prescriptionStrength": "3 סטים × 10 חזרות (עומס כוח)",
+    "prescriptionStability": "3 סטים × 15 חזרות (מיקוד שליטה)",
+    "prescriptionMobility": "2 סטים × 12 חזרות (תנועתיות עדינה)",
+    "prescriptionClinician": "התייעץ עם פיזיותרפיסט"
   },
   "a11y": {
     "skipToContent": "דלג לתוכן הראשי",

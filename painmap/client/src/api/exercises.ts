@@ -342,6 +342,38 @@ const EVIDENCE_LIST: EvidenceEntry[] = (() => {
   return out;
 })();
 
+export const TRACK_EXERCISES: Record<
+  'strength-foundation' | 'stability-posture' | 'mobility-reset' | 'clinician-referral',
+  string[]
+> = {
+  'strength-foundation': [
+    'ex-band-shrug',
+    'ex-seated-row',
+    'ex-banded-glute-bridge',
+    'ex-banded-tke',
+  ],
+  'stability-posture': [
+    'ex-face-pull',
+    'ex-ytw',
+    'ex-chin-tuck-band',
+    'ex-banded-clamshell',
+  ],
+  'mobility-reset': [
+    'ex-levator-stretch',
+    'ex-median-nerve-glide',
+    'ex-plantar-fascia-stretch',
+    'ex-good-morning',
+  ],
+  'clinician-referral': [],
+};
+
+export function getExercisesForTrack(track: keyof typeof TRACK_EXERCISES): Exercise[] {
+  const ids = TRACK_EXERCISES[track] ?? [];
+  return ids
+    .map((id) => EXERCISE_INDEX.get(id))
+    .filter((ex): ex is Exercise => !!ex);
+}
+
 export function useEvidenceList() {
   return useQuery({
     queryKey: ['evidence-list'],
