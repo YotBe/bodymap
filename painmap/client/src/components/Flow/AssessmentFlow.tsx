@@ -1,15 +1,17 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { classifyAssessment } from '../../flow/classifier';
 import type { AssessmentAnswers, AssessmentResult } from '../../flow/types';
 import { useExercisesByIds, TRACK_EXERCISES } from '../../api/exercises';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import { PaneEyebrow } from '../PaneEyebrow';
 
 export function AssessmentFlow() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const reduceMotion = usePrefersReducedMotion();
 
   const [step, setStep] = useState(0); // 0: intro, 1: red flags, 2: pain profile, 3: pain behavior, 4: work & equip, 5: results
   const [answers, setAnswers] = useState<AssessmentAnswers>({
@@ -150,20 +152,45 @@ export function AssessmentFlow() {
   if (step === 5 && result) {
     const isHighRisk = result.riskTier === 'high';
 
+    const containerV: Variants = {
+      hidden: {},
+      show: {
+        transition: {
+          staggerChildren: reduceMotion ? 0 : 0.09,
+          delayChildren: reduceMotion ? 0 : 0.05,
+        },
+      },
+    };
+    const itemV: Variants = {
+      hidden: reduceMotion ? { opacity: 0 } : { opacity: 0, y: 14 },
+      show: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: reduceMotion ? 0.001 : 0.34, ease: 'easeOut' },
+      },
+    };
+
     return (
       <div className="flow-scroll">
         <PaneEyebrow num="02" label={t('pane.exerciseLabel')} />
         <motion.article
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          variants={containerV}
+          initial="hidden"
+          animate="show"
           className="flex flex-col gap-5 pb-8"
         >
           {/* Diagnostic Block */}
-          <div className="rounded-2xl border border-rule bg-surface p-6 shadow-card flex flex-col gap-3">
+          <motion.div
+            variants={itemV}
+            className="rounded-2xl border border-rule bg-surface p-6 shadow-card flex flex-col gap-3"
+          >
             <div className="flex justify-between items-center border-b border-rule pb-3">
               <h2 className="font-display text-2xl text-ink">{t('assessment.resultsTitle')}</h2>
-              <span
-                className={`font-mono text-xs uppercase px-2.5 py-1 rounded ${
+              <motion.span
+                initial={reduceMotion ? false : { scale: 0.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: 'spring', stiffness: 520, damping: 18, delay: reduceMotion ? 0 : 0.18 }}
+                className={`inline-block font-mono text-xs uppercase px-2.5 py-1 rounded ${
                   isHighRisk
                     ? 'bg-accent/10 text-accent border border-accent/20'
                     : result.riskTier === 'moderate'
@@ -172,7 +199,7 @@ export function AssessmentFlow() {
                 }`}
               >
                 {t('assessment.riskLabel')} {result.riskTier}
-              </span>
+              </motion.span>
             </div>
 
             <div className="grid grid-cols-2 gap-4 py-2">
@@ -218,11 +245,14 @@ export function AssessmentFlow() {
                 {isSaved ? t('assessment.savedSuccess') : t('assessment.saveFavorites')}
               </button>
             )}
-          </div>
+          </motion.div>
 
           {/* Routine Exercises List */}
           {!isHighRisk && (
-            <div className="rounded-2xl border border-rule bg-surface p-6 shadow-card flex flex-col gap-4">
+            <motion.div
+              variants={itemV}
+              className="rounded-2xl border border-rule bg-surface p-6 shadow-card flex flex-col gap-4"
+            >
               <h3 className="font-display text-xl text-ink">{t('assessment.routineTitle')}</h3>
               <p className="text-xs text-ink-muted leading-relaxed">
                 {t('assessment.routineText', {
@@ -231,10 +261,11 @@ export function AssessmentFlow() {
                 })}
               </p>
 
-              <div className="flex flex-col gap-2.5 mt-2">
+              <motion.div className="flex flex-col gap-2.5 mt-2" variants={containerV}>
                 {routineExercises?.map((ex) => (
-                  <div
+                  <motion.div
                     key={ex.id}
+                    variants={itemV}
                     className="flex justify-between items-center border border-rule rounded-xl p-3 bg-bg/50 hover:bg-bg transition-colors"
                   >
                     <div className="min-w-0">
@@ -250,13 +281,13 @@ export function AssessmentFlow() {
                     >
                       {t('assessment.viewExercise')}
                     </button>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           )}
 
-          <div className="flex gap-3">
+          <motion.div variants={itemV} className="flex gap-3">
             <button
               type="button"
               className="btn-secondary w-full text-center"
@@ -274,7 +305,7 @@ export function AssessmentFlow() {
             >
               {t('notFound.returnHome')}
             </button>
-          </div>
+          </motion.div>
         </motion.article>
       </div>
     );
