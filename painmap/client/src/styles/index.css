@@ -363,7 +363,7 @@ button { font-family: inherit; cursor: pointer; }
     min-height: 0;
     aspect-ratio: 4 / 6;
     width: auto;
-    max-width: 380px;
+    max-width: 440px;
     max-height: 100%;
     margin: 0 auto;
   }
@@ -391,6 +391,10 @@ button { font-family: inherit; cursor: pointer; }
     stroke-width: 2;
     stroke-dasharray: 3 3;
   }
+  /* Suppress the browser's default (blue) outline when a zone keeps focus
+     after a pointer click — keyboard focus still shows the dashed accent stroke
+     via the :focus-visible rule above. */
+  .hit:focus:not(:focus-visible) { outline: none; }
   .subhot:focus-visible { outline: none; }
   .subhot:focus-visible .subhot-ring { stroke-width: 2; }
 
@@ -788,12 +792,12 @@ button { font-family: inherit; cursor: pointer; }
     flex: 0 0 auto;
   }
   .zp-list {
-    border-top: 1px solid var(--rule);
     flex: 1 1 0;
     min-height: 0;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    justify-content: center;
   }
   .zp-item {
     display: grid;
@@ -804,10 +808,11 @@ button { font-family: inherit; cursor: pointer; }
     background: none;
     border: none;
     border-bottom: 1px solid var(--rule);
-    padding: 12px 4px;
+    padding: 16px 4px;
     text-align: left;
     flex: 0 0 auto;
   }
+  .zp-item:first-child { border-top: 1px solid var(--rule); }
   .zp-item:hover { background: rgba(200, 68, 44, 0.04); }
   .zp-item-label {
     font-family: var(--serif);
