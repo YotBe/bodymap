@@ -11,11 +11,11 @@ import { hasHebrewOverride } from '../api/exercises';
 
 interface Props {
   exercise: Exercise;
-  /** Autoplay the demo immediately (used when arriving straight from the map). */
+  /** Autoplay the demo immediately. Defaults to true on the exercise page. */
   autoStartVideo?: boolean;
 }
 
-export function ExerciseCard({ exercise, autoStartVideo = false }: Props) {
+export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const zoneId = exercise.subArea.zoneId as ZoneId;
