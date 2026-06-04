@@ -24,4 +24,5 @@ jobs:
       - run: npm run lint
       - run: node scripts/check-data.mjs
       - run: node scripts/check-animations.mjs
+      - run: npm run test:classifier
       - run: npm run build
