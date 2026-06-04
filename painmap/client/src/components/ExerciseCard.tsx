@@ -9,18 +9,19 @@ import { YouTubeFacade } from './YouTubeFacade';
 import { PrescriptionBlock } from './PrescriptionBlock';
 import { ZONE_LABELS, type ZoneId } from './BodyMap/zones';
 import { hasHebrewOverride } from '../api/exercises';
+import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 
 const CONFETTI_DOTS = [
-  { color: '#C8442C', x: -72,  y: -88,  size: 8 },
-  { color: '#2E5C4A', x: 72,   y: -88,  size: 6 },
-  { color: '#F59E0B', x: -100, y: 12,   size: 7 },
-  { color: '#8B5CF6', x: 100,  y: 12,   size: 5 },
-  { color: '#C8442C', x: -50,  y: 100,  size: 6 },
-  { color: '#2E5C4A', x: 50,   y: 100,  size: 8 },
-  { color: '#F59E0B', x: 0,    y: -108, size: 5 },
-  { color: '#8B5CF6', x: -108, y: -44,  size: 7 },
-  { color: '#C8442C', x: 108,  y: -44,  size: 5 },
-  { color: '#2E5C4A', x: 0,    y: 116,  size: 6 },
+  { color: '#C8442C', x: -101, y: -123, size: 10 },
+  { color: '#2E5C4A', x: 101,  y: -123, size: 8 },
+  { color: '#F59E0B', x: -140, y: 17,   size: 9 },
+  { color: '#8B5CF6', x: 140,  y: 17,   size: 7 },
+  { color: '#C8442C', x: -70,  y: 140,  size: 8 },
+  { color: '#2E5C4A', x: 70,   y: 140,  size: 10 },
+  { color: '#F59E0B', x: 0,    y: -151, size: 7 },
+  { color: '#8B5CF6', x: -151, y: -62,  size: 9 },
+  { color: '#C8442C', x: 151,  y: -62,  size: 7 },
+  { color: '#2E5C4A', x: 0,    y: 162,  size: 8 },
 ] as const;
 
 interface Props {
@@ -47,6 +48,7 @@ export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
   const [showEvidence, setShowEvidence] = useState(false);
   const [copied, setCopied] = useState(false);
   const encouragementIdx = useMemo(() => Math.floor(Math.random() * 5), []);
+  const reduceMotion = usePrefersReducedMotion();
 
   const howToBtnRef = useRef<HTMLButtonElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -272,21 +274,60 @@ export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
           {t('exercise.howTo')}
         </button>
         <div className="ex-finish">
-          <div
-            className="ex-setdots"
-            role="img"
-            aria-label={t('exercise.setProgress', { done: setsDone, total: totalSets })}
-          >
-            {Array.from({ length: totalSets }).map((_, i) => (
-              <span key={i} className={i < setsDone ? 'set-dot is-done' : 'set-dot'} aria-hidden="true" />
-            ))}
+          <div className="ex-setprogress">
+            <div
+              className="ex-setdots"
+              role="img"
+              aria-label={t('exercise.setProgress', { done: setsDone, total: totalSets })}
+            >
+              {Array.from({ length: totalSets }).map((_, i) => {
+                const isDone = i < setsDone;
+                return (
+                  <motion.span
+                    key={i}
+                    className={isDone ? 'set-dot is-done' : 'set-dot'}
+                    aria-hidden="true"
+                    animate={{ scale: isDone ? (reduceMotion ? 1.05 : [1, 1.4, 1.05]) : 1 }}
+                    transition={
+                      reduceMotion
+                        ? { duration: 0 }
+                        : { duration: 0.4, times: [0, 0.6, 1], ease: 'easeOut' }
+                    }
+                  />
+                );
+              })}
+            </div>
+            <span className="ex-setcount" aria-hidden="true">
+              <motion.span
+                key={setsDone}
+                className="ex-setcount-done"
+                initial={reduceMotion ? false : { scale: 1.3 }}
+                animate={{ scale: 1 }}
+                transition={{ type: 'spring', stiffness: 480, damping: 18 }}
+              >
+                {setsDone}
+              </motion.span>
+              <span>/{totalSets}</span>
+            </span>
           </div>
-          <button type="button" className="btn-secondary ex-finish-set" onClick={finishSet}>
+          <motion.button
+            type="button"
+            className="btn-secondary ex-finish-set"
+            onClick={finishSet}
+            whileHover={reduceMotion ? undefined : { scale: 1.03 }}
+            whileTap={reduceMotion ? undefined : { scale: 0.94 }}
+          >
             {t('exercise.finishSet')}
-          </button>
-          <button type="button" className="btn-primary" onClick={() => setFinished(true)}>
+          </motion.button>
+          <motion.button
+            type="button"
+            className="btn-primary"
+            onClick={() => setFinished(true)}
+            whileHover={reduceMotion ? undefined : { scale: 1.03 }}
+            whileTap={reduceMotion ? undefined : { scale: 0.94 }}
+          >
             {t('exercise.finishExercise')}
-          </button>
+          </motion.button>
         </div>
       </div>
 
