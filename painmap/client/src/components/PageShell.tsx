@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Navigate,
   Route,
@@ -13,12 +13,6 @@ import { TopHeader } from './TopHeader';
 import { SiteFooter } from './SiteFooter';
 import { BodyMap } from './BodyMap/BodyMap';
 import { PaneEyebrow } from './PaneEyebrow';
-import { ZonePage } from '../routes/ZonePage';
-import { ExercisePage } from '../routes/ExercisePage';
-import { AboutPage } from '../routes/AboutPage';
-import { LegalPage } from '../routes/LegalPage';
-import { ClinicianPage } from '../routes/ClinicianPage';
-import { NotFoundPage } from './NotFoundPage';
 import { useZones } from '../api/exercises';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 import { useIsMobile } from '../hooks/useIsMobile';
@@ -29,7 +23,26 @@ import {
   ZONES_BY_VIEW,
 } from './BodyMap/zones';
 import { BodyAreaStep } from './Flow/BodyAreaStep';
-import { AssessmentFlow } from './Flow/AssessmentFlow';
+
+// Route views are code-split: only /flow/map (the landing, rendered by the local
+// MapRoute/BodyAreaStep) is needed for first paint. Everything else loads its own
+// chunk on first navigation. Named exports are adapted to lazy()'s default-export
+// contract via the .then() wrapper.
+const ZonePage = lazy(() => import('../routes/ZonePage').then((m) => ({ default: m.ZonePage })));
+const ExercisePage = lazy(() =>
+  import('../routes/ExercisePage').then((m) => ({ default: m.ExercisePage })),
+);
+const AboutPage = lazy(() => import('../routes/AboutPage').then((m) => ({ default: m.AboutPage })));
+const LegalPage = lazy(() => import('../routes/LegalPage').then((m) => ({ default: m.LegalPage })));
+const ClinicianPage = lazy(() =>
+  import('../routes/ClinicianPage').then((m) => ({ default: m.ClinicianPage })),
+);
+const NotFoundPage = lazy(() =>
+  import('./NotFoundPage').then((m) => ({ default: m.NotFoundPage })),
+);
+const AssessmentFlow = lazy(() =>
+  import('./Flow/AssessmentFlow').then((m) => ({ default: m.AssessmentFlow })),
+);
 
 const ALL_ZONE_IDS: readonly ZoneId[] = [
   'neck',
@@ -260,7 +273,8 @@ export function PageShell() {
 
         <section className="pane pane-right">
           <div className="fade-stage" key={location.pathname}>
-            <Routes>
+            <Suspense fallback={<div className="route-loading" aria-busy="true" />}>
+              <Routes>
               <Route path="/" element={<Navigate to="/flow/map" replace />} />
 
               <Route
@@ -305,7 +319,8 @@ export function PageShell() {
               <Route path="/legal" element={<LegalPage />} />
               <Route path="/clinician-finder" element={<ClinicianPage />} />
               <Route path="*" element={<NotFoundPage />} />
-            </Routes>
+              </Routes>
+            </Suspense>
           </div>
         </section>
       </main>

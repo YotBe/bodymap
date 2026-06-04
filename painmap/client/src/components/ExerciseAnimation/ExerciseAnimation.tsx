@@ -1,13 +1,16 @@
-import { useState, useEffect } from 'react';
+import { lazy, Suspense, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HumanFigure } from './HumanFigure';
 import { MuscleOverlay } from './MuscleOverlay';
 import { MUSCLE_OVERLAYS } from './muscles';
 import { VideoDemo } from './VideoDemo';
-import { LottieDemo } from './LottieDemo';
 import { ANIMATION_CONFIGS } from './exerciseAnimations';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import './exerciseAnimation.css';
+
+// lottie-react is sizeable and only needed when an exercise actually ships a
+// `demoLottie`. Load it on demand so it stays out of the bundle otherwise.
+const LottieDemo = lazy(() => import('./LottieDemo').then((m) => ({ default: m.LottieDemo })));
 
 interface Props {
   exerciseId: string;
@@ -111,15 +114,17 @@ export function ExerciseAnimation({
   if (showLottie) {
     return (
       <div className="exercise-animation">
-        <LottieDemo
-          src={lottieUrl!}
-          exerciseName={exerciseName}
-          paused={paused}
-          slow={slow}
-          prefersReducedMotion={prefersReducedMotion}
-          reps={reps}
-          onError={() => setLottieErrored(true)}
-        />
+        <Suspense fallback={null}>
+          <LottieDemo
+            src={lottieUrl!}
+            exerciseName={exerciseName}
+            paused={paused}
+            slow={slow}
+            prefersReducedMotion={prefersReducedMotion}
+            reps={reps}
+            onError={() => setLottieErrored(true)}
+          />
+        </Suspense>
         {controls}
       </div>
     );

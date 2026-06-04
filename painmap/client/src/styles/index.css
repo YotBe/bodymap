@@ -430,6 +430,12 @@ button { font-family: inherit; cursor: pointer; }
     flex-direction: column;
     overflow: visible;
   }
+  /* Holds the pane height while a lazily-loaded route chunk resolves, so the
+     layout doesn't collapse during the brief first-load fetch. */
+  .route-loading {
+    flex: 1 1 0;
+    min-height: 40vh;
+  }
   .flow-scroll {
     flex: 1 1 0;
     min-height: 0;
