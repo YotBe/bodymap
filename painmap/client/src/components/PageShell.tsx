@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Navigate,
   Route,
@@ -8,6 +8,7 @@ import {
   useParams,
 } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import { SafetyBanner } from './SafetyBanner';
 import { TopHeader } from './TopHeader';
 import { SiteFooter } from './SiteFooter';
@@ -227,6 +228,23 @@ export function PageShell() {
     return () => window.removeEventListener('keydown', onKey);
   }, [navigate, selectedSubArea, selectedZone, location.pathname]);
 
+  // Announce route changes to screen readers. A single-page app swaps the
+  // pane-right content without a page load, so SR users get no cue that the view
+  // changed; this polite live region speaks the new view's name. The initial
+  // load is skipped (the SR is already reading the freshly loaded page).
+  const [routeAnnouncement, setRouteAnnouncement] = useState('');
+  const didAnnounceMount = useRef(false);
+  useEffect(() => {
+    if (!didAnnounceMount.current) {
+      didAnnounceMount.current = true;
+      return;
+    }
+    setRouteAnnouncement(describeRoute(location.pathname, t));
+    // t is intentionally omitted so a language toggle doesn't re-announce the
+    // current (unchanged) route — we only announce on navigation.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
+
   const enabledZonesForView = ZONES_BY_VIEW[view];
   const isZoneInView = selectedZone ? enabledZonesForView.includes(selectedZone) : true;
 
@@ -247,10 +265,17 @@ export function PageShell() {
 
   return (
     <div className="app-shell" data-route={routeKind}>
+      <a className="skip-link" href="#main-content">
+        {t('a11y.skipToContent')}
+      </a>
+      {/* Polite SPA route announcer for screen readers (visually hidden). */}
+      <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {routeAnnouncement}
+      </div>
       {!bannerDismissed && <SafetyBanner onDismiss={() => setBannerDismissed(true)} />}
       <TopHeader />
 
-      <main className="layout" data-route={routeKind}>
+      <main id="main-content" tabIndex={-1} className="layout" data-route={routeKind}>
         <section className="pane pane-left">
           <PaneEyebrow num={t('pane.selectNum')} label={t('pane.selectLabel')} />
           <h1 className="page-title">
@@ -328,6 +353,26 @@ export function PageShell() {
       <SiteFooter />
     </div>
   );
+}
+
+/**
+ * A short, localized name for the current view, spoken by the route announcer.
+ * Derives the zone name straight from the path so deep links announce correctly
+ * even before route-sync state catches up.
+ */
+function describeRoute(pathname: string, t: TFunction): string {
+  if (pathname === '/flow/map') return t('a11y.view.map');
+  if (pathname === '/flow/assessment') return t('a11y.view.assessment');
+  if (pathname.startsWith('/zone/')) {
+    const zoneId = pathname.slice('/zone/'.length);
+    const zoneName = t(`zones.${zoneId}`, { defaultValue: '' });
+    return zoneName ? t('a11y.view.zone', { zone: zoneName }) : t('a11y.view.zoneGeneric');
+  }
+  if (pathname.startsWith('/exercise/')) return t('a11y.view.exercise');
+  if (pathname === '/about') return t('a11y.view.about');
+  if (pathname === '/legal') return t('a11y.view.legal');
+  if (pathname === '/clinician-finder') return t('a11y.view.clinician');
+  return t('a11y.view.notFound');
 }
 
 /**

@@ -94,6 +94,40 @@ button { font-family: inherit; cursor: pointer; }
   border-radius: var(--r-1);
 }
 
+/* Screen-reader-only: visually hidden but available to assistive tech. Used for
+   the SPA route announcer (role="status"). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip link: first focusable element; hidden off-screen until focused so
+   keyboard users can jump past the header straight to the main content. */
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -64px;
+  z-index: 1000;
+  padding: 8px 14px;
+  background: var(--ink);
+  color: var(--bg);
+  border-radius: var(--r-1);
+  font-size: 14px;
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+.skip-link:focus {
+  top: 8px;
+}
+
 @layer components {
   /* Fixed-height shell — every page fits viewport, nothing scrolls. */
   .app-shell {
