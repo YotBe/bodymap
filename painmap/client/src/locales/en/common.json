@@ -84,7 +84,10 @@
     "doneTitle": "Done — nice work.",
     "doneSub": "You finished {{name}}.",
     "pickAnother": "Pick another area",
-    "again": "Do it again"
+    "again": "Do it again",
+    "copyLink": "Copy link",
+    "linkCopied": "Copied!",
+    "copyLinkAria": "Copy link to this exercise"
   },
   "prescription": {
     "setsReps": "Sets × Reps",
@@ -305,7 +308,11 @@
     "viewExercise": "Start exercise",
     "saveFavorites": "Save Routine to Favorites",
     "savedSuccess": "Routine saved!",
-    "noExercises": "Please select a zone on the body map to see targeted exercises here."
+    "noExercises": "Please select a zone on the body map to see targeted exercises here.",
+    "prescriptionStrength": "3 sets × 10 reps (strength loading)",
+    "prescriptionStability": "3 sets × 15 reps (control focus)",
+    "prescriptionMobility": "2 sets × 12 reps (gentle mobility)",
+    "prescriptionClinician": "Consult a therapist"
   },
   "a11y": {
     "skipToContent": "Skip to main content",

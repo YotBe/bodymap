@@ -4,13 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { classifyAssessment } from '../../flow/classifier';
 import type { AssessmentAnswers, AssessmentResult } from '../../flow/types';
-import { useExercisesByIds } from '../../api/exercises';
+import { useExercisesByIds, TRACK_EXERCISES } from '../../api/exercises';
 import { PaneEyebrow } from '../PaneEyebrow';
 
 export function AssessmentFlow() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
-  const isHebrew = (i18n.language || 'en').startsWith('he');
 
   const [step, setStep] = useState(0); // 0: intro, 1: red flags, 2: pain profile, 3: pain behavior, 4: work & equip, 5: results
   const [answers, setAnswers] = useState<AssessmentAnswers>({
@@ -32,9 +31,10 @@ export function AssessmentFlow() {
   const [result, setResult] = useState<AssessmentResult | null>(null);
   const [isSaved, setIsSaved] = useState(false);
 
-  // Default exercise IDs for desk relief routine
-  const defaultIds = ['ex-band-shrug', 'ex-chin-tuck-band', 'ex-seated-row', 'ex-banded-glute-bridge'];
-  const { data: routineExercises } = useExercisesByIds(defaultIds);
+  const trackIds = result
+    ? TRACK_EXERCISES[result.primaryTrack] ?? []
+    : ['ex-band-shrug', 'ex-chin-tuck-band', 'ex-seated-row', 'ex-banded-glute-bridge'];
+  const { data: routineExercises } = useExercisesByIds(trackIds);
 
   const handleRedFlagChange = (key: keyof AssessmentAnswers['redFlags']) => {
     setAnswers((prev) => ({
@@ -93,16 +93,10 @@ export function AssessmentFlow() {
   };
 
   const getPrescriptionText = (track: AssessmentResult['primaryTrack']) => {
-    if (track === 'clinician-referral') {
-      return isHebrew ? 'התייעץ עם פיזיותרפיסט' : 'Consult a therapist';
-    }
-    if (track === 'stability-posture') {
-      return isHebrew ? '3 סטים × 15 חזרות (מיקוד שליטה)' : '3 sets × 15 reps (control focus)';
-    }
-    if (track === 'strength-foundation') {
-      return isHebrew ? '3 סטים × 10 חזרות (עומס כוח)' : '3 sets × 10 reps (strength loading)';
-    }
-    return isHebrew ? '2 סטים × 12 חזרות (תנועתיות עדינה)' : '2 sets × 12 reps (gentle mobility)';
+    if (track === 'clinician-referral') return t('assessment.prescriptionClinician');
+    if (track === 'stability-posture')  return t('assessment.prescriptionStability');
+    if (track === 'strength-foundation') return t('assessment.prescriptionStrength');
+    return t('assessment.prescriptionMobility');
   };
 
   const slideVariants = {
@@ -243,7 +237,7 @@ export function AssessmentFlow() {
                     key={ex.id}
                     className="flex justify-between items-center border border-rule rounded-xl p-3 bg-bg/50 hover:bg-bg transition-colors"
                   >
-                    <div className="min-width-0">
+                    <div className="min-w-0">
                       <p className="font-display text-sm font-semibold text-ink truncate">{ex.name}</p>
                       <p className="text-xs font-mono text-ink-muted mt-1">
                         {getPrescriptionText(result.primaryTrack)}
