@@ -335,7 +335,18 @@
     "streakZero": "בצעו תרגיל אחד כדי להתחיל רצף",
     "todayCount": "{{done}}/{{total}} הושלמו היום",
     "thisWeek": "השבוע",
-    "retake": "הערכה מחדש"
+    "retake": "הערכה מחדש",
+    "startSession": "התחילו את האימון של היום",
+    "repeatSession": "חיזרו על האימון של היום"
+  },
+  "session": {
+    "progress": "תרגיל {{current}} מתוך {{total}}",
+    "rest": "מנוחה",
+    "next": "התרגיל הבא",
+    "backToRoutine": "חזרה לאימון שלי",
+    "completeTitle": "האימון הושלם.",
+    "completeSub": "סיימתם את כל {{total}} התרגילים. נתראה מחר.",
+    "milestone": "רצף של {{days}} ימים!"
   },
   "a11y": {
     "skipToContent": "דלג לתוכן הראשי",

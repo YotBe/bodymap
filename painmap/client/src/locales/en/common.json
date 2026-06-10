@@ -335,7 +335,18 @@
     "streakZero": "Do one exercise to start your streak",
     "todayCount": "{{done}}/{{total}} done today",
     "thisWeek": "This week",
-    "retake": "Retake assessment"
+    "retake": "Retake assessment",
+    "startSession": "Start today's session",
+    "repeatSession": "Repeat today's session"
+  },
+  "session": {
+    "progress": "Exercise {{current}} of {{total}}",
+    "rest": "Rest",
+    "next": "Next exercise",
+    "backToRoutine": "Back to my routine",
+    "completeTitle": "Session complete.",
+    "completeSub": "You finished all {{total}} exercises. See you tomorrow.",
+    "milestone": "{{days}}-day streak!"
   },
   "a11y": {
     "skipToContent": "Skip to main content",
