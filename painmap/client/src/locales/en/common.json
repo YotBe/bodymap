@@ -330,6 +330,7 @@
     "emptySub": "Take the 2-minute triage assessment to get a personalized exercise routine — then save it here.",
     "emptyCta": "Take the assessment",
     "streak_one": "day streak",
+    "streak_two": "day streak",
     "streak_other": "day streak",
     "streakZero": "Do one exercise to start your streak",
     "todayCount": "{{done}}/{{total}} done today",
