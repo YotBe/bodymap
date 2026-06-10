@@ -29,18 +29,29 @@ export function readCompletionLog(): CompletionLog {
   return {};
 }
 
-export function recordCompletion(exerciseId: string, when: Date = new Date()): void {
-  if (typeof window === 'undefined') return;
+/** Streak lengths worth celebrating on the completion screen. */
+export const STREAK_MILESTONES: readonly number[] = [3, 7, 14, 30];
+
+/**
+ * Log a completion (deduped per exercise per day).
+ * Returns true when this was today's FIRST completion — i.e. the moment the
+ * daily streak actually grew — so callers can trigger milestone celebrations.
+ */
+export function recordCompletion(exerciseId: string, when: Date = new Date()): boolean {
+  if (typeof window === 'undefined') return false;
   const log = readCompletionLog();
   const key = localDateKey(when);
   const day = log[key] ?? [];
-  if (day.includes(exerciseId)) return;
+  if (day.includes(exerciseId)) return false;
+  const dayWasEmpty = day.length === 0;
   log[key] = [...day, exerciseId];
   try {
     window.localStorage.setItem(KEY, JSON.stringify(log));
   } catch {
     /* private mode or quota — progress is best-effort */
+    return false;
   }
+  return dayWasEmpty;
 }
 
 /**

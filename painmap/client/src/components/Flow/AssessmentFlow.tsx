@@ -6,6 +6,7 @@ import { classifyAssessment } from '../../flow/classifier';
 import type { AssessmentAnswers, AssessmentResult } from '../../flow/types';
 import { useExercisesByIds, TRACK_EXERCISES } from '../../api/exercises';
 import { trackLabelKey, prescriptionLabelKey } from '../../flow/labels';
+import { saveAssessment } from '../../flow/savedAssessment';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import { PaneEyebrow } from '../PaneEyebrow';
 
@@ -76,7 +77,7 @@ export function AssessmentFlow() {
 
   const handleSaveFavorites = () => {
     if (!result) return;
-    localStorage.setItem('painmap.assessment.result', JSON.stringify({ answers, result }));
+    saveAssessment(answers, result);
     setIsSaved(true);
     setHasSaved(true);
     setTimeout(() => setIsSaved(false), 2000);

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../types';
 import { BandChip } from './BandChip';
@@ -8,8 +8,14 @@ import { ExerciseAnimation } from './ExerciseAnimation';
 import { YouTubeFacade } from './YouTubeFacade';
 import { PrescriptionBlock } from './PrescriptionBlock';
 import { ZONE_LABELS, type ZoneId } from './BodyMap/zones';
-import { hasHebrewOverride } from '../api/exercises';
-import { recordCompletion } from '../flow/progress';
+import { hasHebrewOverride, TRACK_EXERCISES } from '../api/exercises';
+import {
+  computeStreak,
+  readCompletionLog,
+  recordCompletion,
+  STREAK_MILESTONES,
+} from '../flow/progress';
+import { readSavedAssessment } from '../flow/savedAssessment';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 
 const CONFETTI_DOTS = [
@@ -24,6 +30,8 @@ const CONFETTI_DOTS = [
   { color: '#C8442C', x: 151,  y: -62,  size: 7 },
   { color: '#2E5C4A', x: 0,    y: 162,  size: 8 },
 ] as const;
+
+const REST_SECONDS = 30;
 
 interface Props {
   exercise: Exercise;
@@ -51,6 +59,23 @@ export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
   const encouragementIdx = useMemo(() => Math.floor(Math.random() * 5), []);
   const reduceMotion = usePrefersReducedMotion();
 
+  // Guided session mode (?session=1, started from /routine): chains the saved
+  // track's exercises with a rest countdown between them.
+  const [searchParams] = useSearchParams();
+  const session = useMemo(() => {
+    if (searchParams.get('session') !== '1') return null;
+    const saved = readSavedAssessment();
+    if (!saved) return null;
+    const ids = TRACK_EXERCISES[saved.result.primaryTrack] ?? [];
+    const idx = ids.indexOf(exercise.id);
+    if (idx === -1) return null;
+    return { ids, idx, nextId: ids[idx + 1] ?? null, total: ids.length };
+  }, [searchParams, exercise.id]);
+  const isLastInSession = !!session && session.nextId === null;
+
+  const [milestone, setMilestone] = useState<number | null>(null);
+  const [restLeft, setRestLeft] = useState(REST_SECONDS);
+
   const howToBtnRef = useRef<HTMLButtonElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -66,9 +91,33 @@ export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
   }, [showInstructions]);
 
   // Log the completion for the My Routine streak (deduped per exercise per day).
+  // When this is today's first completion the streak just grew — celebrate
+  // milestone lengths on the done card.
   useEffect(() => {
-    if (finished) recordCompletion(exercise.id);
+    if (!finished) return;
+    const streakGrew = recordCompletion(exercise.id);
+    if (streakGrew) {
+      const streak = computeStreak(readCompletionLog());
+      if (STREAK_MILESTONES.includes(streak)) setMilestone(streak);
+    }
   }, [finished, exercise.id]);
+
+  // Rest countdown between session exercises (purely informative — "Next
+  // exercise" is enabled the whole time, so resting is skippable).
+  useEffect(() => {
+    if (!finished || !session?.nextId) return;
+    setRestLeft(REST_SECONDS);
+    const iv = window.setInterval(() => {
+      setRestLeft((s) => {
+        if (s <= 1) {
+          window.clearInterval(iv);
+          return 0;
+        }
+        return s - 1;
+      });
+    }, 1000);
+    return () => window.clearInterval(iv);
+  }, [finished, session?.nextId]);
 
   const finishSet = () => {
     setSetsDone((n) => {
@@ -137,7 +186,9 @@ export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.32, duration: 0.28 }}
           >
-            {location}
+            {session
+              ? t('session.progress', { current: session.idx + 1, total: session.total })
+              : location}
           </motion.div>
 
           <motion.h2
@@ -147,8 +198,20 @@ export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.38, duration: 0.28 }}
           >
-            {t('exercise.doneTitle')}
+            {isLastInSession ? t('session.completeTitle') : t('exercise.doneTitle')}
           </motion.h2>
+
+          {milestone !== null && (
+            <motion.p
+              className="done-milestone"
+              initial={reduceMotion ? { opacity: 0 } : { scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: 'spring', stiffness: 520, damping: 18, delay: 0.42 }}
+            >
+              <span aria-hidden="true">🔥</span>
+              {t('session.milestone', { days: milestone })}
+            </motion.p>
+          )}
 
           <motion.p
             className="done-encouragement"
@@ -156,7 +219,9 @@ export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.46, duration: 0.28 }}
           >
-            {t(`exercise.encouragement${encouragementIdx}` as const)}
+            {isLastInSession
+              ? t('session.completeSub', { total: session?.total ?? 0 })
+              : t(`exercise.encouragement${encouragementIdx}` as const)}
           </motion.p>
 
           <motion.div
@@ -185,18 +250,55 @@ export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
             {exercise.name}
           </motion.p>
 
+          {session?.nextId && restLeft > 0 && (
+            <motion.p
+              className="done-rest"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6, duration: 0.28 }}
+            >
+              {t('session.rest')} · 0:{String(restLeft).padStart(2, '0')}
+            </motion.p>
+          )}
+
           <motion.div
             className="done-actions"
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.64, duration: 0.28 }}
           >
-            <button type="button" className="btn-primary" onClick={() => navigate('/flow/map')}>
-              {t('exercise.pickAnother')}
-            </button>
-            <button type="button" className="btn-secondary" onClick={restart}>
-              {t('exercise.again')}
-            </button>
+            {session?.nextId ? (
+              <>
+                <button
+                  type="button"
+                  className="btn-primary"
+                  onClick={() => navigate(`/exercise/${session.nextId}?session=1`)}
+                >
+                  {t('session.next')}
+                </button>
+                <button type="button" className="btn-secondary" onClick={() => navigate('/routine')}>
+                  {t('session.backToRoutine')}
+                </button>
+              </>
+            ) : isLastInSession ? (
+              <>
+                <button type="button" className="btn-primary" onClick={() => navigate('/routine')}>
+                  {t('session.backToRoutine')}
+                </button>
+                <button type="button" className="btn-secondary" onClick={restart}>
+                  {t('exercise.again')}
+                </button>
+              </>
+            ) : (
+              <>
+                <button type="button" className="btn-primary" onClick={() => navigate('/flow/map')}>
+                  {t('exercise.pickAnother')}
+                </button>
+                <button type="button" className="btn-secondary" onClick={restart}>
+                  {t('exercise.again')}
+                </button>
+              </>
+            )}
           </motion.div>
         </motion.div>
       </article>

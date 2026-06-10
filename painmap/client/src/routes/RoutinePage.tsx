@@ -2,29 +2,12 @@ import { useMemo } from 'react';
 import { motion, type Variants } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import type { AssessmentAnswers, AssessmentResult } from '../flow/types';
 import { TRACK_EXERCISES, useExercisesByIds } from '../api/exercises';
 import { trackLabelKey, prescriptionLabelKey } from '../flow/labels';
 import { computeStreak, lastNDays, localDateKey, readCompletionLog } from '../flow/progress';
+import { readSavedAssessment } from '../flow/savedAssessment';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 import { PaneEyebrow } from '../components/PaneEyebrow';
-
-interface SavedAssessment {
-  answers: AssessmentAnswers;
-  result: AssessmentResult;
-}
-
-function readSavedAssessment(): SavedAssessment | null {
-  if (typeof window === 'undefined') return null;
-  try {
-    const raw = window.localStorage.getItem('painmap.assessment.result');
-    const parsed = raw ? (JSON.parse(raw) as SavedAssessment) : null;
-    if (parsed?.result?.primaryTrack) return parsed;
-  } catch {
-    /* malformed save — treat as absent */
-  }
-  return null;
-}
 
 export function RoutinePage() {
   const { t, i18n } = useTranslation();
@@ -185,6 +168,19 @@ export function RoutinePage() {
           className="rounded-2xl border border-rule bg-surface p-6 shadow-card flex flex-col gap-4"
         >
           <h3 className="font-display text-xl text-ink">{t('assessment.routineTitle')}</h3>
+
+          <button
+            type="button"
+            className="btn-primary w-full text-center"
+            onClick={() => {
+              const firstId = trackIds.find((id) => !doneToday.has(id)) ?? trackIds[0];
+              navigate(`/exercise/${firstId}?session=1`);
+            }}
+          >
+            {doneCount >= trackIds.length
+              ? t('routine.repeatSession')
+              : t('routine.startSession')}
+          </button>
 
           <motion.div className="flex flex-col gap-2.5" variants={containerV}>
             {routineExercises?.map((ex) => {

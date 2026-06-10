@@ -2384,6 +2384,25 @@ html[lang="he"] .pt-italic {
   color: var(--ink-muted);
   margin: 0 0 24px;
 }
+.done-milestone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 10px;
+}
+.done-rest {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin: 0 0 12px;
+  font-variant-numeric: tabular-nums;
+}
 .done-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 .done-actions .btn-primary,
 .done-actions .btn-secondary { border-radius: 999px; cursor: pointer; }
