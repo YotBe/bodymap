@@ -44,6 +44,9 @@ const NotFoundPage = lazy(() =>
 const AssessmentFlow = lazy(() =>
   import('./Flow/AssessmentFlow').then((m) => ({ default: m.AssessmentFlow })),
 );
+const RoutinePage = lazy(() =>
+  import('../routes/RoutinePage').then((m) => ({ default: m.RoutinePage })),
+);
 
 const ALL_ZONE_IDS: readonly ZoneId[] = [
   'neck',
@@ -320,6 +323,8 @@ export function PageShell() {
                 element={<AssessmentFlow />}
               />
 
+              <Route path="/routine" element={<RoutinePage />} />
+
               <Route
                 path="/zone/:zoneId"
                 element={
@@ -363,6 +368,7 @@ export function PageShell() {
 function describeRoute(pathname: string, t: TFunction): string {
   if (pathname === '/flow/map') return t('a11y.view.map');
   if (pathname === '/flow/assessment') return t('a11y.view.assessment');
+  if (pathname === '/routine') return t('a11y.view.routine');
   if (pathname.startsWith('/zone/')) {
     const zoneId = pathname.slice('/zone/'.length);
     const zoneName = t(`zones.${zoneId}`, { defaultValue: '' });

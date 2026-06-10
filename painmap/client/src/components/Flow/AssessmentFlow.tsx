@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { classifyAssessment } from '../../flow/classifier';
 import type { AssessmentAnswers, AssessmentResult } from '../../flow/types';
 import { useExercisesByIds, TRACK_EXERCISES } from '../../api/exercises';
+import { trackLabelKey, prescriptionLabelKey } from '../../flow/labels';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import { PaneEyebrow } from '../PaneEyebrow';
 
@@ -32,6 +33,7 @@ export function AssessmentFlow() {
 
   const [result, setResult] = useState<AssessmentResult | null>(null);
   const [isSaved, setIsSaved] = useState(false);
+  const [hasSaved, setHasSaved] = useState(false);
 
   const trackIds = result
     ? TRACK_EXERCISES[result.primaryTrack] ?? []
@@ -76,30 +78,13 @@ export function AssessmentFlow() {
     if (!result) return;
     localStorage.setItem('painmap.assessment.result', JSON.stringify({ answers, result }));
     setIsSaved(true);
+    setHasSaved(true);
     setTimeout(() => setIsSaved(false), 2000);
   };
 
-  const getTrackName = (track: AssessmentResult['primaryTrack']) => {
-    switch (track) {
-      case 'strength-foundation':
-        return t('assessment.trackStrength');
-      case 'stability-posture':
-        return t('assessment.trackStability');
-      case 'mobility-reset':
-        return t('assessment.trackMobility');
-      case 'clinician-referral':
-        return t('assessment.trackClinician');
-      default:
-        return track;
-    }
-  };
-
-  const getPrescriptionText = (track: AssessmentResult['primaryTrack']) => {
-    if (track === 'clinician-referral') return t('assessment.prescriptionClinician');
-    if (track === 'stability-posture')  return t('assessment.prescriptionStability');
-    if (track === 'strength-foundation') return t('assessment.prescriptionStrength');
-    return t('assessment.prescriptionMobility');
-  };
+  const getTrackName = (track: AssessmentResult['primaryTrack']) => t(trackLabelKey(track));
+  const getPrescriptionText = (track: AssessmentResult['primaryTrack']) =>
+    t(prescriptionLabelKey(track));
 
   const slideVariants = {
     enter: (dir: number) => ({
@@ -244,6 +229,17 @@ export function AssessmentFlow() {
               >
                 {isSaved ? t('assessment.savedSuccess') : t('assessment.saveFavorites')}
               </button>
+            )}
+            {!isHighRisk && hasSaved && (
+              <motion.button
+                type="button"
+                initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="btn-primary w-full text-center mt-1 text-xs"
+                onClick={() => navigate('/routine')}
+              >
+                {t('assessment.viewRoutine')}
+              </motion.button>
             )}
           </motion.div>
 

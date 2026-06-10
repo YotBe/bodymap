@@ -2233,6 +2233,54 @@ html[lang="he"] .pt-italic {
 }
 .ex-copy-link:hover { color: var(--ink); border-color: var(--ink-muted); }
 
+/* My Routine: streak + weekly dots */
+.rt-streak { display: flex; align-items: baseline; gap: 10px; }
+.rt-flame { font-size: 24px; line-height: 1; align-self: center; }
+.rt-streak-num {
+  font-family: var(--serif);
+  font-size: 44px;
+  line-height: 1;
+  color: var(--ink);
+  display: inline-block;
+}
+.rt-streak-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.rt-week { display: flex; gap: 10px; }
+.rt-day { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.rt-day-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid var(--rule);
+  background: transparent;
+}
+.rt-day-dot.is-done { background: var(--evidence); border-color: var(--evidence); }
+.rt-day.is-today .rt-day-dot { box-shadow: 0 0 0 2px var(--surface), 0 0 0 3.5px var(--accent); }
+.rt-day-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+}
+.rt-row-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--evidence);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  line-height: 1;
+  flex: 0 0 auto;
+}
+
 /* "Done — nice work" state */
 .exercise-card.exercise-done {
   display: flex;

@@ -7,6 +7,7 @@
   "nav": {
     "evidence": "Evidence",
     "about": "About",
+    "routine": "My Routine",
     "findClinician": "Find a clinician ↗",
     "findPhysio": "Find a physiotherapist ↗",
     "primary": "Primary"
@@ -319,13 +320,29 @@
     "prescriptionStrength": "3 sets × 10 reps (strength loading)",
     "prescriptionStability": "3 sets × 15 reps (control focus)",
     "prescriptionMobility": "2 sets × 12 reps (gentle mobility)",
-    "prescriptionClinician": "Consult a therapist"
+    "prescriptionClinician": "Consult a therapist",
+    "viewRoutine": "View my routine"
+  },
+  "routine": {
+    "eyebrow": "MY ROUTINE",
+    "title": "Your routine",
+    "emptyTitle": "No saved routine yet.",
+    "emptySub": "Take the 2-minute triage assessment to get a personalized exercise routine — then save it here.",
+    "emptyCta": "Take the assessment",
+    "streak_one": "day streak",
+    "streak_two": "day streak",
+    "streak_other": "day streak",
+    "streakZero": "Do one exercise to start your streak",
+    "todayCount": "{{done}}/{{total}} done today",
+    "thisWeek": "This week",
+    "retake": "Retake assessment"
   },
   "a11y": {
     "skipToContent": "Skip to main content",
     "view": {
       "map": "Body map",
       "assessment": "Triage assessment",
+      "routine": "My routine",
       "zone": "{{zone}} area",
       "zoneGeneric": "Body area",
       "exercise": "Exercise details",
