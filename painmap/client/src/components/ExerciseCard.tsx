@@ -9,6 +9,7 @@ import { YouTubeFacade } from './YouTubeFacade';
 import { PrescriptionBlock } from './PrescriptionBlock';
 import { ZONE_LABELS, type ZoneId } from './BodyMap/zones';
 import { hasHebrewOverride } from '../api/exercises';
+import { recordCompletion } from '../flow/progress';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 
 const CONFETTI_DOTS = [
@@ -63,6 +64,11 @@ export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
   useEffect(() => {
     if (showInstructions) modalRef.current?.focus();
   }, [showInstructions]);
+
+  // Log the completion for the My Routine streak (deduped per exercise per day).
+  useEffect(() => {
+    if (finished) recordCompletion(exercise.id);
+  }, [finished, exercise.id]);
 
   const finishSet = () => {
     setSetsDone((n) => {

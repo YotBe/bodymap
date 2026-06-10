@@ -7,6 +7,7 @@
   "nav": {
     "evidence": "מחקר",
     "about": "אודות",
+    "routine": "האימון שלי",
     "findClinician": "מצא קלינאי ↗",
     "findPhysio": "מצא פיזיותרפיסט ↗",
     "primary": "ראשי"
@@ -319,13 +320,29 @@
     "prescriptionStrength": "3 סטים × 10 חזרות (עומס כוח)",
     "prescriptionStability": "3 סטים × 15 חזרות (מיקוד שליטה)",
     "prescriptionMobility": "2 סטים × 12 חזרות (תנועתיות עדינה)",
-    "prescriptionClinician": "התייעץ עם פיזיותרפיסט"
+    "prescriptionClinician": "התייעץ עם פיזיותרפיסט",
+    "viewRoutine": "לצפייה באימון שלי"
+  },
+  "routine": {
+    "eyebrow": "האימון שלי",
+    "title": "האימון שלך",
+    "emptyTitle": "אין עדיין אימון שמור.",
+    "emptySub": "ענו על הערכת הסיכונים הקצרה כדי לקבל תוכנית תרגול מותאמת אישית — ואז שמרו אותה כאן.",
+    "emptyCta": "לביצוע ההערכה",
+    "streak_one": "יום ברצף",
+    "streak_two": "ימים ברצף",
+    "streak_other": "ימים ברצף",
+    "streakZero": "בצעו תרגיל אחד כדי להתחיל רצף",
+    "todayCount": "{{done}}/{{total}} הושלמו היום",
+    "thisWeek": "השבוע",
+    "retake": "הערכה מחדש"
   },
   "a11y": {
     "skipToContent": "דלג לתוכן הראשי",
     "view": {
       "map": "מפת גוף",
       "assessment": "הערכת מיון",
+      "routine": "האימון שלי",
       "zone": "אזור {{zone}}",
       "zoneGeneric": "אזור בגוף",
       "exercise": "פרטי תרגיל",
