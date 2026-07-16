@@ -1,4 +1,23 @@
 {
+  "meta": {
+    "defaultTitle": "PainMap — לחצו איפה כואב",
+    "defaultDescription": "לחצו איפה כואב וקבלו תרגיל אחד מבוסס-מחקר עם גומיית התנגדות: הוראות מלאות, מינון וסרטון הדגמה. נבנה לעובדי משרד.",
+    "zoneTitle": "תרגילים לכאבי {{zone}} · PainMap",
+    "zoneDescription": "בחרו את הנקודה המדויקת שבה כואב באזור {{zone}} וקבלו תרגיל אחד מבוסס-ראיות עם הוראות, מינון וסרטון הדגמה.",
+    "exerciseTitle": "{{name}} — {{area}} · PainMap",
+    "exerciseDescription": "הוראות שלב-אחר-שלב, סטים וחזרות, התוויות-נגד והראיות המחקריות מאחורי {{name}} לכאבי {{area}}.",
+    "assessmentTitle": "אבחון מודרך · PainMap",
+    "assessmentDescription": "ענו על כמה שאלות על הכאב וקבלו שגרת תרגול אישית ומבוססת-ראיות עם גומיית התנגדות.",
+    "routineTitle": "השגרה שלי · PainMap",
+    "routineDescription": "עקבו אחרי שגרת התרגול היומית, הרצף וההתקדמות שלכם.",
+    "aboutTitle": "אודות וראיות · PainMap",
+    "aboutDescription": "איך PainMap עובד ומהי הספרות הקלינית מבוקרת-העמיתים שמאחורי כל המלצת תרגיל.",
+    "legalTitle": "משפטי ופרטיות · PainMap",
+    "legalDescription": "כתב הוויתור הרפואי של PainMap, הנחיות דגלים אדומים ומדיניות הפרטיות.",
+    "clinicianTitle": "מציאת מטפל · PainMap",
+    "clinicianDescription": "מתי להפסיק טיפול עצמי ואיך למצוא פיזיותרפיסט או רופא מוסמכים.",
+    "notFoundTitle": "הדף לא נמצא · PainMap"
+  },
   "brand": {
     "name": "PainMap",
     "tagline": "V2 · גוף מלא",

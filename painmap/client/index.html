@@ -7,6 +7,7 @@
     <meta name="description" content="Click where it hurts. Get one evidence-based resistance-band exercise with full instructions, dosage, and a video demo. Built for desk workers." />
     <meta name="theme-color" content="#F5F2EC" />
     <meta name="color-scheme" content="light" />
+    <link rel="canonical" href="https://bodymap1.vercel.app/flow/map" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -41,8 +42,31 @@
       data-domain="bodymap1.vercel.app"
       src="https://plausible.io/js/script.js"
     ></script>
+
+    <!-- JSON-LD is a data block (not executable), so it is exempt from the
+         script-src CSP directive and readable by search crawlers. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "PainMap",
+        "url": "https://bodymap1.vercel.app/",
+        "description": "Click where it hurts. Get one evidence-based resistance-band exercise with full instructions, dosage, and a video demo. Built for desk workers.",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "inLanguage": ["en", "he"],
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
   </head>
   <body>
+    <noscript>
+      <p style="max-width: 36rem; margin: 4rem auto; padding: 0 1.5rem; font-family: system-ui, sans-serif; color: #1a1a1a">
+        PainMap needs JavaScript to render its interactive body map. Please
+        enable JavaScript in your browser, then reload this page.
+      </p>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
