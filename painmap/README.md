@@ -50,6 +50,10 @@ PainMap is not a medical diagnostic tool. It is a self-guided educational triage
 - **Keyboard-navigable and screen-reader-friendly** — every hotspot is a real button with `aria-label`; selected state communicated via both color and a 1px ring
 - **Respects `prefers-reduced-motion`** — disables zoom/pan animations for users with vestibular sensitivities
 - **Deep-linkable state** via React Router — every exercise has a shareable URL
+- **Bilingual (English + Hebrew)** with full right-to-left layout support; language is auto-detected and switchable from the header
+- **Guided assessment flow** that classifies the user's complaint into a routine track, plus a **My Routine** page with progress tracking and daily streaks
+- **Installable PWA** with offline precaching via a Workbox service worker
+- **Per-route SEO** — dynamic document titles, meta descriptions, and canonical URLs, plus a sitemap generated from the exercise data at build time
 
 ---
 
@@ -63,7 +67,7 @@ PainMap is a **client-only single-page app** deployed as static assets on Vercel
 - Hand-rolled CSS using custom design tokens (no UI kit, no Tailwind utility soup)
 - **ESLint** with `--max-warnings 0`; TypeScript strict mode
 - **Vercel** for deployment, with security headers (CSP, X-Frame-Options, Referrer-Policy, Permissions-Policy) configured in `vercel.json`
-- **GitHub Actions** runs lint + build on every PR
+- **GitHub Actions** runs lint, data/animation checks, unit tests, and the production build on every PR
 
 ---
 
@@ -134,6 +138,8 @@ npm run build
 ```
 
 Output lands in `painmap/client/dist/`. Vercel builds and serves this directory automatically per the `vercel.json` at the repo root.
+
+The build's `prebuild` hook regenerates `client/public/sitemap.xml` from `exercises.json` (see `client/scripts/generate-sitemap.mjs`), so the sitemap always matches the routes the app serves. The file is gitignored — never edit it by hand.
 
 ### Linting
 
@@ -258,11 +264,16 @@ The app implements several safety patterns:
 
 **V2 (current):** Full body — neck, shoulders, back, hands & wrists, hips & glutes, knees, foot & ankle
 
+**Shipped since V2:**
+- Guided assessment flow with personalized routine tracks
+- My Routine page with progress tracking and daily streaks
+- Hebrew localization with full RTL support
+- Installable PWA with offline support
+- Per-route SEO metadata and a build-time sitemap
+
 **V3 (ideas):**
 - Alternative exercises per sub-area (1–2 fallbacks for users with equipment or injury constraints)
 - User accounts with saved favorite exercises
-- Progress tracking
-- Multi-language support (starting with Hebrew, given the maintainer's location)
 - Native mobile app
 
 ---

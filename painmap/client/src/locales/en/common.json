@@ -1,4 +1,23 @@
 {
+  "meta": {
+    "defaultTitle": "PainMap — Click where it hurts",
+    "defaultDescription": "Click where it hurts. Get one evidence-based resistance-band exercise with full instructions, dosage, and a video demo. Built for desk workers.",
+    "zoneTitle": "{{zone}} pain exercises · PainMap",
+    "zoneDescription": "Pick the exact spot where it hurts and get one evidence-based resistance-band exercise for {{zone}} pain, with instructions, dosage, and a video demo.",
+    "exerciseTitle": "{{name}} — {{area}} · PainMap",
+    "exerciseDescription": "Step-by-step instructions, sets and reps, contraindications, and the peer-reviewed evidence behind the {{name}} for {{area}} pain.",
+    "assessmentTitle": "Guided assessment · PainMap",
+    "assessmentDescription": "Answer a few questions about your pain and get a personalized, evidence-based resistance-band routine.",
+    "routineTitle": "My routine · PainMap",
+    "routineDescription": "Track your daily resistance-band routine, streak, and progress.",
+    "aboutTitle": "About & evidence · PainMap",
+    "aboutDescription": "How PainMap works and the peer-reviewed clinical literature behind every exercise recommendation.",
+    "legalTitle": "Legal & privacy · PainMap",
+    "legalDescription": "PainMap's medical disclaimer, red-flag guidance, and privacy policy.",
+    "clinicianTitle": "Find a clinician · PainMap",
+    "clinicianDescription": "When to stop self-treating and how to find a qualified physiotherapist or physician.",
+    "notFoundTitle": "Page not found · PainMap"
+  },
   "brand": {
     "name": "PainMap",
     "tagline": "V2 · FULL BODY",

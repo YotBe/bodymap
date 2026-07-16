@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { PageShell } from './components/PageShell';
+import { RouteMeta } from './components/RouteMeta';
 import { isRtlLanguage } from './i18n';
 
 const queryClient = new QueryClient({
@@ -33,6 +34,7 @@ export function App() {
         future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
       >
         <HtmlLangSync />
+        <RouteMeta />
         <PageShell />
       </BrowserRouter>
     </QueryClientProvider>

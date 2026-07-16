@@ -39,3 +39,6 @@ Thumbs.db
 
 # Claude Code local settings
 .claude/
+
+# Build-time generated sitemap (see painmap/client/scripts/generate-sitemap.mjs)
+painmap/client/public/sitemap.xml
