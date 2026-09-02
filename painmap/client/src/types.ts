@@ -41,6 +41,9 @@ export interface Exercise {
   id: string;
   name: string;
   isPrimary: boolean;
+  /* Why to pick this exercise over the sub-area's primary one (shown in the
+     alternatives list). Required in the data for non-primary exercises. */
+  alternateReason?: string | null;
   subArea: ExerciseSubAreaRef;
   targetMuscles: string;
   mechanism: string;

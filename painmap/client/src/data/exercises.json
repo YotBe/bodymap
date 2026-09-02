@@ -47,6 +47,42 @@
               "evidenceFull": "Andersen LL, Saervoll CA, Mortensen OS, et al. Effectiveness of small daily amounts of progressive resistance training for frequent neck/shoulder pain. Pain. 2011;152(2):440-446.",
               "evidenceSummary": "Randomized controlled trial of 198 office workers with frequent neck/shoulder pain. Just 2 minutes per day of elastic-tubing exercises, 5 days/week for 10 weeks, significantly reduced pain compared to the control group.",
               "videoUrl": "https://www.youtube.com/watch?v=MBPcV0UWb5E"
+            },
+            {
+              "id": "ex-isometric-shrug-hold",
+              "name": "Isometric Shrug Hold",
+              "isPrimary": false,
+              "alternateReason": "Gentler option when full-range shrugs are painful — the static hold builds strength without moving through the sore range.",
+              "targetMuscles": "Upper trapezius, levator scapulae",
+              "mechanism": "Builds upper-trapezius strength without joint movement. The isometric hold lets you load the muscle at a pain-free position, useful when dynamic shrugs aggravate symptoms. Ylinen et al. showed long-term neck strength training reduces chronic neck pain.",
+              "instructions": [
+                "Stand on the middle of a long band, feet hip-width apart.",
+                "Hold the ends at your sides, arms straight, palms facing in.",
+                "Lift both shoulders halfway up toward your ears and stop.",
+                "Hold the position for 10 seconds, breathing normally.",
+                "Lower under control and rest briefly between holds."
+              ],
+              "sets": 3,
+              "reps": "5 × 10s holds",
+              "tempo": null,
+              "bandTension": "yellow",
+              "bandTensionNote": "Start yellow; progress to red once 10-second holds feel easy",
+              "frequency": "3-5 days/week",
+              "commonMistakes": [
+                "Holding your breath during the hold",
+                "Shrugging all the way to the ears (stay at a comfortable mid-range)",
+                "Letting the shoulders drift forward"
+              ],
+              "contraindications": [
+                "Acute cervical radiculopathy with arm numbness",
+                "Recent whiplash (less than 2 weeks)",
+                "Uncontrolled hypertension"
+              ],
+              "beginnerModification": "Do the holds without a band, or shorten each hold to 5 seconds.",
+              "evidenceShort": "Ylinen J, JAMA 2003",
+              "evidenceFull": "Ylinen J, Takala EP, Nykänen M, et al. Active neck muscle training in the treatment of chronic neck pain in women: a randomized controlled trial. JAMA. 2003;290(19):2509-2516.",
+              "evidenceSummary": "Randomized controlled trial of 180 women with chronic neck pain. Twelve months of neck strength or endurance training substantially reduced pain and disability compared with the control group.",
+              "videoUrl": "https://www.youtube.com/watch?v=8itKrPVJ5Es"
             }
           ]
         },

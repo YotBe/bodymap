@@ -116,6 +116,10 @@
     "encouragement3": "Small wins compound.",
     "encouragement4": "Progress, not perfection."
   },
+  "exerciseCard": {
+    "alternatesTitle": "If you can't do this exercise",
+    "viewAlternate": "View alternative"
+  },
   "prescription": {
     "setsReps": "Sets × Reps",
     "tempo": "Tempo",

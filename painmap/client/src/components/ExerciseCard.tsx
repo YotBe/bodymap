@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../types';
 import { BandChip } from './BandChip';
+import { ExerciseAlternatives } from './ExerciseAlternatives';
 import { ExerciseAnimation } from './ExerciseAnimation';
 import { YouTubeFacade } from './YouTubeFacade';
 import { PrescriptionBlock } from './PrescriptionBlock';
@@ -443,6 +444,8 @@ export function ExerciseCard({ exercise, autoStartVideo = true }: Props) {
         <div className="ci-label">{t('exercise.contraindications')}</div>
         <div className="ci-body">{exercise.contraindications.join(' · ')}</div>
       </aside>
+
+      <ExerciseAlternatives exercise={exercise} />
 
       <div className="ex-evidence">
         <button

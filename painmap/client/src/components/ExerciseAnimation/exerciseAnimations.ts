@@ -10,6 +10,14 @@ const CONFIGS: ExerciseAnimationConfig[] = [
     durationMs: 3500,
   },
   {
+    exerciseId: 'ex-isometric-shrug-hold',
+    view: 'standing-front',
+    animationClass: 'band-shrug',
+    caption: 'Lift shoulders halfway · hold 10s · slow lower',
+    captionHe: 'הרמת כתפיים עד מחצית הדרך · החזקה 10 שניות · הורדה איטית',
+    durationMs: 5000,
+  },
+  {
     exerciseId: 'ex-levator-stretch',
     view: 'seated-side',
     animationClass: 'levator-stretch',

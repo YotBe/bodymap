@@ -14,6 +14,7 @@ interface RawExercise {
   id: string;
   name: string;
   isPrimary: boolean;
+  alternateReason?: string | null;
   targetMuscles: string;
   mechanism: string;
   instructions: string[];
@@ -106,6 +107,7 @@ function buildExerciseIndex(): Map<string, Exercise> {
           id: e.id,
           name: e.name,
           isPrimary: e.isPrimary,
+          alternateReason: e.alternateReason ?? null,
           subArea: {
             id: sa.id,
             name: sa.name,
@@ -167,6 +169,13 @@ const SUBAREA_INDEX = (() => {
   }
   return map;
 })();
+const SUBAREA_EXERCISE_IDS = (() => {
+  const map = new Map<string, string[]>();
+  for (const z of DATA.zones) {
+    for (const sa of z.subAreas) map.set(sa.id, sa.exercises.map((e) => e.id));
+  }
+  return map;
+})();
 const ZONE_PRIMARY_EXERCISES = (() => {
   const map = new Map<string, string[]>();
   for (const z of ZONES) {
@@ -186,6 +195,7 @@ interface HeSubAreaOverride {
 }
 interface HeExerciseOverride {
   name?: string;
+  alternateReason?: string | null;
   targetMuscles?: string;
   mechanism?: string;
   instructions?: string[];
@@ -214,6 +224,9 @@ function applyHeExercise(ex: Exercise): Exercise {
   return {
     ...ex,
     name: heEx?.name ?? ex.name,
+    alternateReason: heEx?.alternateReason !== undefined
+      ? heEx.alternateReason
+      : ex.alternateReason,
     targetMuscles: heEx?.targetMuscles ?? ex.targetMuscles,
     mechanism: heEx?.mechanism ?? ex.mechanism,
     instructions: heEx?.instructions ?? ex.instructions,
@@ -305,6 +318,10 @@ export function getSubAreaById(subAreaId: string) {
 
 export function getPrimaryExerciseIdsForZone(zoneId: string): string[] {
   return ZONE_PRIMARY_EXERCISES.get(zoneId)?.slice() ?? [];
+}
+
+export function getAlternateExerciseIds(subAreaId: string, currentExerciseId: string): string[] {
+  return (SUBAREA_EXERCISE_IDS.get(subAreaId) ?? []).filter((id) => id !== currentExerciseId);
 }
 
 export interface EvidenceEntry {
