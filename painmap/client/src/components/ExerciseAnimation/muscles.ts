@@ -23,6 +23,15 @@ export const MUSCLE_OVERLAYS: Record<string, MuscleOverlay> = {
     label: 'Upper trapezius',
     labelHe: 'טרפז עליון',
   },
+  'ex-isometric-shrug-hold': {
+    paths: [
+      // Upper trapezius — same region as ex-band-shrug (isometric variant)
+      'M 102 60 Q 92 62 90 64 Q 100 56 118 58 Q 122 60 102 60 Z',
+      'M 138 60 Q 148 62 150 64 Q 140 56 122 58 Q 118 60 138 60 Z',
+    ],
+    label: 'Upper trapezius',
+    labelHe: 'טרפז עליון',
+  },
   'ex-levator-stretch': {
     // Levator scapulae — stripe from cervical spine to scapula angle
     paths: ['M 106 92 Q 124 100 132 116 Q 122 110 110 102 Z'],

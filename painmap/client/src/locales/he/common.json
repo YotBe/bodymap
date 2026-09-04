@@ -116,6 +116,10 @@
     "encouragement3": "ניצחונות קטנים מצטברים.",
     "encouragement4": "התקדמות, לא שלמות."
   },
+  "exerciseCard": {
+    "alternatesTitle": "אם אינך יכול/ה לבצע תרגיל זה",
+    "viewAlternate": "צפה בחלופה"
+  },
   "prescription": {
     "setsReps": "סטים × חזרות",
     "tempo": "קצב",

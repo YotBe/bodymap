@@ -84,6 +84,9 @@ for (const z of data.zones) {
         problems.push(`"${e.id}": commonMistakes are empty`);
       }
       if (typeof e.sets !== 'number') problems.push(`"${e.id}": sets is not a number`);
+      if (!e.isPrimary && (!e.alternateReason || String(e.alternateReason).trim() === '')) {
+        problems.push(`"${e.id}": non-primary exercise is missing "alternateReason"`);
+      }
       if (!BAND_COLORS.has(e.bandTension)) {
         problems.push(`"${e.id}": bandTension "${e.bandTension}" is not a known band color`);
       }
