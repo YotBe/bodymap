@@ -161,7 +161,10 @@
   "errorBoundary": {
     "headline": "Something went wrong.",
     "sub": "Refresh or return to the body map to continue.",
-    "reset": "Return home"
+    "reset": "Return home",
+    "title": "Something went wrong.",
+    "body": "PainMap hit an unexpected error. Refresh the page or return to the body map to continue.",
+    "action": "Return home"
   },
   "footer": {
     "painmapLabel": "PainMap",
@@ -219,7 +222,10 @@
     "problemH2": "The problem",
     "problemP1": "For most desk workers, aches are mechanical — and the right exercise resolves them. The hard part is finding which one.",
     "approachH2": "The approach",
-    "approachP1": "Click where it hurts. Get the single resistance-band exercise with the strongest evidence — dosage, contraindications, a citation, and a video. No upsell, no ads."
+    "approachP1": "Click where it hurts. Get the single resistance-band exercise with the strongest evidence — dosage, contraindications, a citation, and a video. No upsell, no ads.",
+    "triageH2": "How the triage works",
+    "triageP1": "The guided assessment scores your answers — pain intensity and duration, how symptoms behave with movement, desk hours, movement breaks, and available equipment — into a risk tier. That tier and your symptom pattern then select one of three tracks: strength foundation, stability and posture, or mobility reset.",
+    "triageP2": "Any red-flag answer skips the scoring entirely and routes you to a clinician. This is an educational tool, not a diagnosis — it cannot examine you, and it is not a substitute for professional assessment."
   },
   "legal": {
     "titlePrefix": "The",
@@ -235,7 +241,7 @@
       "Pain that worsens with rest or wakes you from sleep"
     ],
     "privacyH2": "Privacy & terms",
-    "privacyP1": "Runs entirely in your browser — no personal data, no tracking cookies. Code is MIT-licensed; content © PainMap. Provided \"as is\", no warranty."
+    "privacyP1": "Runs entirely in your browser — your answers and progress stay on your device and are never sent to us. We use Plausible for cookieless, aggregate traffic analytics. Google Fonts and embedded YouTube videos load from third-party servers that can see your IP address; videos use YouTube’s no-cookie domain. Code is MIT-licensed; content © PainMap. Provided \"as is\", no warranty."
   },
   "physio": {
     "eyebrow": "FIND A PHYSIOTHERAPIST",
@@ -344,7 +350,27 @@
     "prescriptionStability": "3 sets × 15 reps (control focus)",
     "prescriptionMobility": "2 sets × 12 reps (gentle mobility)",
     "prescriptionClinician": "Consult a therapist",
-    "viewRoutine": "View my routine"
+    "viewRoutine": "View my routine",
+    "rationaleRedFlags": "Red flag symptoms reported (e.g. recent trauma, radiating symptoms, night pain, or systemic symptoms) which warrant immediate clinician referral before initiating any self-guided exercise program.",
+    "rationaleDeskLoad": "High static desk load from prolonged posture configuration with minimal recovery windows.",
+    "rationaleBandOnly": "Equipment access is limited (bands only); program adapts by prioritizing bodyweight and simple band movements.",
+    "rationaleIrritability": "Symptoms aggravated by movement indicate high tissue irritability; recommended focus is low-intensity mobility and recovery.",
+    "rationaleHighPain": "High pain level suggests beginning with a highly conservative volume and lower band tension.",
+    "sliderMild": "1 (Mild)",
+    "sliderSevere": "10 (Severe)",
+    "stepOf": "Step {{current}} of {{total}}",
+    "tierLow": "Low",
+    "tierModerate": "Moderate",
+    "tierHigh": "High",
+    "tierExplainLow": "Your answers suggest a straightforward desk-related pattern. The routine below starts at a normal working volume.",
+    "tierExplainModerate": "Several factors — pain level, duration, or desk load — point to a more irritable pattern. The routine starts conservatively and builds slowly.",
+    "tierExplainHigh": "Your answers include findings that mean self-guided exercise should not be the first step. Please have this assessed by a clinician.",
+    "redFlagTitle": "Please see a clinician first",
+    "redFlagBody": "You reported a symptom that should be assessed in person before starting any self-guided exercise program — recent trauma, symptoms radiating into a limb, unexplained systemic symptoms, or pain that wakes you at night. The remaining questions can't change that recommendation, so we've stopped here.",
+    "redFlagFindClinician": "Find a clinician",
+    "redFlagBack": "Go back and change my answers",
+    "badgePrimary": "Primary",
+    "badgeSupporting": "Supporting"
   },
   "routine": {
     "eyebrow": "MY ROUTINE",

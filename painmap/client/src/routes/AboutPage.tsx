@@ -21,6 +21,12 @@ export function AboutPage() {
           <h2 className="lf-h2">{t('about.approachH2')}</h2>
           <p className="lf-p">{t('about.approachP1')}</p>
         </section>
+
+        <section className="lf-section">
+          <h2 className="lf-h2">{t('about.triageH2')}</h2>
+          <p className="lf-p">{t('about.triageP1')}</p>
+          <p className="lf-p">{t('about.triageP2')}</p>
+        </section>
       </div>
     </article>
   );

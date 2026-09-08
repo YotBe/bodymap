@@ -19,5 +19,9 @@ export interface AssessmentResult {
   primaryTrack: 'strength-foundation' | 'clinician-referral' | 'stability-posture' | 'mobility-reset';
   intensity: 'low' | 'medium' | 'high';
   sessionMinutes: number;
+  /**
+   * i18n keys (e.g. 'assessment.rationaleDeskLoad'), not display text — the
+   * results view is responsible for translating them.
+   */
   rationale: string[];
 }

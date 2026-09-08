@@ -2089,6 +2089,14 @@ html[lang="he"] .pt-italic {
   gap: 10px 18px;
   align-items: start;
 }
+
+/* .ex-rx and .ex-band still carry `grid-area: rx|band` from the desktop
+   .exercise-card template above, but .ex-meta declares no named areas of its
+   own. The stale names resolve to the same auto slot, so the prescription
+   block and the band chip render stacked on the identical rectangle. Reset
+   them to auto placement so they flow into .ex-meta's own columns. */
+.exercise-card-v2 .ex-rx,
+.exercise-card-v2 .ex-band { grid-area: auto; }
 @media (min-width: 680px) {
   .exercise-card-v2 .ex-meta { grid-template-columns: 1.5fr 1fr; }
 }

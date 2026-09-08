@@ -4,11 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { classifyAssessment } from '../../flow/classifier';
 import type { AssessmentAnswers, AssessmentResult } from '../../flow/types';
-import { useExercisesByIds, TRACK_EXERCISES } from '../../api/exercises';
+import { useExercisesByIds, TRACK_EXERCISES, TRACK_PRIMARY_EXERCISE } from '../../api/exercises';
 import { trackLabelKey, prescriptionLabelKey } from '../../flow/labels';
 import { saveAssessment } from '../../flow/savedAssessment';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import { PaneEyebrow } from '../PaneEyebrow';
+import { AssessmentStepper } from './AssessmentStepper';
+import { RedFlagInterrupt } from './RedFlagInterrupt';
 
 export function AssessmentFlow() {
   const { t } = useTranslation();
@@ -35,6 +37,7 @@ export function AssessmentFlow() {
   const [result, setResult] = useState<AssessmentResult | null>(null);
   const [isSaved, setIsSaved] = useState(false);
   const [hasSaved, setHasSaved] = useState(false);
+  const [showRedFlagInterrupt, setShowRedFlagInterrupt] = useState(false);
 
   const trackIds = result
     ? TRACK_EXERCISES[result.primaryTrack] ?? []
@@ -61,7 +64,16 @@ export function AssessmentFlow() {
     }));
   };
 
+  const hasRedFlags = Object.values(answers.redFlags).some(Boolean);
+
   const handleNext = () => {
+    // Any red flag forces a clinician referral no matter how the remaining
+    // questions are answered, so stop here rather than asking three more
+    // screens of questions that cannot change the outcome.
+    if (step === 1 && hasRedFlags) {
+      setShowRedFlagInterrupt(true);
+      return;
+    }
     setStep((s) => s + 1);
   };
 
@@ -86,6 +98,19 @@ export function AssessmentFlow() {
   const getTrackName = (track: AssessmentResult['primaryTrack']) => t(trackLabelKey(track));
   const getPrescriptionText = (track: AssessmentResult['primaryTrack']) =>
     t(prescriptionLabelKey(track));
+
+  const tierLabelKey = (tier: AssessmentResult['riskTier']) =>
+    tier === 'high'
+      ? 'assessment.tierHigh'
+      : tier === 'moderate'
+        ? 'assessment.tierModerate'
+        : 'assessment.tierLow';
+  const tierExplainKey = (tier: AssessmentResult['riskTier']) =>
+    tier === 'high'
+      ? 'assessment.tierExplainHigh'
+      : tier === 'moderate'
+        ? 'assessment.tierExplainModerate'
+        : 'assessment.tierExplainLow';
 
   const slideVariants = {
     enter: (dir: number) => ({
@@ -184,9 +209,13 @@ export function AssessmentFlow() {
                       : 'bg-emerald-100 text-emerald-800'
                 }`}
               >
-                {t('assessment.riskLabel')} {result.riskTier}
+                {t('assessment.riskLabel')} {t(tierLabelKey(result.riskTier))}
               </motion.span>
             </div>
+
+            <p className="text-xs text-ink-muted leading-relaxed">
+              {t(tierExplainKey(result.riskTier))}
+            </p>
 
             <div className="grid grid-cols-2 gap-4 py-2">
               <div>
@@ -216,7 +245,7 @@ export function AssessmentFlow() {
                 </h3>
                 <ul className="list-disc pl-4 text-xs text-ink-muted flex flex-col gap-1.5 leading-relaxed">
                   {result.rationale.map((r, i) => (
-                    <li key={i}>{r}</li>
+                    <li key={i}>{t(r)}</li>
                   ))}
                 </ul>
               </div>
@@ -266,6 +295,17 @@ export function AssessmentFlow() {
                     className="flex justify-between items-center border border-rule rounded-xl p-3 bg-bg/50 hover:bg-bg transition-colors"
                   >
                     <div className="min-w-0">
+                      <span
+                        className={`inline-block font-mono text-[10px] uppercase px-1.5 py-0.5 rounded mb-1 ${
+                          ex.id === TRACK_PRIMARY_EXERCISE[result.primaryTrack]
+                            ? 'bg-accent/10 text-accent border border-accent/20'
+                            : 'bg-bg text-ink-muted border border-rule'
+                        }`}
+                      >
+                        {ex.id === TRACK_PRIMARY_EXERCISE[result.primaryTrack]
+                          ? t('assessment.badgePrimary')
+                          : t('assessment.badgeSupporting')}
+                      </span>
                       <p className="font-display text-sm font-semibold text-ink truncate">{ex.name}</p>
                       <p className="text-xs font-mono text-ink-muted mt-1">
                         {getPrescriptionText(result.primaryTrack)}
@@ -308,10 +348,23 @@ export function AssessmentFlow() {
     );
   }
 
+  if (showRedFlagInterrupt) {
+    return (
+      <div className="flow-scroll">
+        <PaneEyebrow num="01" label={t('flow.pane.getStarted')} />
+        <RedFlagInterrupt
+          onBack={() => setShowRedFlagInterrupt(false)}
+          onFindClinician={() => navigate('/clinician-finder')}
+        />
+      </div>
+    );
+  }
+
   // Multi-step questionnaire forms
   return (
     <div className="flow-scroll">
       <PaneEyebrow num={`01.${step}`} label={t('flow.pane.getStarted')} />
+      <AssessmentStepper current={step} total={4} />
       <div className="relative overflow-hidden min-h-[380px] flex flex-col justify-between rounded-2xl border border-rule bg-surface p-6 shadow-card">
         <AnimatePresence mode="wait">
           <motion.div
@@ -378,9 +431,9 @@ export function AssessmentFlow() {
                 </h3>
                 <div className="flex flex-col gap-1 mt-2">
                   <div className="flex justify-between font-mono text-xs text-ink-muted">
-                    <span>1 (Mild)</span>
+                    <span>{t('assessment.sliderMild')}</span>
                     <span className="text-lg font-bold text-accent">{answers.painIntensity}</span>
-                    <span>10 (Severe)</span>
+                    <span>{t('assessment.sliderSevere')}</span>
                   </div>
                   <input
                     type="range"

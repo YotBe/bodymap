@@ -384,6 +384,19 @@ export const TRACK_EXERCISES: Record<
   'clinician-referral': [],
 };
 
+/**
+ * The lead exercise of each track. This cannot be derived from `isPrimary` —
+ * every track exercise carries `isPrimary: true`, because each is the primary
+ * exercise for a different sub-area. The lead is the first id of the track's
+ * list above, that ordering already being priority order.
+ */
+export const TRACK_PRIMARY_EXERCISE: Record<keyof typeof TRACK_EXERCISES, string | null> = {
+  'strength-foundation': 'ex-band-shrug',
+  'stability-posture': 'ex-face-pull',
+  'mobility-reset': 'ex-levator-stretch',
+  'clinician-referral': null,
+};
+
 export function getExercisesForTrack(track: keyof typeof TRACK_EXERCISES): Exercise[] {
   const ids = TRACK_EXERCISES[track] ?? [];
   return ids

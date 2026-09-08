@@ -25,7 +25,12 @@ i18n
     supportedLngs: SUPPORTED_LANGUAGES as unknown as string[],
     defaultNS: 'common',
     ns: ['common'],
-    interpolation: { escapeValue: true },
+    // React escapes everything it renders, and the few places that write
+    // interpolated text into document.title / <meta content> are plain text
+    // too. Leaving i18next's own escaping on double-escapes the result, so
+    // "Hands & Wrists" reaches the DOM as "Hands &amp; Wrists". No value ever
+    // reaches a raw-HTML sink (there is no dangerouslySetInnerHTML in src/).
+    interpolation: { escapeValue: false },
     detection: {
       order: ['localStorage', 'navigator', 'htmlTag'],
       lookupLocalStorage: 'painmap.lang',

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { motion, type Variants } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { TRACK_EXERCISES, useExercisesByIds } from '../api/exercises';
+import { TRACK_EXERCISES, TRACK_PRIMARY_EXERCISE, useExercisesByIds } from '../api/exercises';
 import { trackLabelKey, prescriptionLabelKey } from '../flow/labels';
 import { computeStreak, lastNDays, localDateKey, readCompletionLog } from '../flow/progress';
 import { readSavedAssessment } from '../flow/savedAssessment';
@@ -204,6 +204,17 @@ export function RoutinePage() {
                       </motion.span>
                     )}
                     <div className="min-w-0">
+                      <span
+                        className={`inline-block font-mono text-[10px] uppercase px-1.5 py-0.5 rounded mb-1 ${
+                          ex.id === TRACK_PRIMARY_EXERCISE[result.primaryTrack]
+                            ? 'bg-accent/10 text-accent border border-accent/20'
+                            : 'bg-bg text-ink-muted border border-rule'
+                        }`}
+                      >
+                        {ex.id === TRACK_PRIMARY_EXERCISE[result.primaryTrack]
+                          ? t('assessment.badgePrimary')
+                          : t('assessment.badgeSupporting')}
+                      </span>
                       <p className="font-display text-sm font-semibold text-ink truncate">
                         {ex.name}
                       </p>

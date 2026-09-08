@@ -1,4 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
+import i18n from '../i18n';
 
 interface Props {
   children: ReactNode;
@@ -31,16 +32,18 @@ export class ErrorBoundary extends Component<Props, State> {
   render() {
     if (!this.state.hasError) return this.props.children;
 
+    // Class component, so no useTranslation hook: read off the i18n instance
+    // directly. This screen won't re-render on a language switch, which is
+    // fine for a terminal error state whose only action is a full reload.
+
     return (
       <div className="error-fallback">
         <div className="error-fallback-card">
-          <h1 className="error-fallback-headline">Something went wrong.</h1>
-          <p className="error-fallback-sub">
-            PainMap hit an unexpected error. Refresh the page or return to the body map to continue.
-          </p>
+          <h1 className="error-fallback-headline">{i18n.t('errorBoundary.title')}</h1>
+          <p className="error-fallback-sub">{i18n.t('errorBoundary.body')}</p>
           <div className="error-fallback-actions">
             <button type="button" className="error-fallback-btn" onClick={this.handleReset}>
-              Return home
+              {i18n.t('errorBoundary.action')}
             </button>
           </div>
         </div>
