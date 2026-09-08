@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
@@ -72,5 +72,14 @@ export default defineConfig({
   ],
   server: {
     port: 5173,
+  },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: ['tests/setup.ts'],
+    include: ['tests/**/*.test.{ts,tsx}'],
+    exclude: ['tests/classifier.test.ts'],
+    css: false,
+    typecheck: { tsconfig: './tsconfig.test.json' },
   },
 });
