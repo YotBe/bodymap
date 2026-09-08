@@ -20,9 +20,7 @@ export function classifyAssessment(answers: AssessmentAnswers): AssessmentResult
       primaryTrack: 'clinician-referral',
       intensity: 'low',
       sessionMinutes: 10,
-      rationale: [
-        'Red flag symptoms reported (e.g. recent trauma, radiating symptoms, night pain, or systemic symptoms) which warrant immediate clinician referral before initiating any self-guided exercise program.',
-      ],
+      rationale: ['assessment.rationaleRedFlags'],
     };
   }
 
@@ -116,7 +114,8 @@ export function classifyAssessment(answers: AssessmentAnswers): AssessmentResult
     }
   }
 
-  // 6. Build rationale explanations
+  // 6. Build rationale explanations. These are i18n keys, not prose — the
+  //    results view translates them, so Hebrew users don't get English text.
   const rationale: string[] = [];
 
   if (
@@ -124,27 +123,19 @@ export function classifyAssessment(answers: AssessmentAnswers): AssessmentResult
     movementBreaks === 'rarely' ||
     aggravatingMovement === 'typingMouse'
   ) {
-    rationale.push(
-      'High static desk load from prolonged posture configuration with minimal recovery windows.',
-    );
+    rationale.push('assessment.rationaleDeskLoad');
   }
 
   if (equipmentAccess === 'bandOnly') {
-    rationale.push(
-      'Equipment access is limited (bands only); program adapts by prioritizing bodyweight and simple band movements.',
-    );
+    rationale.push('assessment.rationaleBandOnly');
   }
 
   if (symptomBehavior === 'worseWithMovement') {
-    rationale.push(
-      'Symptoms aggravated by movement indicate high tissue irritability; recommended focus is low-intensity mobility and recovery.',
-    );
+    rationale.push('assessment.rationaleIrritability');
   }
 
   if (painIntensity >= 7) {
-    rationale.push(
-      'High pain level suggests beginning with a highly conservative volume and lower band tension.',
-    );
+    rationale.push('assessment.rationaleHighPain');
   }
 
   return {

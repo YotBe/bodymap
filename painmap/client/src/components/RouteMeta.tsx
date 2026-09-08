@@ -7,11 +7,6 @@ import type { Exercise } from '../types';
 
 export const CANONICAL_ORIGIN = 'https://bodymap1.vercel.app';
 
-// Interpolated values land in document.title / <meta content>, which are plain
-// text (never parsed as HTML), so i18next's HTML-entity escaping must be off —
-// otherwise "Hands & Wrists" renders as "Hands &amp; Wrists" in the tab title.
-const NO_ESCAPE = { interpolation: { escapeValue: false } } as const;
-
 function upsertMeta(name: string, content: string) {
   let el = document.head.querySelector<HTMLMetaElement>(`meta[name="${name}"]`);
   if (!el) {
@@ -73,15 +68,15 @@ function metaForRoute(
       return { title: t('meta.notFoundTitle'), description: fallback.description, noindex: true };
     }
     return {
-      title: t('meta.zoneTitle', { zone, ...NO_ESCAPE }),
-      description: t('meta.zoneDescription', { zone, ...NO_ESCAPE }),
+      title: t('meta.zoneTitle', { zone }),
+      description: t('meta.zoneDescription', { zone }),
     };
   }
   if (pathname.startsWith('/exercise/')) {
     // Exercise data resolves asynchronously (first render only); until then the
     // default meta stays in place and the effect re-runs once data lands.
     if (!exercise) return fallback;
-    const vars = { name: exercise.name, area: exercise.subArea.name, ...NO_ESCAPE };
+    const vars = { name: exercise.name, area: exercise.subArea.name };
     return {
       title: t('meta.exerciseTitle', vars),
       description: t('meta.exerciseDescription', vars),

@@ -159,7 +159,7 @@ test('fixture 9: high desk hours reflected in rationale', () => {
       aggravatingMovement: 'typingMouse',
     })
   );
-  assert.ok(out.rationale.some((line) => line.includes('desk load')));
+  assert.ok(out.rationale.includes('assessment.rationaleDeskLoad'));
 });
 
 test('fixture 10: moderate risk with movement benefit still strength track', () => {
